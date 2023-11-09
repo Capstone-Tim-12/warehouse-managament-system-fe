@@ -3,7 +3,8 @@ import Logo from "../../assets/logo.svg";
 
 const Navbar = () => {
   return (
-      <div className="flex flex-col absolute justify-between p-3 bg-transparent items-center w-full md:flex-row">
+    <div className="bg-white w-full">
+      <div className="max-w-screen-xl m-auto flex flex-col justify-between p-3 items-center w-full md:flex-row">
         <div className="flex items-center">
           <img src={Logo} alt="" />
           <p className="text-[#17345F] font-bold">DigiHouse</p>
@@ -16,6 +17,7 @@ const Navbar = () => {
         </div>
         <button className="bg-[#17345F] text-white font-bold w-[215px] h-[40px] rounded-[10px] hover:bg-[#455D7F] mt-4 md:mt-0">Download Sekarang</button>
       </div>
+    </div>
   );
 };
 
