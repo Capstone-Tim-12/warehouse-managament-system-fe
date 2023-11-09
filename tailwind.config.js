@@ -8,7 +8,7 @@ export default {
       black: '#000',
       white: '#fff',
       'cloud-burst': {
-        '50': '#edf4f7', 
+        '50': '#E8EBEF', 
         '100': '#dde9f0', 
         '200': '#aec7d6', 
         '300': '#86a7bf', 
