@@ -4,6 +4,8 @@ import HeroSection from '../../components/landing-page/HeroSection'
 import OurPartner from '../../components/landing-page/OurPartner'
 import Testimonials from '../../components/landing-page/Testimonials'
 import WhyUs from "../../components/landing-page/WhyUs"
+import Faq from '../../components/landing-page/Faq'
+import Footer from '../../components/global-component/Footer'
 
 const index = () => {
   return (
@@ -16,6 +18,8 @@ const index = () => {
         <Testimonials />
       </div>
       <AboutUs />
+      <Faq/>
+      <Footer/>
     </div>
   )
 }
