@@ -16,7 +16,7 @@ const HeroSection = () => {
             <h2 className="text-[24px] sm:text-[50px] md:text-[38px] lg:text-[48px] font-bold leading-[55px] md:w-[400px] lg:w-[600px] sm:w-[800px]">
               Sewa Gudang dengan Mudah
             </h2>
-            <p className="w-[320px] sm:w-[500px] md:w-[400px] sm:mb-4">
+            <p className="w-[320px] sm:w-[500px] md:w-[400px] lg:w-[550px] sm:mb-4 lg:text-xl">
               Dengan mudah menemukan dan menyewa gudang untuk bisnis anda
             </p>
             <div className="flex gap-x-4">
