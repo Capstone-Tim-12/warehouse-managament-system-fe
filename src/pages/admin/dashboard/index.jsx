@@ -8,14 +8,18 @@ import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 const Dashboard = () => {
   return (
     <>
-      <SidedarAdmin />
-      <TopBar />
-      <CardTotal />
-      <div>
-        <StatisticCarts />
-        <RecentCustomer />
+      <div className="grid " style={{ gridTemplateColumns: "1fr 3fr" }}>
+        <SidedarAdmin />
+        <div className="">
+          <TopBar />
+          <CardTotal />
+          <div>
+            <StatisticCarts />
+            <RecentCustomer />
+          </div>
+          <TransactionDashboard />
+        </div>
       </div>
-      <TransactionDashboard />
     </>
   );
 };
