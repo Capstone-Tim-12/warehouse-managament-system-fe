@@ -1,32 +1,37 @@
 import React from "react";
 import HeroImage1 from "../../assets/hero1-image.svg";
-import HeroImage2 from "../../assets/hero2-image.svg";
 import PlaystoreImg from "../../assets/play-store.svg";
 import AppstoreImg from "../../assets/app-store.svg";
 
 const HeroSection = () => {
   return (
     <div>
-      <div className="flex justify-evenly h-screen overflow-hidden">
-        <div className="flex flex-col items-center justify-center w-full gap-8 z-50 ">
-          <div className="flex flex-col gap-5">
+      <div className="flex flex-col lg:flex-row sm:flex-row  pl-6 justify-center lg:justify-evenly h-[340px] md:h-[580px] sm:h-[500px] lg:h-screen overflow-hidden w-full">
+        <div className="flex flex-col lg:items-center justify-center w-full">
+          <div className="flex flex-col gap-5 ">
             <div className="flex items-center gap-5">
-              <p className="border border-x-[50px] border-[#000]"></p>
-              <p>#1 Warehouse Management System</p>
+              <p className="border border-x-[10px] sm:border sm:border-x-[100px] md:border md:border-x-[40px] border-[#000]"></p>
+              <p className="sm:text-lg md:text-lm lg:text-xl">#1 Warehouse Management System</p>
             </div>
-            <h2 className="text-[48px] font-bold leading-[55px] w-[600px]">
+            <h2 className="text-[24px] sm:text-[50px] md:text-[38px] lg:text-[48px] font-bold leading-[55px] md:w-[400px] lg:w-[600px] sm:w-[800px]">
               Sewa Gudang dengan Mudah
             </h2>
-            <p className="w-[450px]">
+            <p className="w-[320px] sm:w-[500px] md:w-[400px] sm:mb-4">
               Dengan mudah menemukan dan menyewa gudang untuk bisnis anda
             </p>
             <div className="flex gap-x-4">
-              <img src={PlaystoreImg} alt="" />
-              <img src={AppstoreImg} alt="" />
+              <img src={PlaystoreImg} alt="" className="md:w-32 lg:w-48"/>
+              <img src={AppstoreImg} alt="" className="md:w-32 lg:w-48" />
             </div>
           </div>
         </div>
-        <img src={HeroImage1} alt="" />
+        <div className="relative -z-50">
+          <img
+            src={HeroImage1}
+            alt=""
+            className="hidden md:flex md:w-[80rem] lg:w-[110rem] lg:block"
+          />
+        </div>
       </div>
     </div>
   );
