@@ -7,7 +7,7 @@ import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 
 const Dashboard = () => {
   return (
-    <>
+    <div className="bg-[#DDE5E9]">
       <div className="grid " style={{ gridTemplateColumns: "1fr 3fr" }}>
         <SidedarAdmin />
         <div className="">
@@ -20,7 +20,7 @@ const Dashboard = () => {
           <TransactionDashboard />
         </div>
       </div>
-    </>
+    </div>
   );
 };
 export default Dashboard;
