@@ -8,7 +8,7 @@ import pengaturanIcon from "../../assets/pengaturan-icon.svg";
 
 const SidedarAdmin = () => {
   return (
-    <div className="h-screen  bg-cloud-burst-500 ">
+    <div className="bg-cloud-burst-500 ">
       <div
         id="sidebar-wrapper"
         className=" border border-cloud-burst-500 h-screen  text-crusta-500"
