@@ -20,7 +20,7 @@ const WhyUs = () => {
             <p className="border border-x-[10px] md:border md:border-x-[30px] lg:border lg:border-x-[40px] border-[#ffffff]"></p>
             <p className="text-sm md:text-[14px] lg:text-[24px]">#1 Warehouse Management System</p>
           </div>
-          <h2 className="text-[23px] md:text-[20px] lg:text-[48px] font-bold w-full">
+          <h2 className="text-[23px] md:text-[20px] lg:text-[48px] lg:w-[600px] font-bold w-full">
             Mengapa Menyewa melalui Digihouse
           </h2>
           <div className="bg-white w-full h-[141px] lg:w-[525px] lg:h-[161px] flex items-center rounded p-5 lg:p-8 gap-5 lg:gap-10 text-[#17345F]">
@@ -30,11 +30,11 @@ const WhyUs = () => {
               className="w-12 h-12 lg:w-20 lg:h-20"
             />
             <div>
-              <h3 className="font-bold text-sm md:text-lg lg:text-xl ">
+              <h3 className="font-bold text-sm md:text-lg lg:text-2xl ">
                 Kebijakan Keamanan Kami
               </h3>
-              <h4 className="text-[13px]">Kepatuhan Dan Kewajiban Hukum</h4>
-              <p className="text-[10px] pt-2 lg:leading-[21px]">
+              <h4 className="text-[13px] lg:text-xl">Kepatuhan Dan Kewajiban Hukum</h4>
+              <p className="text-[10px] pt-2 lg:leading-[21px] lg:text-base">
                 Kebijakan keselamatan yang baik memastikan bahwa organisasi
                 mematuhi semua undang undang, peraturan, dan standar industri
                 yang relevan
@@ -48,13 +48,13 @@ const WhyUs = () => {
               className="w-12 h-12  lg:w-20 lg:h-20"
             />
             <div>
-              <h3 className="font-bold text-sm md:text-lg lg:text-xl">
+              <h3 className="font-bold text-sm md:text-lg lg:text-2xl">
                 Koneksi Mudah
               </h3>
-              <h4 className="text-[13px]">
+              <h4 className="text-[13px] lg:text-lg">
                 Efisiensi Dan peninangkatan produktifitas
               </h4>
-              <p className="text-[10px] pt-2 lg:leading-[21px]">
+              <p className="text-[10px] pt-2 lg:leading-[21px] lg:text-base">
                 Koneksi mudah, menyederhanakan proses, menghemat waktu dan
                 tenaga
               </p>
@@ -67,11 +67,11 @@ const WhyUs = () => {
               className="w-12 h-12 lg:w-20 lg:h-20"
             />
             <div>
-              <h3 className="font-bold text-sm md:text-lg lg:text-xl">
+              <h3 className="font-bold text-sm md:text-lg lg:text-2xl">
                 Kesederhanaan yang Terbaik
               </h3>
-              <h4 className="text-sm">Kepuasan Pelanggan</h4>
-              <p className="text-xs pt-2 lg:leading-[21px]">
+              <h4 className="text-sm lg:text-xl">Kepuasan Pelanggan</h4>
+              <p className="text-xs pt-2 lg:leading-[21px] lg:text-base">
                 Menjaga segala sesuatunya tetap lugas, rapi, dan mudah
                 dimengerti
               </p>

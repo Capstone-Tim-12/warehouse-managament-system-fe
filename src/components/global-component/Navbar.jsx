@@ -27,7 +27,7 @@ const Navbar = () => {
         <p className="text-[#17345F] font-bold text-lg">DigiHouse</p>
       </div>
 
-      <div className="hidden sm:flex gap-x-4 text-[#17345F] font-bold">
+      <div className="hidden sm:flex gap-x-4 text-[#17345F] font-bold cursor-pointer">
         <p className="hover:text-[#455D7F]">Beranda</p>
         <p className="hover:text-[#455D7F]">Tentang</p>
         <p className="hover:text-[#455D7F]">FAQ</p>
