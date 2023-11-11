@@ -10,10 +10,10 @@ const Dashboard = () => {
     <div className="bg-[#DDE5E9]">
       <div className="grid " style={{ gridTemplateColumns: "1fr 3fr" }}>
         <SidedarAdmin />
-        <div className="">
+        <div>
           <TopBar />
           <CardTotal />
-          <div>
+          <div className="m-3  grid grid-cols-2 gap-3">
             <StatisticCarts />
             <RecentCustomer />
           </div>

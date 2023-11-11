@@ -1,4 +1,10 @@
+import statistic from "../../assets/statistic.svg";
+
 const StatisticCarts = () => {
-  return <div>StatisticCarts</div>;
+  return (
+    <div>
+      <img src={statistic} alt="statistics" />
+    </div>
+  );
 };
 export default StatisticCarts;
