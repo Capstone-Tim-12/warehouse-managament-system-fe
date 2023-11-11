@@ -3,7 +3,10 @@ import transaksiIcon from "../../assets/transaksi-icon.svg";
 
 const CardTotal = () => {
   return (
-    <div id="card-wrapper" className="grid grid-cols-3 gap-5 mt-[50px] mx-3  ">
+    <div
+      id="card-wrapper"
+      className="grid grid-cols-1 gap-5 mt-[50px] mx-3 lg:grid lg:grid-cols-3 "
+    >
       <div className="bg-white py-6 px-5 rounded-[8px]">
         <img src={manageGudangIcon} alt="manage gudang icon" />
         <p className="text-[20px] my-[20px]">Total gudang yang tersedia</p>
