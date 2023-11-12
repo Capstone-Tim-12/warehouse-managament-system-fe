@@ -1,5 +1,6 @@
 import avatar1 from "../../assets/avatar-1.svg"
 import avatar2 from "../../assets/avatar-2.svg"
+import avatar3 from "../../assets/avatar-3.svg"
 
 import Carousel from "../global-component/Carousel"
 
@@ -15,8 +16,14 @@ const Testimonials = () => {
       name: 'Nicholas Saputra',
       avatar: avatar2,
       location: 'Jakarta, Indonesia',
-      message: 'It has simplified my warehouse rental process and reduced my operational costs. This saves me so much time compared to the traditional way of searching for warehouse spaces.'
+      message: 'Aplikasi ini telah menyederhanakan proses sewa gudang saya dan mengurangi biaya operasional saya. Aplikasi ini menghemat banyak waktu saya dibandingkan dengan cara tradisional dalam mencari ruang gudang.'
     },
+    {
+      name: 'Refal Hady',
+      avatar: avatar3,
+      location: 'Jakarta, Indonesia',
+      message: 'Sebagai pemilik bisnis, menemukan ruang gudang yang tepat selalu menjadi tugas yang menakutkan, namun aplikasi ini telah mengubah cara saya mengelola kebutuhan gudang saya'
+    }
   ]
 
   return (
