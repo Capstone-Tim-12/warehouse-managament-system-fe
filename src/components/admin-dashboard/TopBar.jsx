@@ -10,18 +10,19 @@ const TopBar = () => {
           Statistik Umum
         </h2>
         <div className=" flex items-center gap-8">
-          <div className=" flex items-center relative">
+          <form
+            className="relative bg-white rounded-[28px] flex items-center"
+            // onSubmit={(e) => e.preventDefault()}
+          >
             <input
               type="text"
               placeholder="Pencarian"
-              className="w-[300px]  focus:outline-none py-3 px-3 rounded-[28px]"
+              className="w-[300px]  focus:outline-none py-3 px-3 rounded-[28px] z-10 "
             />
-            <img
-              src={searchIcon}
-              alt="search"
-              className="z-10 absolute  right-3"
-            />
-          </div>
+            <button className="  px-3  ">
+              <img src={searchIcon} alt="search" />
+            </button>
+          </form>
           <div className="flex items-center gap-6">
             <Link>
               <img src={notificationIcon} alt="notification icon" />
