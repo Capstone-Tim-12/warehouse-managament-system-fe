@@ -15,7 +15,7 @@ const SidedarAdmin = () => {
       >
         <div
           id="sidebar-header"
-          className="flex flex-col items-center justify-center mt-[30px]"
+          className="flex flex-col items-center justify-center mt-[30px] "
         >
           <img src={logo} alt="logo" />
           <p className="text-crusta-500">DigiHouse</p>
