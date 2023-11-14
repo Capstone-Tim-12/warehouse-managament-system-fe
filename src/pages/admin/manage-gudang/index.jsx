@@ -1,4 +1,4 @@
-import TopBar from "../../../components/admin-dashboard/TopBar";
+import TopBar from "../../../components/global-component/TopBar";
 import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 
 const ManageGudang = () => {

@@ -1,7 +1,7 @@
 import CardTotal from "../../../components/admin-dashboard/CardTotal";
 import RecentCustomer from "../../../components/admin-dashboard/RecentCustomer";
 import StatisticCarts from "../../../components/admin-dashboard/StatisticCarts";
-import TopBar from "../../../components/admin-dashboard/TopBar";
+import TopBar from "../../../components/global-component/TopBar";
 import TransactionDashboard from "../../../components/admin-dashboard/TransactionDashboard";
 import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 
