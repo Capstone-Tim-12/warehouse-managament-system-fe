@@ -26,7 +26,7 @@ const Navbar = () => {
   }, []);
 
   return (
-    <div  className={`flex flex-col lg:fixed sm:flex-row md:absolute justify-between md:p-3 sm:items-center md:items-center w-full lg:flex-row sm:absolute sm:z-50 ${
+    <div  className={`flex flex-col fixed lg:fixed sm:flex-row md:fixed justify-between md:p-3 sm:items-center md:items-center w-full lg:flex-row sm:absolute z-50 ${
       isScrolled ? "bg-white" : "bg-transparent"
     }`}>
       <div className="sm:hidden p-4">
