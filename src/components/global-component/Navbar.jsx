@@ -47,7 +47,7 @@ const Navbar = () => {
         <ScrollLink to="faq" smooth={true} duration={500}>
           <p className="hover:text-[#455D7F]">FAQ</p>
         </ScrollLink>
-        <ScrollLink to="contactUs" smooth={true} duration={500} >
+        <ScrollLink to="contactUs" smooth={true} duration={500}>
           <p className="hover:text-[#455D7F]">Kontak</p>
         </ScrollLink>
       </div>
@@ -60,10 +60,49 @@ const Navbar = () => {
               <p className="text-lg font-bold">DigiHouse</p>
             </div>
           </div>
-          <p className="block hover:text-[#455D7F] p-4">Beranda</p>
-          <p className="block hover:text-[#455D7F] p-4">Tentang</p>
-          <p className="block hover:text-[#455D7F] p-4">FAQ</p>
-          <p className="block hover:text-[#455D7F] p-4">Kontak</p>
+          <div className="flex flex-col">
+            <ScrollLink
+              to="heroSection"
+              smooth={true}
+              duration={500}
+              onClick={() => {
+                scrollToTop();
+                toggleMobileMenu();
+              }}
+            >
+              <p className="block hover:text-[#455D7F] p-4">Beranda</p>
+            </ScrollLink>
+
+            <ScrollLink
+              to="aboutUs"
+              smooth={true}
+              duration={500}
+              onClick={() => {
+                toggleMobileMenu();
+              }}
+            >
+              <p className="block hover:text-[#455D7F] p-4">Tentang</p>
+            </ScrollLink>
+            <ScrollLink
+              to="faq"
+              smooth={true}
+              duration={500}
+              onClick={() => {
+                toggleMobileMenu();
+              }}
+            >
+              <p className="block hover:text-[#455D7F] p-4">FAQ</p>
+            </ScrollLink>
+            <ScrollLink
+             to="contactUs"
+             smooth={true}
+             duration={500}
+             onClick={() => {
+               toggleMobileMenu();
+             }}>
+              <p className="block hover:text-[#455D7F] p-4">Kontak</p>
+            </ScrollLink>
+          </div>
           <button className="block bg-[#17345F] text-white font-bold p-4 w-full hover:bg-[#455D7F] rounded-b-md">
             Download Sekarang
           </button>
