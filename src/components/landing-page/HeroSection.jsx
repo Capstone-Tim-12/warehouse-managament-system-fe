@@ -11,7 +11,9 @@ const HeroSection = () => {
           <div className="flex flex-col gap-5 ">
             <div className="flex items-center gap-5">
               <p className="border border-x-[10px] sm:border sm:border-x-[100px] md:border md:border-x-[40px] border-[#000]"></p>
-              <p className="sm:text-lg md:text-lm lg:text-xl">#1 Warehouse Management System</p>
+              <p className="sm:text-lg md:text-lm lg:text-xl">
+                #1 Warehouse Management System
+              </p>
             </div>
             <h2 className="text-[24px] sm:text-[50px] md:text-[38px] lg:text-[48px] font-bold leading-[55px] md:w-[400px] lg:w-[600px] sm:w-[800px]">
               Sewa Gudang dengan Mudah
@@ -20,7 +22,7 @@ const HeroSection = () => {
               Dengan mudah menemukan dan menyewa gudang untuk bisnis anda
             </p>
             <div className="flex gap-x-4">
-              <img src={PlaystoreImg} alt="" className="md:w-32 lg:w-48"/>
+              <img src={PlaystoreImg} alt="" className="md:w-32 lg:w-48" />
               <img src={AppstoreImg} alt="" className="md:w-32 lg:w-48" />
             </div>
           </div>
@@ -29,7 +31,7 @@ const HeroSection = () => {
           <img
             src={HeroImage1}
             alt=""
-            className="hidden md:flex md:w-[50rem] lg:w-[70rem] lg:block"
+            className="w-[30rem] md:w-[40rem] 2xl:w-[60rem] hidden md:flex  lg:block"
           />
         </div>
       </div>
