@@ -3,7 +3,7 @@ import AboutUsImage from '../../assets/about-us-img.svg'
 
 const AboutUs = () => {
     return (
-        <div className="py-10 px-6 md:py-20 md:px-12 lg:py-40 lg:px-24">
+        <div  id='aboutUs' className="py-10 px-6 md:py-20 md:px-12 lg:py-40 lg:px-24">
             <div className='max-w-screen-xl w-full m-auto'>
                 <div className="relative">
                     <img className="absolute hidden lg:block bottom-[-128px] right-[-300px]" style={{ zIndex: '-1' }}

@@ -39,7 +39,7 @@ const Faq = () => {
 
 
   return (
-    <div className="bg-cloud-burst-50 px-2">
+    <div id="faq" className="bg-cloud-burst-50 px-2">
       <img src={hero3} alt="Hero3" className="mx-auto " />
       <div className=" font-bold mb-4 text-center bg-cloud-burst-500 text-white p-6 rounded-[20px] w-[300px] mx-auto md:w-[700px] md:text-2xl h-[85px]  ">
         Pertanyaan yang Sering Diajukan

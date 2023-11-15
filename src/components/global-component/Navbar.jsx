@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 import Logo from "../../assets/logo.svg";
 import HumbergerIcon from "../../assets/humberger-icon.svg";
 
@@ -7,6 +8,10 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const scrollToTop = () => {
+    scroll.scrollToTop();
   };
 
   return (
@@ -28,10 +33,23 @@ const Navbar = () => {
       </div>
 
       <div className="hidden sm:flex gap-x-4 text-[#17345F] font-bold cursor-pointer">
-        <p className="hover:text-[#455D7F]">Beranda</p>
-        <p className="hover:text-[#455D7F]">Tentang</p>
-        <p className="hover:text-[#455D7F]">FAQ</p>
-        <p className="hover:text-[#455D7F]">Kontak</p>
+        <ScrollLink
+          to="heroSection"
+          smooth={true}
+          duration={500}
+          onClick={scrollToTop}
+        >
+          <p className="hover:text-[#455D7F]">Beranda</p>
+        </ScrollLink>
+        <ScrollLink to="aboutUs" smooth={true} duration={500}>
+          <p className="hover:text-[#455D7F]">Tentang</p>
+        </ScrollLink>
+        <ScrollLink to="faq" smooth={true} duration={500}>
+          <p className="hover:text-[#455D7F]">FAQ</p>
+        </ScrollLink>
+        <ScrollLink to="contactUs" smooth={true} duration={500} >
+          <p className="hover:text-[#455D7F]">Kontak</p>
+        </ScrollLink>
       </div>
 
       {isMobileMenuOpen && (
@@ -42,29 +60,11 @@ const Navbar = () => {
               <p className="text-lg font-bold">DigiHouse</p>
             </div>
           </div>
-          <p
-            className="block hover:text-[#455D7F] p-4"
-          >
-            Beranda
-          </p>
-          <p
-            className="block hover:text-[#455D7F] p-4"
-          >
-            Tentang
-          </p>
-          <p
-            className="block hover:text-[#455D7F] p-4"
-          >
-            FAQ
-          </p>
-          <p
-            className="block hover:text-[#455D7F] p-4"
-          >
-            Kontak
-          </p>
-          <button
-            className="block bg-[#17345F] text-white font-bold p-4 w-full hover:bg-[#455D7F] rounded-b-md"
-          >
+          <p className="block hover:text-[#455D7F] p-4">Beranda</p>
+          <p className="block hover:text-[#455D7F] p-4">Tentang</p>
+          <p className="block hover:text-[#455D7F] p-4">FAQ</p>
+          <p className="block hover:text-[#455D7F] p-4">Kontak</p>
+          <button className="block bg-[#17345F] text-white font-bold p-4 w-full hover:bg-[#455D7F] rounded-b-md">
             Download Sekarang
           </button>
         </div>

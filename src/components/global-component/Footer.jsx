@@ -9,7 +9,7 @@ import Alamat from "../../assets/alamat.svg";
 
 const Footer = () => {
   return (
-    <div className="footer-container bg-cloud-burst-500 text-white py-3">
+    <div id="contactUs" className="footer-container bg-cloud-burst-500 text-white py-3">
       <div className="footer-content px-2 max-w-[1200px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 ">
           <div className="me-3 mb-3 mt-10">
