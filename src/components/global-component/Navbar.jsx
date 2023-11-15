@@ -1,21 +1,34 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { Link as ScrollLink, animateScroll as scroll } from "react-scroll";
 import Logo from "../../assets/logo.svg";
 import HumbergerIcon from "../../assets/humberger-icon.svg";
 
 const Navbar = () => {
   const [isMobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!isMobileMenuOpen);
   };
 
-  const scrollToTop = () => {
-    scroll.scrollToTop();
-  };
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   return (
-    <div className="flex flex-col sm:flex-row md:absolute justify-between md:p-3 md:bg-transparent sm:items-center md:items-center w-full lg:flex-row sm:absolute sm:z-50">
+    <div  className={`flex flex-col lg:fixed sm:flex-row md:absolute justify-between md:p-3 sm:items-center md:items-center w-full lg:flex-row sm:absolute sm:z-50 ${
+      isScrolled ? "bg-white" : "bg-transparent"
+    }`}>
       <div className="sm:hidden p-4">
         <button onClick={toggleMobileMenu} className="outline-none">
           <img
@@ -37,7 +50,6 @@ const Navbar = () => {
           to="heroSection"
           smooth={true}
           duration={500}
-          onClick={scrollToTop}
         >
           <p className="hover:text-[#455D7F]">Beranda</p>
         </ScrollLink>
@@ -66,7 +78,6 @@ const Navbar = () => {
               smooth={true}
               duration={500}
               onClick={() => {
-                scrollToTop();
                 toggleMobileMenu();
               }}
             >
