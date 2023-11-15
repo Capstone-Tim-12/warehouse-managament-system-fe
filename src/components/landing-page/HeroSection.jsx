@@ -29,7 +29,7 @@ const HeroSection = () => {
           <img
             src={HeroImage1}
             alt=""
-            className="hidden md:flex md:w-[80rem] lg:w-[110rem] lg:block"
+            className="hidden md:flex md:w-[50rem] lg:w-[70rem] lg:block"
           />
         </div>
       </div>
