@@ -3,6 +3,7 @@ import TopBar from "../../../components/global-component/TopBar";
 import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 import TopEdit from "../../../components/admin-edit-warehouse/TopEdit";
 import DetailGudang from "../../../components/admin-edit-warehouse/DetailGudang";
+import Picture from "../../../components/admin-edit-warehouse/Pictures";
 const EditWarehouse = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_3fr]">
@@ -17,7 +18,23 @@ const EditWarehouse = () => {
                 Detail Gudang
               </h2>
               <hr className="border-solid" />
-              <DetailGudang/>
+              <DetailGudang />
+            </div>
+            <div className="">
+              <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold mb-2.5">
+                Peta
+              </h2>
+              <hr className="border-solid" />
+            </div>
+            <div className="">
+              <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold mb-2.5">
+                Picture
+              </h2>
+              <hr className="border-solid" />
+              <Picture />
+            </div>
+            <div>
+                <button className='bg-orange-500 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8'>Submit</button>
             </div>
           </div>
         </div>
