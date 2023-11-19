@@ -26,7 +26,7 @@ const DetailGudang = () => {
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             value=""
           >
-             <option value="" disabled hidden>
+            <option value="" disabled hidden>
               Provinsi
             </option>
             <option>Provinsi 1</option>
@@ -38,7 +38,7 @@ const DetailGudang = () => {
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             value=""
           >
-             <option value="" disabled hidden>
+            <option value="" disabled hidden>
               Kota/Kabupaten
             </option>
             <option>Kota 1</option>
@@ -50,7 +50,7 @@ const DetailGudang = () => {
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             value=""
           >
-             <option value="" disabled hidden>
+            <option value="" disabled hidden>
               Kecamatan
             </option>
             <option>Kecamatan 1</option>
@@ -68,30 +68,30 @@ const DetailGudang = () => {
           />
         </div>
         <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
-        <div className="mb-4">
-          <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
-            type="text"
-            placeholder="Luas Tanah"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
-            type="text"
-            placeholder="Luas Bangunan"
-          />
-        </div>
-        <div className="mb-4">
-          <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
-            type="text"
-            placeholder="Harga"
-          />
-        </div>
+          <div className="mb-4">
+            <input
+              className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+              id="username"
+              type="text"
+              placeholder="Luas Tanah"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+              id="username"
+              type="text"
+              placeholder="Luas Bangunan"
+            />
+          </div>
+          <div className="mb-4">
+            <input
+              className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+              id="username"
+              type="text"
+              placeholder="Harga"
+            />
+          </div>
         </div>
         <div className="mt-8 mb-4">
           <input

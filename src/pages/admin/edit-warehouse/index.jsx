@@ -4,6 +4,7 @@ import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 import TopEdit from "../../../components/admin-edit-warehouse/TopEdit";
 import DetailGudang from "../../../components/admin-edit-warehouse/DetailGudang";
 import Picture from "../../../components/admin-edit-warehouse/Pictures";
+import Peta from "../../../components/admin-edit-warehouse/Peta";
 const EditWarehouse = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_3fr]">
@@ -25,6 +26,7 @@ const EditWarehouse = () => {
                 Peta
               </h2>
               <hr className="border-solid" />
+              <Peta />
             </div>
             <div className="">
               <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold mb-2.5">
