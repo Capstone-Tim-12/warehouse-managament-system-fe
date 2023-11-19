@@ -13,7 +13,7 @@ function App() {
           <Route element={<LandingPage />} path="/" />
           <Route element={<Dashboard />} path="/admin/dashboard" />
           <Route element={<ManageGudang />} path="/admin/manage-gudang" />
-          <Route element={<DetailGudang/>} path="/admin/detail-gudang"/>
+          <Route element={<DetailGudang/>} path="/admin/detail-gudang"/> {/* router sementara */}
           <Route element={<Error />} path="*" />
         </Routes>
       </BrowserRouter>
