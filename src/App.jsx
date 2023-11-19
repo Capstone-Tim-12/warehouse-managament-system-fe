@@ -3,7 +3,7 @@ import LandingPage from "./pages/landing-page/index";
 import Dashboard from "./pages/admin/dashboard";
 import Error from "./pages/error";
 import ManageGudang from "./pages/admin/manage-gudang";
-import DetailGudang from "./pages/admin/manage-gudang/detailGudang";
+import DetailGudang from "./pages/admin/detail-gudang";
 
 function App() {
   return (
