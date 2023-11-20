@@ -116,7 +116,7 @@ const WarehouseList = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="ml-4 md:ml-10 md:table">
+        <table className="ml-4 md:ml-10 md:table md:w-[93.2%]">
           <thead>
             <tr className="gap-x-24 text-cloud-burst-500">
               <th className="pb-2 pr-[12px] md:pr-6">
