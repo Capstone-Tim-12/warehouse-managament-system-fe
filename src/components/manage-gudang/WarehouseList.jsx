@@ -163,7 +163,7 @@ const WarehouseList = () => {
           </tbody>
         </table>
       </div>
-      <div className="flex justify-end items-center gap-x-3 my-8 mr-6">
+      <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
         <img src={arrowBack} alt="" />
         <p className="text-[#17345F] font-semibold">Halaman 1</p>
         <img src={arrowNext} alt="" />
