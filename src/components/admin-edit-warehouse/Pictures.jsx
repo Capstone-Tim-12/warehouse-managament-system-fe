@@ -6,7 +6,7 @@ const Picture = () => {
       <div className="mt-8 mb-8">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="picture-url"
           type="text"
           placeholder="Image Link URL"
         />
@@ -17,8 +17,7 @@ const Picture = () => {
           <input
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             type="file"
-            id="avatar"
-            name="avatar"
+            id="foto1"
             accept="image/png, image/jpeg"
           />
         </div>
@@ -27,8 +26,7 @@ const Picture = () => {
           <input
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             type="file"
-            id="avatar"
-            name="avatar"
+            id="foto2"
             accept="image/png, image/jpeg"
           />
         </div>
@@ -37,8 +35,7 @@ const Picture = () => {
           <input
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             type="file"
-            id="avatar"
-            name="avatar"
+            id="foto3"
             accept="image/png, image/jpeg"
           />
         </div>
@@ -47,8 +44,7 @@ const Picture = () => {
           <input
             className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
             type="file"
-            id="avatar"
-            name="avatar"
+            id="foto4"
             accept="image/png, image/jpeg"
           />
         </div>
