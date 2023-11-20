@@ -23,7 +23,7 @@ const DetailGudang = () => {
         </div>
         <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
           <select
-            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
+            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none"
             value=""
           >
             <option value="" disabled hidden>
@@ -35,7 +35,7 @@ const DetailGudang = () => {
             <option>Provinsi 4</option>
           </select>
           <select
-            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
+            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
             value=""
           >
             <option value="" disabled hidden>
@@ -47,7 +47,7 @@ const DetailGudang = () => {
             <option>Kota 4</option>
           </select>
           <select
-            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none"
+            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
             value=""
           >
             <option value="" disabled hidden>
@@ -111,7 +111,7 @@ const DetailGudang = () => {
         </div>
         <div className="mt-4">
           <select
-            className=" w-[185px] h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none appearance-none"
+            className=" w-[185px] h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none "
             value=""
           >
             <option value="" disabled hidden>
