@@ -4,6 +4,8 @@ import Dashboard from "./pages/admin/dashboard";
 import Error from "./pages/error";
 import ManageGudang from "./pages/admin/manage-gudang";
 import DetailGudang from "./pages/admin/detail-gudang";
+import AdminSetting from "./pages/admin/setting";
+
 
 function App() {
   return (
@@ -14,6 +16,7 @@ function App() {
           <Route element={<Dashboard />} path="/admin/dashboard" />
           <Route element={<ManageGudang />} path="/admin/manage-gudang" />
           <Route element={<DetailGudang/>} path="/admin/detail-gudang"/> {/* router sementara */}
+          <Route element={<AdminSetting />} path="/admin/pengaturan" />
           <Route element={<Error />} path="*" />
         </Routes>
       </BrowserRouter>
