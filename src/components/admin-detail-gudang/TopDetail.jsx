@@ -1,5 +1,5 @@
 import React from "react";
-import IconEdit from "../../assets/Icons-edit.svg";
+import IconEdit from "../../assets/icon-edit.svg";
 
 const TopDetail = () => {
   return (
