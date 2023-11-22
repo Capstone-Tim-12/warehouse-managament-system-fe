@@ -95,7 +95,7 @@ const Navbar = () => {
               <p id="tentang" className="block hover:text-[#455D7F] p-4">Tentang</p>
             </ScrollLink>
             <ScrollLink
-              to="faq"
+              to="Faq"
               smooth={true}
               duration={500}
               onClick={() => {
