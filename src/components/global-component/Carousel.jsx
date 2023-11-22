@@ -2,7 +2,7 @@
 import { useState } from "react";
 import Slider from "react-slick";
 
-import { ArrowNext, ArrowPrev } from "../Svg";
+import { ArrowNext, ArrowPrev } from "../svg";
 
 const ArrowButton = ({ type, currentSlide, slides, onClick }) => (
   <button
