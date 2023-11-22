@@ -56,7 +56,7 @@ const Navbar = () => {
         <ScrollLink to="aboutUs" smooth={true} duration={500}>
           <p id="tentang" className="hover:text-[#455D7F]">Tentang</p>
         </ScrollLink>
-        <ScrollLink to="faq" smooth={true} duration={500}>
+        <ScrollLink to="Faq" smooth={true} duration={500}>
           <p id="faq" className="hover:text-[#455D7F]">FAQ</p>
         </ScrollLink>
         <ScrollLink to="contactUs" smooth={true} duration={500}>
