@@ -1,12 +1,12 @@
 import React from 'react'
-import IconLuasTanah from '../../assets/Icon-luas-tanah.svg'
-import IconLuasBangunan from '../../assets/Icon-luas-bangunan.svg'
-import IconHarga from '../../assets/Icon-harga.svg'
-import IconStatus from '../../assets/Icon-status.svg'
-import IconNamaPemilik from '../../assets/Icon-nama-pemilik.svg'
-import IconNoPemilik from '../../assets/Icon-no-pemilik.svg'
-import IconSkemaPembayaran from '../../assets/Icon-skema-pembayaran.svg'
-import IconKoordinatGudang from '../../assets/Icon-koordinat-gudang.svg'
+import IconLuasTanah from '../../assets/icon-luas-tanah.svg'
+import IconLuasBangunan from '../../assets/icon-luas-bangunan.svg'
+import IconHarga from '../../assets/icon-harga.svg'
+import IconStatus from '../../assets/icon-status.svg'
+import IconNamaPemilik from '../../assets/icon-nama-pemilik.svg'
+import IconNoPemilik from '../../assets/icon-no-pemilik.svg'
+import IconSkemaPembayaran from '../../assets/icon-skema-pembayaran.svg'
+import IconKoordinatGudang from '../../assets/icon-koordinat-gudang.svg'
 
 const Detail = () => {
   return (
