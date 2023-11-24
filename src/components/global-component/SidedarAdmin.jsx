@@ -11,15 +11,15 @@ const SidedarAdmin = () => {
 
   const isLinkActive = (pathname) => {
     return location.pathname === pathname
-      ? "bg-crusta-500 text-black font-bold"
-      : "";
+      ? "bg-[#102543] text-white font-bold"
+      : "text-[#eee]";
   };
 
   return (
     <div className="bg-cloud-burst-500    pb-10 md:pb-0 md:grid">
       <div
         id="sidebar-wrapper"
-        className="border border-cloud-burst-500 h-screen text-crusta-500"
+        className="border border-cloud-burst-500 h-screen"
       >
         <div
           id="sidebar-header"
@@ -34,7 +34,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/dashboard"
-                className={` py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2 border border-crusta-500 ${isLinkActive(
+                className={` py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2   ${isLinkActive(
                   "/admin/dashboard"
                 )}`}
               >
@@ -45,7 +45,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/manage-gudang"
-                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2 border border-crusta-500 ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2   ${isLinkActive(
                   "/admin/manage-gudang"
                 )}`}
               >
@@ -56,7 +56,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/transaksi"
-                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2 border border-crusta-500 ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2   ${isLinkActive(
                   "/admin/transaksi"
                 )}`}
               >
@@ -67,7 +67,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/manage-user"
-                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2 border border-crusta-500 ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2  ${isLinkActive(
                   "/admin/manage-user"
                 )}`}
               >
@@ -83,7 +83,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/pengaturan"
-                className={`py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2 border border-crusta-500 ${isLinkActive(
+                className={`py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2 ${isLinkActive(
                   "/admin/pengaturan"
                 )}`}
               >
@@ -94,7 +94,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/logout"
-                className={`py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2 border border-crusta-500 ${isLinkActive(
+                className={`py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2  ${isLinkActive(
                   "/admin/logout"
                 )}`}
               >
@@ -104,7 +104,7 @@ const SidedarAdmin = () => {
                   className="w-4"
                   style={{
                     filter:
-                      "invert(70%) sepia(45%) saturate(5559%) hue-rotate(336deg) brightness(101%) contrast(105%)",
+                      "invert(83%) sepia(28%) saturate(115%) hue-rotate(176deg) brightness(90%) contrast(84%);",
                   }}
                 />
                 Logout
