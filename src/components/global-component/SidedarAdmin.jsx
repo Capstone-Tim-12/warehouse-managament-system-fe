@@ -34,7 +34,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/dashboard"
-                className={` py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2   ${isLinkActive(
+                className={` py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                   "/admin/dashboard"
                 )}`}
               >
@@ -45,7 +45,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/manage-gudang"
-                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2   ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                   "/admin/manage-gudang"
                 )}`}
               >
@@ -56,7 +56,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/transaksi"
-                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2   ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                   "/admin/transaksi"
                 )}`}
               >
@@ -67,7 +67,7 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/manage-user"
-                className={`py-1 px-5 rounded w-[200px] flex items-center justify-center gap-2  ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                   "/admin/manage-user"
                 )}`}
               >
@@ -79,11 +79,11 @@ const SidedarAdmin = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center mt-24">
-          <ul className="flex flex-col items-center justify-center gap-[20px] text-center">
+          <ul className="flex flex-col items-center justify-center gap-[20px] ">
             <li>
               <Link
                 to="/admin/pengaturan"
-                className={`py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2 ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
                   "/admin/pengaturan"
                 )}`}
               >
@@ -94,17 +94,17 @@ const SidedarAdmin = () => {
             <li>
               <Link
                 to="/admin/logout"
-                className={`py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2  ${isLinkActive(
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                   "/admin/logout"
                 )}`}
               >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/152/152534.png"
                   alt="logout icon"
-                  className="w-4"
+                  className="w-5"
                   style={{
                     filter:
-                      "invert(83%) sepia(28%) saturate(115%) hue-rotate(176deg) brightness(90%) contrast(84%);",
+                      "invert(83%) sepia(28%) saturate(115%) hue-rotate(176deg) brightness(90%) contrast(84%)",
                   }}
                 />
                 Logout
