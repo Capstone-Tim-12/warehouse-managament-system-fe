@@ -9,19 +9,18 @@ import LoginAdmin from "./pages/admin/login-admin";
 
 function App() {
   return (
-    <div>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<LandingPage />} path="/" />
-          <Route element={<Dashboard />} path="/admin/dashboard" />
-          <Route element={<ManageGudang />} path="/admin/manage-gudang" />
-          <Route element={<DetailGudang/>} path="/admin/detail-gudang"/> {/* router sementara */}
-          <Route element={<AdminSetting />} path="/admin/pengaturan" />
-          <Route element={<LoginAdmin />} path="/admin/login-admin" />
-          <Route element={<Error />} path="*" />
-        </Routes>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<LandingPage />} path="/" />
+        <Route element={<Dashboard />} path="/admin/dashboard" />
+        <Route element={<ManageGudang />} path="/admin/manage-gudang" />
+        <Route element={<DetailGudang />} path="/admin/detail-gudang" />{" "}
+        {/* router sementara */}
+        <Route element={<AdminSetting />} path="/admin/pengaturan" />
+        <Route element={<LoginAdmin />} path="/admin/login-admin" />
+        <Route element={<Error />} path="*" />
+      </Routes>
+    </BrowserRouter>
   );
 }
 export default App;
