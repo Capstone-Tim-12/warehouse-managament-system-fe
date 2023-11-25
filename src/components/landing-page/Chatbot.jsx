@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import buttonChatbot from "../../assets/chatbot-button.svg";
+import buttonChatbotSend from "../../assets/chatbot-button-send.svg";
 
 const systemMessage = {
   role: "system",
@@ -34,19 +35,21 @@ function Chatbot() {
   ]);
   const [isTyping, setIsTyping] = useState(false);
 
-  const handleSend = async (message) => {
-    const newMessage = {
-      message,
-      direction: "outgoing",
-      sender: "user",
-    };
+  const handleSendMessage = (message) => {
+    const trimmedMessage = message.trim();
+    if (trimmedMessage !== "") {
+      const newMessage = {
+        message: trimmedMessage,
+        direction: "outgoing",
+        sender: "user",
+      };
 
-    const newMessages = [...messages, newMessage];
+      const newMessages = [...messages, newMessage];
+      setMessages(newMessages);
 
-    setMessages(newMessages);
-
-    setIsTyping(true);
-    await processMessageToChatGPT(newMessages);
+      setIsTyping(true);
+      processMessageToChatGPT(newMessages);
+    }
   };
 
   async function processMessageToChatGPT(chatMessages) {
@@ -134,19 +137,32 @@ function Chatbot() {
                 )}
               </div>
             </div>
-            <div className="bg-white p-4 border border-[#ddd] max-w-[1000px] mx-auto rounded">
-              <input
-                id="input-message"
-                type="text"
-                placeholder="Ketik pesanmu disini..."
-                className="border p-3 w-full focus:outline-none bg-[#EBEBF0]  rounded-[20px]"
-                onKeyPress={(e) => {
-                  if (e.key === "Enter") {
-                    handleSend(e.target.value);
-                    e.target.value = "";
-                  }
-                }}
-              />
+            <div className="bg-white p-4 border border-[#ddd] max-w-[1000px] mx-auto rounded ">
+              <div className="flex items-center bg-[#EBEBF0] rounded-[20px] px-2">
+                <input
+                  id="input-message"
+                  type="text"
+                  placeholder="Ketik pesanmu disini..."
+                  className="border p-3 w-full focus:outline-none bg-[#EBEBF0] rounded-[20px] "
+                  onKeyPress={(e) => {
+                    if (e.key === "Enter") {
+                      handleSendMessage(e.target.value);
+                      e.target.value = "";
+                    }
+                  }}
+                />
+                <button
+                  className="bg-[#17345F] rounded-full p-3 flex justify-center items-center"
+                  onClick={() => {
+                    const inputElement =
+                      document.getElementById("input-message");
+                    handleSendMessage(inputElement.value);
+                    inputElement.value = "";
+                  }}
+                >
+                  <img src={buttonChatbotSend} alt="button send chatbot" />
+                </button>
+              </div>
             </div>
           </div>
         </div>
