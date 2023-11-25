@@ -4,7 +4,7 @@ import buttonChatbot from "../../assets/chatbot-button.svg";
 const systemMessage = {
   role: "system",
   content:
-    "Jika bisa, jawab dengan simple. Jika user menanyakan di luar topik WMS atau hal-hal di luar pergudangan, jawab saja kamu tidak bisa menjawab di luar dari scope tersebut. Jika user menanyakan bagaimana aku dapat melihat informasi gudang, kamu boleh mengarang jawabannya yang terpenting menyesuaikan dengan konteks pergudangan WMS dan buat jawabannya simple.",
+    "Jika bisa, jawab dengan simple. Jika user menanyakan di luar topik WMS atau hal-hal di luar pergudangan, jawab saja kamu tidak bisa menjawab di luar dari scope tersebut. Jika user menanyakan bagaimana aku dapat melihat informasi gudang, kamu boleh mengarang jawabannya yang terpenting menyesuaikan dengan konteks pergudangan WMS dan buat jawabannya simple. Jika user menanyakan bisakah aku mengganti akun, kamu boleh mengarang jawabannya yang terpenting menyesuaikan dengan konteks pergudangan WMS dan buat jawabannya simple.",
 };
 
 function Chatbot() {
