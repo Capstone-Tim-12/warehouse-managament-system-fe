@@ -3,7 +3,8 @@ import buttonChatbot from "../../assets/chatbot-button.svg";
 
 const systemMessage = {
   role: "system",
-  content: "Jika bisa, jawab dengan simple.",
+  content:
+    "Jika bisa, jawab dengan simple. Jika user menanyakan di luar topik WMS atau hal-hal di luar pergudangan, jawab saja kamu tidak bisa menjawab di luar dari scope tersebut",
 };
 
 function Chatbot() {
