@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import buttonChatbot from "../../assets/chatbot-button.svg";
 
+const systemMessage = {
+  role: "system",
+  content: "Jika bisa, jawab dengan simple.",
+};
+
 function Chatbot() {
   const [showChat, setShowChat] = useState(false);
   const [messages, setMessages] = useState([
@@ -56,7 +61,7 @@ function Chatbot() {
 
     const apiRequestBody = {
       model: "gpt-3.5-turbo",
-      messages: apiMessages,
+      messages: [systemMessage, ...apiMessages],
     };
 
     // local variable
@@ -68,7 +73,7 @@ function Chatbot() {
     await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
       headers: {
-        Authorization: "Bearer " + API_KEY,
+        Authorization: "Bearer " + LOCAL_API_KEY,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(apiRequestBody),
