@@ -6,7 +6,7 @@ import AppstoreImg from "../../assets/app-store.svg";
 const HeroSection = () => {
   return (
     <div id="heroSection">
-      <div className="flex flex-col lg:flex-row sm:flex-row  pl-6 justify-center lg:justify-evenly h-[340px] md:h-[580px] sm:h-[500px] lg:h-screen overflow-hidden w-full">
+      <div className="flex flex-col lg:flex-row sm:flex-row  pl-6 justify-center lg:justify-evenly h-screen  overflow-hidden w-full">
         <div className="flex flex-col lg:items-center justify-center w-full">
           <div className="flex flex-col gap-5 ">
             <div className="flex items-center gap-5">
