@@ -1,5 +1,4 @@
 import React from "react";
-import IconDropdown from '../../assets/icons-dropdown.svg';
 
 const DetailGudang = () => {
 
