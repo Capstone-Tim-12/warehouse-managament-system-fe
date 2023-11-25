@@ -59,6 +59,10 @@ function Chatbot() {
       messages: apiMessages,
     };
 
+    // local variable
+    const LOCAL_API_KEY = import.meta.env.VITE_OPENAPI_LOCAL_KEY;
+
+    // deployment variable
     const API_KEY = import.meta.env.VITE_OPENAPI_KEY;
 
     await fetch("https://api.openai.com/v1/chat/completions", {
