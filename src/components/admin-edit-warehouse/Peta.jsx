@@ -21,7 +21,7 @@ const Peta = () => {
           <input
             className="w-full h-[56px] mt-8 p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none placeholder:text-[#2C2C2E]"
             type="text"
-            placeholder="Longtitude"
+            placeholder="Longitude"
           />
         </div>
         <div>
