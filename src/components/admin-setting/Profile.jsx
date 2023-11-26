@@ -4,7 +4,7 @@ import emailIcon from '../../assets/icon-email-setting.svg'
 const Profile = () => {
     return (
         <div className="flex flex-col gap-11">
-            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border-2 border-crusta-500 rounded-lg w-full">
+            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border border-cloud-burst-500 rounded-lg w-full">
                 <div>
                     <img src={userIcon} alt="" />
                 </div>
@@ -15,7 +15,7 @@ const Profile = () => {
                         placeholder="Elon Musk" />
                 </div>
             </div>
-            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border-2 border-crusta-500 rounded-lg w-full">
+            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border border-cloud-burst-500 rounded-lg w-full">
                 <div>
                     <img src={emailIcon} alt="" />
                 </div>
@@ -26,7 +26,7 @@ const Profile = () => {
                         placeholder="fauzi@example.com" />
                 </div>
             </div>
-            <div className="m-auto border-2 border-crusta-500 rounded-lg w-full h-28">
+            <div className="m-auto border border-cloud-burst-500 rounded-lg w-full h-28">
                 <textarea name="address" id="" placeholder="Alamat" className="px-4 py-2 w-full h-full focus:outline-none rounded-lg"></textarea>
             </div>
             <div className="flex justify-end">
