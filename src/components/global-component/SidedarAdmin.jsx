@@ -16,7 +16,7 @@ const SidedarAdmin = () => {
   };
 
   return (
-    <div className="bg-cloud-burst-500    pb-10 md:pb-0 md:grid">
+    <div className="bg-cloud-burst-500    pb-20 md:pb-0 md:grid">
       <div
         id="sidebar-wrapper"
         className="border border-cloud-burst-500 h-screen"

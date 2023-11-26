@@ -4,7 +4,7 @@ import passIcon from '../../assets/icon-pass-setting.svg'
 const Security = () => {
     return (
         <div className="flex flex-col gap-11">
-            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border-2 border-crusta-500 rounded-lg w-full">
+            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border border-cloud-burst-500 rounded-lg w-full">
                 <div>
                     <img src={emailIcon} alt="" />
                 </div>
@@ -15,7 +15,7 @@ const Security = () => {
                         placeholder="Elon Musk" />
                 </div>
             </div>
-            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border-2 border-crusta-500 rounded-lg w-full">
+            <div className="flex flex-row items-center m-auto py-2 px-4 gap-2 border border-cloud-burst-500 rounded-lg w-full">
                 <div>
                     <img src={passIcon} alt="" />
                 </div>
