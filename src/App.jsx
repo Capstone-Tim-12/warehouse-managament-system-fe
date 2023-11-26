@@ -7,6 +7,8 @@ import DetailGudang from "./pages/admin/detail-gudang";
 import AdminSetting from "./pages/admin/setting";
 import LoginAdmin from "./pages/admin/login-admin";
 
+import AllTransactions from "./pages/admin/transactions/AllTransactions";
+
 function App() {
   return (
     <BrowserRouter>
@@ -18,6 +20,8 @@ function App() {
         {/* router sementara */}
         <Route element={<AdminSetting />} path="/admin/pengaturan" />
         <Route element={<LoginAdmin />} path="/admin/login-admin" />
+
+        <Route element={<AllTransactions />} path="/admin/all-transactions" />
         <Route element={<Error />} path="*" />
       </Routes>
     </BrowserRouter>
