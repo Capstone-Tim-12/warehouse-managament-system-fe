@@ -23,7 +23,7 @@ const AdminSetting = () => {
                 <li>
                   <a
                     href="#"
-                    className={`w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-crusta-600 hover:border-crusta-600  ${activeTab === 'profile' ? 'text-crusta-500 border-b-2 !border-crusta-500' : ''
+                    className={`w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-cloud-burst-600 hover:border-cloud-burst-600  ${activeTab === 'profile' ? 'text-cloud-burst-500 border-b-2 !border-cloud-burst-500' : ''
                       }`}
                     onClick={() => handleTabClick('profile')}
                   >
@@ -33,7 +33,7 @@ const AdminSetting = () => {
                 <li>
                   <a
                     href="#"
-                    className={`w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-crusta-600 hover:border-crusta-600 ${activeTab === 'security' ? 'text-crusta-500 border-b-2 !border-crusta-500' : ''
+                    className={`w-full p-4 border-b-2 border-transparent rounded-t-lg hover:text-cloud-burst-600 hover:border-cloud-burst-600 ${activeTab === 'security' ? 'text-cloud-burst-500 border-b-2 !border-cloud-burst-500' : ''
                       }`}
                     onClick={() => handleTabClick('security')}
                   >
