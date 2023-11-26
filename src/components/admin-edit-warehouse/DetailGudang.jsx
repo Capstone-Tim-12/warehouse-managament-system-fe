@@ -1,8 +1,6 @@
 import React from "react";
 
-const DetailGudang = () => {
-
-    
+const DetailGudang = () => {    
     return (
       <form className="">
         <div className="mt-8 mb-8">

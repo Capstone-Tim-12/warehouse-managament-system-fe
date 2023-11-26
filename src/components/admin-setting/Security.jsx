@@ -9,9 +9,9 @@ const Security = () => {
                     <img src={emailIcon} alt="" />
                 </div>
                 <div className="flex flex-col w-full">
-                    <label htmlFor="email" className="text-xs">Email</label>
+                    <label htmlFor="email" className="text-xs pl-3">Email</label>
                     <input type="text"
-                        className="focus:outline-none"
+                        className="focus:outline-none border border-none focus:ring-0 "
                         placeholder="Elon Musk" />
                 </div>
             </div>
@@ -20,9 +20,9 @@ const Security = () => {
                     <img src={passIcon} alt="" />
                 </div>
                 <div className="flex flex-col w-full">
-                    <label htmlFor="password" className="text-xs">Password</label>
+                    <label htmlFor="password" className="text-xs pl-3">Password</label>
                     <input type="password"
-                        className="focus:outline-none"
+                        className="focus:outline-none border border-none focus:ring-0 "
                         placeholder="Elon Musk" />
                 </div>
             </div>

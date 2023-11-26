@@ -52,7 +52,7 @@ function LoginForm() {
                         type="text"
                         id="username"
                         name="username"
-                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border rounded-md focus:outline-none focus:border-blue-400"
+                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border rounded-md focus:outline-none focus:border-blue-400 focus:ring-0"
                         onFocus={handleUsernameFocus}
                         onBlur={handleUsernameBlur}
                     />
@@ -70,7 +70,7 @@ function LoginForm() {
                         type="password"
                         id="password"
                         name="password"
-                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border rounded-md focus:outline-none focus:border-blue-400"
+                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border rounded-md focus:outline-none focus:border-blue-400 focus:ring-0"
                         onFocus={handlePasswordFocus}
                         onBlur={handlePasswordBlur}
                     />
