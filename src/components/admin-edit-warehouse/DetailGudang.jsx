@@ -8,6 +8,7 @@ const DetailGudang = () => {
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="username"
             type="text"
+            autoComplete="off"
             placeholder="Nama Warehouse"
           />
         </div>
@@ -61,6 +62,7 @@ const DetailGudang = () => {
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="username"
             type="text"
+            autoComplete="off"
             placeholder="Alamat"
           />
         </div>
@@ -69,6 +71,7 @@ const DetailGudang = () => {
             <input
               className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
               id="username"
+              autoComplete="off"
               type="text"
               placeholder="Luas Tanah"
             />
@@ -78,6 +81,7 @@ const DetailGudang = () => {
               className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
               id="username"
               type="text"
+              autoComplete="off"
               placeholder="Luas Bangunan"
             />
           </div>
@@ -86,6 +90,7 @@ const DetailGudang = () => {
               className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
               id="username"
               type="text"
+              autoComplete="off"
               placeholder="Harga"
             />
           </div>
@@ -95,6 +100,7 @@ const DetailGudang = () => {
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="username"
             type="text"
+            autoComplete="off"
             placeholder="Nama Pemilik"
           />
         </div>
@@ -103,6 +109,7 @@ const DetailGudang = () => {
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="username"
             type="text"
+            autoComplete="off"
             placeholder="No. Telp"
           />
         </div>
