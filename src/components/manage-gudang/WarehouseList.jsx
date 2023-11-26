@@ -142,7 +142,7 @@ const WarehouseList = () => {
                 <td className="pb-2">{item?.Ukuran}</td>
                 <td className="pb-2 pl-9 md:pl-0">{item?.Harga}</td>
                 <td className="pb-2 px-4 md:px-0">
-                  <button className="bg-[#FFD5C0] rounded-md p-1 px-2 text-sm text-[#17345F] border border-[#79747E] font-regular">
+                  <button className="bg-[#06C270] rounded-md p-1 px-2 text-sm text-[#E8EBEF] font-regular">
                     {item?.Status}
                   </button>
                 </td>
