@@ -63,14 +63,14 @@ const TransactionList = () => {
   ];
   return (
     <div>
-      <div className="flex flex-col justify-between items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 lg:p-8">
+      <div className="flex flex-col justify-between items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 gap-5 my-4 p-8">
         <div className="flex items-center gap-x-4">
-          <h2 className="text-[20px] font-bold text-cloud-burst-500">
+          <h2 className="text-sm md:text-lg lg:text-[20px] font-bold text-cloud-burst-500">
             Detail Transaksi
           </h2>
           <div>
             <select
-              className="w-[300px] h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none"
+              className="w-[200px] lg:w-[300px] h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none"
               value=""
             >
               <option value="" disabled hidden>
@@ -82,12 +82,12 @@ const TransactionList = () => {
             </select>
           </div>
         </div>
-        <div className="flex items-center gap-x-4 ">
-          <h2 className="text-[20px] font-bold text-cloud-burst-500">
+        <div className="flex items-center gap-x-8 md:gap-x-4 ">
+          <h2 className="text-sm md:text-lg lg:text-[20px] font-bold text-cloud-burst-500">
             Total Tagihan
           </h2>
           <input
-            className="shadow appearance-none border rounded-xl w-[300px] h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+            className="shadow appearance-none border rounded-xl w-[200px] lg:w-[300px] h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="username"
             type="text"
             placeholder="113.700.000"
@@ -95,19 +95,19 @@ const TransactionList = () => {
         </div>
       </div>
 
-      <div className="overflow-hidden px-8">
+      <div className="px-4 md:px-8">
         <table className="w-full">
           <thead>
-            <tr className="text-cloud-burst-500 border-b text-left">
+            <tr className="text-cloud-burst-500 border-b text-left text-xs md:text-xl">
               <th className="pb-2">Kode Transaksi </th>
               <th className="pb-2">Waktu Transaksi</th>
               <th className="pb-2">Jenis Transaksi</th>
               <th className="pb-2">Nama Pemesan</th>
-              <th className="pb-2">Jumlah Transaksi</th>
-              <th className="pb-2">Jumlah Potongan</th>
+              <th className="pb-2">Jumlah Tagihan (IDR)</th>
+              <th className="pb-2">Potongan harga (IDR)</th>
             </tr>
           </thead>
-          <tbody className="w-full">
+          <tbody className="w-full text-xs md:text-lg">
             {dataTransactions.map((item) => (
               <tr className="h-16 text-cloud-burst-500">
                 <td className="pb-2">{item?.id}</td>
