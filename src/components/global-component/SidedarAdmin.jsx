@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../../assets/logo.svg";
 import dashboardIcon from "../../assets/dashboard-sidebar-icon.svg";
 import manageGudangIcon from "../../assets/manage-gudang-icon.svg";
@@ -7,11 +7,19 @@ import transaksiIcon from "../../assets/transaksi-icon.svg";
 import pengaturanIcon from "../../assets/pengaturan-icon.svg";
 
 const SidedarAdmin = () => {
+  const location = useLocation();
+
+  const isLinkActive = (pathname) => {
+    return location.pathname === pathname
+      ? "bg-[#102543] text-white font-bold"
+      : "text-[#eee]";
+  };
+
   return (
-    <div className="bg-cloud-burst-500 ">
+    <div className="bg-cloud-burst-500    pb-20 md:pb-0 md:grid">
       <div
         id="sidebar-wrapper"
-        className=" border border-cloud-burst-500 h-screen  text-crusta-500"
+        className="border border-cloud-burst-500 h-screen"
       >
         <div
           id="sidebar-header"
@@ -24,25 +32,45 @@ const SidedarAdmin = () => {
         <div className="flex flex-col items-center justify-center mt-24">
           <ul className="flex flex-col items-center justify-center gap-[20px] text-center">
             <li>
-              <Link className="bg-crusta-500 text-black font-bold py-1 px-5 rounded w-[185px] flex items-center justify-center gap-2">
+              <Link
+                to="/admin/dashboard"
+                className={` py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  "/admin/dashboard"
+                )}`}
+              >
                 <img src={dashboardIcon} alt="dashboard icon" />
                 Dashboard
               </Link>
             </li>
             <li>
-              <Link className="border border-crusta-500 py-1 px-5 rounded w-[185px]  flex items-center justify-center gap-2">
+              <Link
+                to="/admin/manage-gudang"
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  "/admin/manage-gudang"
+                )}`}
+              >
                 <img src={manageGudangIcon} alt="manage gudang icon" />
                 Manage Gudang
               </Link>
             </li>
             <li>
-              <Link className="border border-crusta-500 py-1 px-5 rounded w-[185px]  flex items-center justify-center gap-2">
+              <Link
+                to="/admin/transaksi"
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  "/admin/transaksi"
+                )}`}
+              >
                 <img src={transaksiIcon} alt="transaksi icon" />
                 Transaksi
               </Link>
             </li>
             <li>
-              <Link className="border border-crusta-500 py-1 px-5 rounded w-[185px]  flex items-center justify-center gap-2">
+              <Link
+                to="/admin/manage-user"
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  "/admin/manage-user"
+                )}`}
+              >
                 <img src={managerUserIcon} alt="manage icon" />
                 Manage User
               </Link>
@@ -51,22 +79,32 @@ const SidedarAdmin = () => {
         </div>
 
         <div className="flex flex-col items-center justify-center mt-24">
-          <ul className="flex flex-col items-center justify-center gap-[20px] text-center">
+          <ul className="flex flex-col items-center justify-center gap-[20px] ">
             <li>
-              <Link className="border border-crusta-500 py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2">
+              <Link
+                to="/admin/pengaturan"
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
+                  "/admin/pengaturan"
+                )}`}
+              >
                 <img src={pengaturanIcon} alt="pengaturan icon" />
                 Pengaturan
               </Link>
             </li>
             <li>
-              <Link className="border border-crusta-500 py-1 px-5 rounded w-[180px] flex items-center justify-center gap-2">
+              <Link
+                to="/admin/login-admin"
+                className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  "/admin/logout"
+                )}`}
+              >
                 <img
                   src="https://cdn-icons-png.flaticon.com/512/152/152534.png"
                   alt="logout icon"
-                  className="w-4"
+                  className="w-5"
                   style={{
                     filter:
-                      "invert(70%) sepia(45%) saturate(5559%) hue-rotate(336deg) brightness(101%) contrast(105%)",
+                      "invert(83%) sepia(28%) saturate(115%) hue-rotate(176deg) brightness(90%) contrast(84%)",
                   }}
                 />
                 Logout
@@ -78,4 +116,5 @@ const SidedarAdmin = () => {
     </div>
   );
 };
+
 export default SidedarAdmin;
