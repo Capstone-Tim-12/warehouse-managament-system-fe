@@ -86,6 +86,11 @@ const WarehouseList = () => {
   ];
 
   const navigate = useNavigate();
+  const [openDropDown, setOpenDropDown] = useState(null);
+
+  const handleDropDown = (id) => {
+    setOpenDropDown(openDropDown === id ? null : id);
+  };
 
   return (
     <div>
@@ -178,10 +183,15 @@ const WarehouseList = () => {
                 </td>
                 <td className="w-44 relative pr-24">
                   <button className="px-0 pr-96 md:px-5 pb-2">
-                    <img src={moreIcon} />
+                    <img
+                      onClick={() => handleDropDown(item.id)}
+                      src={moreIcon}
+                    />
                   </button>
                   <td
-                    className={`absolute right-0 top-[60px] p-2 rounded-md shadow-md shadow-gray-500 bg-[#FFF1EB] font-semibold`}
+                    className={`absolute right-0 top-[60px] p-2 rounded-md shadow-md shadow-gray-500 bg-[#FFF1EB] font-semibold ${
+                      openDropDown === item.id ? "block" : "hidden"
+                    }`}
                   >
                     <div>
                       <p className="">Hapus Warehouse</p>
