@@ -212,7 +212,7 @@ const WarehouseList = () => {
                     />
                   </button>
                   <td
-                    className={`absolute right-[5px] top-[60px] px-2 py-3 rounded-md shadow-md shadow-gray-500 bg-[#FFF1EB] font-semibold ${
+                    className={`absolute right-[5px] top-[60px] z-50 px-2 py-3 rounded-md shadow-md shadow-gray-500 bg-[#FFF1EB] font-semibold ${
                       openDropDown === item.id ? "block" : "hidden"
                     }`}
                   >
