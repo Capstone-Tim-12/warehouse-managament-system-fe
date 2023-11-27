@@ -143,7 +143,7 @@ function Chatbot() {
                   id="input-message"
                   type="text"
                   placeholder="Ketik pesanmu disini..."
-                  className="border p-3 w-full focus:outline-none bg-[#EBEBF0] rounded-[20px] "
+                  className="border border-none p-3 w-full focus:ring-0 focus:outline-none bg-[#EBEBF0] rounded-[20px] "
                   onKeyPress={(e) => {
                     if (e.key === "Enter") {
                       handleSendMessage(e.target.value);

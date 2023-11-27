@@ -9,9 +9,9 @@ const Profile = () => {
                     <img src={userIcon} alt="" />
                 </div>
                 <div className="flex flex-col w-full">
-                    <label htmlFor="name" className="text-xs">Name</label>
+                    <label htmlFor="name" className="text-xs pl-3">Name</label>
                     <input type="text"
-                        className="focus:outline-none"
+                        className="focus:outline-none border border-none focus:ring-0 "
                         placeholder="Elon Musk" />
                 </div>
             </div>
@@ -20,14 +20,14 @@ const Profile = () => {
                     <img src={emailIcon} alt="" />
                 </div>
                 <div className="flex flex-col w-full">
-                    <label htmlFor="email" className="text-xs">Email</label>
+                    <label htmlFor="email" className="text-xs pl-3">Email</label>
                     <input type="email"
-                        className="focus:outline-none"
+                        className="focus:outline-none  border border-none focus:ring-0"
                         placeholder="fauzi@example.com" />
                 </div>
             </div>
             <div className="m-auto border border-cloud-burst-500 rounded-lg w-full h-28">
-                <textarea name="address" id="" placeholder="Alamat" className="px-4 py-2 w-full h-full focus:outline-none rounded-lg"></textarea>
+                <textarea name="address" id="" placeholder="Alamat" className="px-4 py-2 w-full h-full focus:outline-none rounded-lg  border border-none focus:ring-0"></textarea>
             </div>
             <div className="flex justify-end">
                 <button id="save-profile-setting"

@@ -36,11 +36,11 @@ const Testimonials = () => {
           <Carousel slides={testimonialList.length}>
             {testimonialList.map((testimoni, index) => (
               <div key={index} className="!flex flex-col bg-white rounded-lg m-auto items-center justify-center p-12 gap-5">
-                <p className="text-xl text-center">{testimoni.message}</p>
+                <p className="text-xs md:text-xl md:text-center">{testimoni.message}</p>
                 <img src={testimoni.avatar} alt={testimoni.name} />
                 <div className="flex flex-col items-center justify-center">
-                  <p className="text-md font-bold text-center">{testimoni.name}</p>
-                  <p className="text-lg text-crusta-500 text-center">{testimoni.location}</p>
+                  <p className="text-xs md:text-md font-bold text-center">{testimoni.name}</p>
+                  <p className="text-xs md:text-lg text-crusta-500 text-center">{testimoni.location}</p>
                 </div>
               </div>
             ))}
