@@ -63,7 +63,7 @@ const Navbar = () => {
           <p id="kontak" className="hover:text-[#455D7F]">Kontak</p>
         </ScrollLink>
       </div>
-
+      
       {isMobileMenuOpen && (
         <div className="sm:hidden absolute top-16 left-0 right-0 bg-white">
           <div className="flex justify-between pr-4 bg-[#17345F] items-center text-center">
