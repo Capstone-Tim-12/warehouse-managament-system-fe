@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import searchIcon from "../../assets/search-icon.svg";
 import plusIcon from "../../assets/plus-Icons.svg";
 import deleteWhiteIcon from "../../assets/delete(white)-Icons.svg";
@@ -5,7 +6,8 @@ import deleteOrangeIcon from "../../assets/delete(orange)-Icons.svg";
 import editIcon from "../../assets/edit-Icons.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
-import { useNavigate } from "react-router-dom";
+import arrowTopDown from "../../assets/arrow-top-down-icons.svg";
+import dropDownIcon from "../../assets/icons-dropdown.svg";
 
 const WarehouseList = () => {
   const dataWarehouse = [
@@ -135,9 +137,24 @@ const WarehouseList = () => {
               <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
               <th className="pb-2 pr-[30px] md:pr-26">Nama Warehouse</th>
               <th className="pb-2 pr-[12px] md:pr-24">Lokasi</th>
-              <th className="pb-2 pr-[1px] md:pr-8">Ukuran</th>
-              <th className="pb-2 pr-[12px] md:pr-24">Harga</th>
-              <th>Status</th>
+              <th className="relative pb-2 pr-[1px] md:pr-8">
+                Ukuran
+                <img
+                  className="absolute right-3.5 bottom-1.5"
+                  src={arrowTopDown}
+                />
+              </th>
+              <th className="relative pb-2 pr-[12px] md:pr-24">
+                Harga
+                <img
+                  className="absolute right-20 bottom-1.5"
+                  src={arrowTopDown}
+                />
+              </th>
+              <th className="relative pr-5">
+                Status
+                <img className="absolute right-0 bottom-1" src={dropDownIcon} />
+              </th>
             </tr>
           </thead>
           <tbody>
