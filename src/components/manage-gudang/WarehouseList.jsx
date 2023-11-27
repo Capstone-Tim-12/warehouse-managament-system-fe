@@ -137,23 +137,26 @@ const WarehouseList = () => {
               <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
               <th className="pb-2 pr-[30px] md:pr-26">Nama Warehouse</th>
               <th className="pb-2 pr-[12px] md:pr-24">Lokasi</th>
-              <th className="relative pb-2 pr-[1px] md:pr-8">
+              <th className="relative pb-2 md:pr-8">
                 Ukuran
                 <img
-                  className="absolute right-3.5 bottom-1.5"
+                  className="cursor-pointer absolute right-3.5 bottom-1.5"
                   src={arrowTopDown}
                 />
               </th>
-              <th className="relative pb-2 pr-[12px] md:pr-24">
+              <th className="relative pb-2 pl-4 pr-[12px] md:pr-24">
                 Harga
                 <img
-                  className="absolute right-20 bottom-1.5"
+                  className="cursor-pointer absolute right-20 bottom-1.5"
                   src={arrowTopDown}
                 />
               </th>
               <th className="relative pr-5">
                 Status
-                <img className="absolute right-0 bottom-1" src={dropDownIcon} />
+                <img
+                  className="cursor-pointer absolute right-0 bottom-1"
+                  src={dropDownIcon}
+                />
               </th>
             </tr>
           </thead>
