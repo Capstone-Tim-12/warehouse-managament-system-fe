@@ -109,7 +109,7 @@ const TransactionList = () => {
           </thead>
           <tbody className="w-full text-xs md:text-lg">
             {dataTransactions.map((item) => (
-              <tr className="h-16 text-cloud-burst-500">
+              <tr className="h-16 text-cloud-burst-500 border-b">
                 <td className="pb-2">{item?.id}</td>
                 <td className="pb-2">{item?.Waktu}</td>
                 <td className="pb-2">{item?.Jenis}</td>
