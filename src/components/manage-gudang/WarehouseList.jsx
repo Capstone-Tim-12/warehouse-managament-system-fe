@@ -2,12 +2,12 @@ import { useNavigate } from "react-router-dom";
 import searchIcon from "../../assets/search-icon.svg";
 import plusIcon from "../../assets/plus-Icons.svg";
 import deleteWhiteIcon from "../../assets/delete(white)-Icons.svg";
-import deleteOrangeIcon from "../../assets/delete(orange)-Icons.svg";
-import editIcon from "../../assets/edit-Icons.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
 import arrowTopDown from "../../assets/arrow-top-down-icons.svg";
 import dropDownIcon from "../../assets/icons-dropdown.svg";
+import moreIcon from "../../assets/icons-more.svg";
+import { useState } from "react";
 
 const WarehouseList = () => {
   const dataWarehouse = [
@@ -162,11 +162,11 @@ const WarehouseList = () => {
           </thead>
           <tbody>
             {dataWarehouse.map((item) => (
-              <tr className="h-16 divide-y align-bottom text-cloud-burst-500">
+              <tr className="h-[70px] divide-y align-bottom text-cloud-burst-500">
                 <td className="pb-2">
                   <input type="checkbox" />
                 </td>
-                <td className="pb-2 pl-[12px]">{item?.id}</td>
+                <td className="pb-2 pl-[12px] ">{item?.id}</td>
                 <td className="pb-2">{item?.Name}</td>
                 <td className="pb-2">{item?.Lokasi}</td>
                 <td className="pb-2">{item?.Ukuran}</td>
@@ -176,17 +176,18 @@ const WarehouseList = () => {
                     {item?.Status}
                   </button>
                 </td>
-                <td className="px-0 md:px-5 pb-2">
-                  <button className="flex items-center">
-                    <img className="pr-1" src={deleteOrangeIcon} />
-                    <p className="hidden md:block">Hapus</p>
+                <td className="w-44 relative pr-24">
+                  <button className="px-0 pr-96 md:px-5 pb-2">
+                    <img src={moreIcon} />
                   </button>
-                </td>
-                <td className="pb-2">
-                  <button className="flex items-center">
-                    <img className="pr-1" src={editIcon} />
-                    <p className="hidden md:block">Ubah</p>
-                  </button>
+                  <td
+                    className={`absolute right-0 top-[60px] p-2 rounded-md shadow-md shadow-gray-500 bg-[#FFF1EB] font-semibold`}
+                  >
+                    <div>
+                      <p className="">Hapus Warehouse</p>
+                      <p className="">Edit Warehouse</p>
+                    </div>
+                  </td>
                 </td>
               </tr>
             ))}
