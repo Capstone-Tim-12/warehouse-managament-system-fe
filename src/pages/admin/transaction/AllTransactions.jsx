@@ -1,7 +1,7 @@
 import React from 'react'
 import TopBar from '../../../components/global-component/TopBar'
 import SidedarAdmin from '../../../components/global-component/SidedarAdmin'
-import TransactionList from '../../../components/admin-transactions/TransactionList'
+import AllTransaction from '../../../components/admin-transaction/AllTransaction'
 
 const AllTransactions = () => {
   return (
@@ -9,7 +9,7 @@ const AllTransactions = () => {
     <SidedarAdmin />
     <div>
       <TopBar title={"Seluruh Transaksi"} />
-      <TransactionList/>
+      <AllTransaction/>
     </div>
   </div>
   )
