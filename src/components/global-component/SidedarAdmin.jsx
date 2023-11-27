@@ -93,7 +93,7 @@ const SidedarAdmin = () => {
             </li>
             <li>
               <Link
-                to="/admin/logout"
+                to="/admin/login-admin"
                 className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                   "/admin/logout"
                 )}`}
