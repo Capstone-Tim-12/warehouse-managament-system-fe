@@ -113,9 +113,7 @@ const WarehouseList = () => {
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3">
         <div>
-          <h2 className="text-cloud-burst-500 text-[20px] font-bold mb-3 md:mb-0">
-            Daftar Warehouse
-          </h2>
+          <h2 className="text-cloud-burst-500 text-[20px] font-bold mb-3 md:mb-0">Daftar Warehouse</h2>
         </div>
         <div className="flex gap-x-3">
           <button
@@ -140,11 +138,7 @@ const WarehouseList = () => {
             <button className="absolute pl-3">
               <img src={searchIcon} alt="search" />
             </button>
-            <input
-              type="text"
-              placeholder="Search"
-              className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  "
-            />
+            <input type="text" placeholder="Search" className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  " />
           </form>
         </div>
       </div>
@@ -200,6 +194,7 @@ const WarehouseList = () => {
                 <td className="pb-2">{item?.Ukuran}</td>
                 <td className="pb-2 pl-9 md:pl-0">{item?.Harga}</td>
                 <td className="pb-2 px-4 md:px-0">
+                  <button className="bg-[#FFD5C0] rounded-md p-1 px-2 text-sm text-[#17345F] border border-[#79747E] font-regular">{item?.Status}</button>
                   <button className="bg-[#06C270] rounded-md p-1 px-2 text-sm text-[#E8EBEF] font-regular">
                     {item?.Status}
                   </button>
