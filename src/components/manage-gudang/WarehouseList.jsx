@@ -95,13 +95,17 @@ const WarehouseList = () => {
         </div>
         <div className="flex gap-x-3">
           <button
+            id="addWarehouse"
             onClick={() => navigate("/admin/edit-warehouse")}
             className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
           >
             <img src={plusIcon} />
             <p className="hidden md:block">Tambah Gudang</p>
           </button>
-          <button className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ">
+          <button
+            id="deleteWarehouse"
+            className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
+          >
             <img src={deleteWhiteIcon} />
             <p className="hidden md:block">Hapus Gudang</p>
           </button>
