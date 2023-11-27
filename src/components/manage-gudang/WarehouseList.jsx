@@ -5,6 +5,7 @@ import deleteOrangeIcon from "../../assets/delete(orange)-Icons.svg";
 import editIcon from "../../assets/edit-Icons.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import { useNavigate } from "react-router-dom";
 
 const WarehouseList = () => {
   const dataWarehouse = [
@@ -82,6 +83,8 @@ const WarehouseList = () => {
     },
   ];
 
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3">
@@ -91,7 +94,10 @@ const WarehouseList = () => {
           </h2>
         </div>
         <div className="flex gap-x-3">
-          <button className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ">
+          <button
+            onClick={() => navigate("/admin/edit-warehouse")}
+            className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
+          >
             <img src={plusIcon} />
             <p className="hidden md:block">Tambah Gudang</p>
           </button>
@@ -118,12 +124,12 @@ const WarehouseList = () => {
       <div className="overflow-x-auto">
         <table className="ml-4 md:ml-10 md:table md:w-[93.2%]">
           <thead>
-            <tr className="gap-x-24 text-cloud-burst-500">
-              <th className="pb-2 pr-[12px] md:pr-6">
-                <input type="checkbox" />
+            <tr className="text-cloud-burst-500">
+              <th className="relative pb-2 md:pr-6">
+                <input className="absolute left-0" type="checkbox" />
               </th>
-              <th className="pb-2 pr-[12px] md:pr-6">No. </th>
-              <th className="pb-2 pr-[12px] md:pr-24">Nama Warehouse</th>
+              <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
+              <th className="pb-2 pr-[30px] md:pr-26">Nama Warehouse</th>
               <th className="pb-2 pr-[12px] md:pr-24">Lokasi</th>
               <th className="pb-2 pr-[1px] md:pr-8">Ukuran</th>
               <th className="pb-2 pr-[12px] md:pr-24">Harga</th>
@@ -136,7 +142,7 @@ const WarehouseList = () => {
                 <td className="pb-2">
                   <input type="checkbox" />
                 </td>
-                <td className="pb-2">{item?.id}</td>
+                <td className="pb-2 pl-[12px]">{item?.id}</td>
                 <td className="pb-2">{item?.Name}</td>
                 <td className="pb-2">{item?.Lokasi}</td>
                 <td className="pb-2">{item?.Ukuran}</td>
