@@ -5,8 +5,8 @@ import deleteWhiteIcon from "../../assets/delete(white)-Icons.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
 import arrowTopDown from "../../assets/arrow-top-down-icons.svg";
-import dropDownIcon from "../../assets/icons-dropdown.svg";
-import moreIcon from "../../assets/icons-more.svg";
+import dropDownIcon from "../../assets/icon-dropdown.svg";
+import moreIcon from "../../assets/icon-more.svg";
 import { useState } from "react";
 
 const WarehouseList = () => {
