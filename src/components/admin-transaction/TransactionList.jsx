@@ -88,7 +88,7 @@ const TransactionList = () => {
         <div>
           <select select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
             <option value="" disabled hidden>
-              &#11206; Cari berdasarkan lokasi
+              Cari berdasarkan lokasi
             </option>
 
             <option value="Jakarta Pusat">Jakarta Pusat</option>
@@ -110,7 +110,7 @@ const TransactionList = () => {
         <div>
           <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
             <option value="" disabled hidden>
-              &#11206; Cari berdasarkan status
+              Cari berdasarkan status
             </option>
             <option value="disetujui">Disetujui</option>
             <option value="butuhPersetujuan">Butuh Persetujuan</option>
