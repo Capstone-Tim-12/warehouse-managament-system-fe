@@ -7,7 +7,7 @@ import Picture from "../../../components/admin-edit-warehouse/Pictures";
 import Peta from "../../../components/admin-edit-warehouse/Peta";
 const EditWarehouse = () => {
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-[1fr_3fr]">
+    <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
       <SidedarAdmin />
       <div>
         <TopBar title={"Manage Gudang"} />

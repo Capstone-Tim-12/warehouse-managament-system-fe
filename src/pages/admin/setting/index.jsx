@@ -13,7 +13,7 @@ const AdminSetting = () => {
 
   return (
     <div className="bg-white">
-      <div className=" grid grid-cols-1 md:grid-cols-[1fr_3fr]">
+      <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
         <SidedarAdmin />
         <div>
           <TopBar title={"Pengaturan Pengguna"} />
