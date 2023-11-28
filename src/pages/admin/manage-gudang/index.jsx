@@ -1,11 +1,11 @@
 import TopBar from "../../../components/global-component/TopBar";
-import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
+import SidebarAdmin from "../../../components/global-component/SidebarAdmin";
 import WarehouseList from "../../../components/manage-gudang/WarehouseList";
 
 const ManageGudang = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
-      <SidedarAdmin />
+      <SidebarAdmin />
       <div>
         <TopBar title={"Manage Gudang"} />
         <WarehouseList />

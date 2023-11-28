@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Profile from '../../../components/admin-setting/Profile'
 import Security from '../../../components/admin-setting/Security'
-import SidedarAdmin from '../../../components/global-component/SidedarAdmin'
+import SidebarAdmin from '../../../components/global-component/SidebarAdmin'
 import TopBar from '../../../components/global-component/TopBar'
 
 const AdminSetting = () => {
@@ -14,7 +14,7 @@ const AdminSetting = () => {
   return (
     <div className="bg-white">
       <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
-        <SidedarAdmin />
+        <SidebarAdmin />
         <div>
           <TopBar title={"Pengaturan Pengguna"} />
           <div className="mx-[100px] max-w-screen-lg">

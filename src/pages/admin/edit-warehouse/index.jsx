@@ -1,6 +1,6 @@
 import React from "react";
 import TopBar from "../../../components/global-component/TopBar";
-import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
+import SidebarAdmin from "../../../components/global-component/SidebarAdmin";
 import TopEdit from "../../../components/admin-edit-warehouse/TopEdit";
 import DetailGudang from "../../../components/admin-edit-warehouse/DetailGudang";
 import Picture from "../../../components/admin-edit-warehouse/Pictures";
@@ -8,7 +8,7 @@ import Peta from "../../../components/admin-edit-warehouse/Peta";
 const EditWarehouse = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
-      <SidedarAdmin />
+      <SidebarAdmin />
       <div>
         <TopBar title={"Manage Gudang"} />
         <div>

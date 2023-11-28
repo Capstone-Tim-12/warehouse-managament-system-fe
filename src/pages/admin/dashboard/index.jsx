@@ -3,13 +3,13 @@ import RecentCustomer from "../../../components/admin-dashboard/RecentCustomer";
 import StatisticCarts from "../../../components/admin-dashboard/StatisticCarts";
 import TopBar from "../../../components/global-component/TopBar";
 import TransactionDashboard from "../../../components/admin-dashboard/TransactionDashboard";
-import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
+import SidebarAdmin from "../../../components/global-component/SidebarAdmin";
 
 const Dashboard = () => {
   return (
     <div className="bg-[#DDE5E9]">
       <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
-        <SidedarAdmin />
+        <SidebarAdmin />
         <div>
           <TopBar title={"Statistik Umum"} />
           <CardTotal />

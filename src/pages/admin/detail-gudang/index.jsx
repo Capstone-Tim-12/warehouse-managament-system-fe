@@ -1,6 +1,6 @@
 import React from 'react'
 import TopBar from "../../../components/global-component/TopBar";
-import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
+import SidebarAdmin from "../../../components/global-component/SidebarAdmin";
 import Foto1 from '../../../assets/foto-1.jpg';
 import Foto2 from '../../../assets/foto-2.jpg';
 import Foto3 from '../../../assets/foto-3.jpg';
@@ -13,8 +13,7 @@ import Detail from '../../../components/admin-detail-gudang/Detail';
 const DetailGudang = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
-      <SidedarAdmin />
-      {/* lanjut di bagian sini, kalian bisa import component2 lain disini */}
+      <SidebarAdmin />
       <div>
         <TopBar title={"Manage Gudang"} />
 
