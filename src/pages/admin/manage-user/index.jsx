@@ -2,6 +2,7 @@ import React from 'react'
 import TopBar from "../../../components/global-component/TopBar";
 import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 import TopManageUser from '../../../components/admin-manage-user/TopManageUser';
+import ListUser from '../../../components/admin-manage-user/ListUser';
 
 const ManageUser = () => {
   return (
@@ -9,8 +10,13 @@ const ManageUser = () => {
     <SidedarAdmin />
     <div>
       <TopBar title={"Pengaturan Pengguna"} />
-        <div className='container sm:p-3 p-1 '>
+        <div className='container sm:p-3 py-5 '>
            <TopManageUser/>
+
+            {/* list user component */}
+            <ListUser/>
+
+            {/* end list user component */}
         </div>
     </div>
   </div>

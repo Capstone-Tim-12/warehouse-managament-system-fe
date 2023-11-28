@@ -10,6 +10,7 @@ import Transaction from "./pages/admin/transaction";
 import EditWarehouse from "./pages/admin/edit-warehouse";
 import AllTransactions from "./pages/admin/transaction/AllTransactions";
 import ManageUser from "./pages/admin/manage-user";
+import DetailUser from "./pages/admin/manage-user/DetailUser";
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route element={<Transaction />} path="/admin/transaksi" />
         <Route element={<EditWarehouse/>} path="/admin/edit-warehouse"/>
         <Route element={<ManageUser/>} path="/admin/manage-user"/>
+        <Route element={<DetailUser/>} path="/admin/detail-user"/> 
         <Route element={<Error />} path="*" />
       </Routes>
     </BrowserRouter>
