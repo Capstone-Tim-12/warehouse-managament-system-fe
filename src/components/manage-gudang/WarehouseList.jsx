@@ -138,7 +138,7 @@ const WarehouseList = () => {
             <button className="absolute pl-3">
               <img src={searchIcon} alt="search" />
             </button>
-            <input type="text" placeholder="Search" className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  " />
+            <input type="text" placeholder="Search" className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none  py-3 px-9 rounded-[10px]  " />
           </form>
         </div>
       </div>
@@ -149,7 +149,7 @@ const WarehouseList = () => {
             <tr className="text-cloud-burst-500">
               <th className="relative pb-2 md:pr-6">
                 <input
-                  className="absolute left-0"
+                  className="absolute left-0 focus:outline-none focus:ring-0"
                   checked={selectAll}
                   onChange={handleSelectAllCheckBox}
                   type="checkbox"
@@ -186,6 +186,7 @@ const WarehouseList = () => {
                     onChange={() => handleSelectIdCheckBox(item.id)}
                     type="checkbox"
                     checked={selectId.includes(item.id)}
+                    className="focus:ring-0"
                   />
                 </td>
                 <td className="pb-2 pl-[12px] ">{item?.id}</td>
