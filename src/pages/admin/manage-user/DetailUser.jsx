@@ -1,6 +1,6 @@
 import React from 'react';
 import TopBar from "../../../components/global-component/TopBar";
-import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
+import SidedarAdmin from "../../../components/global-component/SidebarAdmin";
 import TopDetailUser from '../../../components/admin-manage-user/TopDetailUser';
 
 const DetailUser = () => {
