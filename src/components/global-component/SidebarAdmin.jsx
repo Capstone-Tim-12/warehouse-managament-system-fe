@@ -29,7 +29,7 @@ const SidebarAdmin = () => {
           <p className="text-crusta-500">DigiHouse</p>
         </div>
 
-        <div className="flex flex-col gap-y-60">
+        <div className="flex flex-col ">
           <div className="flex flex-col items-center justify-center mt-24">
             <ul className="flex flex-col items-center justify-center gap-[20px] text-center">
               <li>
