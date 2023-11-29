@@ -150,9 +150,9 @@ const WarehouseList = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="ml-4 md:ml-10 md:table md:w-[93.2%]">
+        <table className="ml-4 md:ml-10 w-[93.2%]">
           <thead>
-            <tr className="text-cloud-burst-500">
+            <tr className="text-cloud-burst-500 lg:text-left">
               <th className="relative pb-2 md:pr-6">
                 <input
                   className="absolute left-0 focus:outline-none focus:ring-0"
@@ -164,23 +164,26 @@ const WarehouseList = () => {
               <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
               <th className="pb-2 pr-[30px] md:pr-26">Nama Warehouse</th>
               <th className="pb-2 pr-[12px] md:pr-24">Lokasi</th>
-              <th className="cursor-pointer relative pb-2 md:pr-8">
+              <th className="cursor-pointer relative pb-2 pr-6 md:pr-8">
                 Ukuran
                 <img
-                  className="absolute right-3.5 bottom-1.5"
+                  className="absolute right-0 md:right-3 bottom-4 md:bottom-1.5"
                   src={arrowTopDown}
                 />
               </th>
               <th className="cursor-pointer relative pb-2 pl-4 pr-[12px] md:pr-24">
                 Harga
                 <img
-                  className="absolute right-20 bottom-1.5"
+                  className="absolute right-5 md:right-[79px] bottom-4 md:bottom-1.5"
                   src={arrowTopDown}
                 />
               </th>
               <th className="cursor-pointer relative pr-5">
                 Status
-                <img className="absolute right-0 bottom-1" src={dropDownIcon} />
+                <img
+                  className="absolute left-16 md:left-[50px] bottom-4 md:bottom-1"
+                  src={dropDownIcon}
+                />
               </th>
             </tr>
           </thead>
