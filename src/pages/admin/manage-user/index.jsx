@@ -6,7 +6,7 @@ import ListUser from '../../../components/admin-manage-user/ListUser';
 
 const ManageUser = () => {
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-[1fr_3fr]">
+    <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
     <SidedarAdmin />
     <div>
       <TopBar title={"Pengaturan Pengguna"} />

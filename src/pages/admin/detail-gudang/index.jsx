@@ -12,7 +12,7 @@ import Detail from '../../../components/admin-detail-gudang/Detail';
 
 const DetailGudang = () => {
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
+    <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
       <SidebarAdmin />
       <div>
         <TopBar title={"Manage Gudang"} />

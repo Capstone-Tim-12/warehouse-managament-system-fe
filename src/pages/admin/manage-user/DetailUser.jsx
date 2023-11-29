@@ -1,12 +1,12 @@
 import React from 'react';
 import TopBar from "../../../components/global-component/TopBar";
-import SidedarAdmin from "../../../components/global-component/SidebarAdmin";
+import SidebarAdmin from '../../../components/global-component/SidebarAdmin';
 import TopDetailUser from '../../../components/admin-manage-user/TopDetailUser';
 
 const DetailUser = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-[1fr_3fr]">
-      <SidedarAdmin />
+    <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
+      <SidebarAdmin />
       <div>
         <TopBar title={"Pengaturan Pengguna"} />
         <div className='container sm:p-5 py-5 px-1 '>

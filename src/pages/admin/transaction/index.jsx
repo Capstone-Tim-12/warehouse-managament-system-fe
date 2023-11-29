@@ -5,7 +5,7 @@ import TransactionList from "../../../components/admin-transaction/TransactionLi
 
 const Transaction = () => {
   return (
-    <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
+    <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
       <SidebarAdmin />
       <div>
         <TopBar title={"Transaksi"} />
