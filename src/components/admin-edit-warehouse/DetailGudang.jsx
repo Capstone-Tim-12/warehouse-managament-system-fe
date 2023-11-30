@@ -22,7 +22,7 @@ const DetailGudang = () => {
         </div>
         <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
           <select
-            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none"
+            className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none relative"
             value=""
           >
             <option value="" disabled hidden>
