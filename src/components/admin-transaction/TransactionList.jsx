@@ -20,7 +20,7 @@ const TransactionList = () => {
       Lokasi: "Jakarta Barat",
       ktp: "Tidak Ada",
       Durasi: "1 Minggu",
-      Status: "Butuh Persetujuan",
+      Status: "Ditolak",
     },
     {
       id: 3,
@@ -137,8 +137,7 @@ const TransactionList = () => {
               <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">KTP</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
-              <th className="pb-2 pr-3 md:pr-6 text-center">Status</th>
-              <th className="pb-2 pr-3 md:pl-24"></th>
+              <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
             </tr>
           </thead>
           <tbody>
@@ -149,17 +148,10 @@ const TransactionList = () => {
                 <td className="pb-2 pl-3">{item?.Lokasi}</td>
                 <td className="pb-2 pl-3">{item?.ktp}</td>
                 <td className="pb-2 pl-3">{item?.Durasi}</td>
-                <td className="pb-2 text-center">
-                  <button
-                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${
-                      item?.Status === "Disetujui" ? "bg-[#06C270] text-white" : item?.Status === "Butuh Persetujuan" ? "bg-red-500" : "bg-[#FF3B3B]"
-                    }`}
-                  >
+                <td className="pb-2 pl-3 md:pr-16 text-center">
+                  <button className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.Status === "Disetujui" ? "bg-[#06C270]" : item?.Status === "Butuh Persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}>
                     {item?.Status}
                   </button>
-                </td>
-                <td className="pb-2 pr-[12px] pl-3 cursor-pointer">
-                  <img src={moreIcon} alt="" />
                 </td>
               </tr>
             ))}
