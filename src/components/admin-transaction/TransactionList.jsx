@@ -2,7 +2,6 @@ import React from "react";
 import searchIcon from "../../assets/search-icon.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
-import moreIcon from "../../assets/icon-more.svg";
 
 const TransactionList = () => {
   const dataTransaksi = [
@@ -12,7 +11,7 @@ const TransactionList = () => {
       Lokasi: "Jakarta Barat",
       NamaWarehouse: "Warehouse Abadi",
       Durasi: "1 Bulan",
-      Status: "Butuh Persetujuan",
+      Status: "Disetujui",
     },
     {
       id: 2,
@@ -28,7 +27,7 @@ const TransactionList = () => {
       Lokasi: "Jakarta Barat",
       NamaWarehouse: "Harmoni Warehouse",
       Durasi: "1 Minggu",
-      Status: "Disetujui",
+      Status: "Butuh Persetujuan",
     },
     {
       id: 4,
@@ -36,7 +35,7 @@ const TransactionList = () => {
       Lokasi: "Jakarta Barat",
       NamaWarehouse: "Jaya Baya",
       Durasi: "1 Bulan",
-      Status: "Butuh Persetujuan",
+      Status: "Disetujui",
     },
     {
       id: 5,
@@ -44,7 +43,7 @@ const TransactionList = () => {
       Lokasi: "Jakarta Timur",
       NamaWarehouse: "Amanah Warehouse",
       Durasi: "1 Tahun",
-      Status: "Disetujui",
+      Status: "Butuh Persetujuan",
     },
     {
       id: 6,
