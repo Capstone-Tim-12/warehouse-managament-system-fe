@@ -135,7 +135,7 @@ const TransactionList = () => {
               <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">NamaWarehouse</th>
+              <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
               <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
             </tr>
