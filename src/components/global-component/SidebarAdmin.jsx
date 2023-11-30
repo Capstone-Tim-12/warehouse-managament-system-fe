@@ -11,7 +11,7 @@ const SidebarAdmin = () => {
 
   const isLinkActive = (pathname) => {
     return location.pathname === pathname
-      ? "bg-[#102543] text-white font-bold"
+      ? "bg-[#102543] h-12 text-white font-bold rounded rounded-lg"
       : "text-[#eee]";
   };
 
@@ -29,9 +29,9 @@ const SidebarAdmin = () => {
           <p className="text-crusta-500">DigiHouse</p>
         </div>
 
-        <div className="flex flex-col ">
+        <div className="flex flex-col gap-y-72 ">
           <div className="flex flex-col items-center justify-center mt-24">
-            <ul className="flex flex-col items-center justify-center gap-[20px] text-center">
+            <ul className="flex flex-col items-center justify-center gap-y-[30px] text-center">
               <li>
                 <Link
                   to="/admin/dashboard"
@@ -76,11 +76,6 @@ const SidebarAdmin = () => {
                   Manage User
                 </Link>
               </li>
-            </ul>
-          </div>
-
-          <div className="flex flex-col items-center justify-center mt-24">
-            <ul className="flex flex-col items-center justify-center gap-[20px] ">
               <li>
                 <Link
                   to="/admin/pengaturan"
@@ -92,6 +87,11 @@ const SidebarAdmin = () => {
                   Pengaturan
                 </Link>
               </li>
+            </ul>
+          </div>
+
+          <div className="flex flex-col items-center justify-center mt-24">
+            <ul>
               <li>
                 <Link
                   to="/admin/login-admin"
