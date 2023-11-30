@@ -2,7 +2,6 @@ import React from "react";
 import searchIcon from "../../assets/search-icon.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
-import moreIcon from "../../assets/icon-more.svg";
 
 const TransactionList = () => {
   const dataTransaksi = [
@@ -10,47 +9,47 @@ const TransactionList = () => {
       id: 1,
       Name: "Sucipto",
       Lokasi: "Jakarta Barat",
-      ktp: "Ada",
+      NamaWarehouse: "Warehouse Abadi",
       Durasi: "1 Bulan",
-      Status: "Butuh Persetujuan",
+      Status: "Disetujui",
     },
     {
       id: 2,
       Name: "Darsono",
       Lokasi: "Jakarta Barat",
-      ktp: "Tidak Ada",
+      NamaWarehouse: "Mega Store Center",
       Durasi: "1 Minggu",
-      Status: "Butuh Persetujuan",
+      Status: "Ditolak",
     },
     {
       id: 3,
       Name: "Santoso",
       Lokasi: "Jakarta Barat",
-      ktp: "Ada",
+      NamaWarehouse: "Harmoni Warehouse",
       Durasi: "1 Minggu",
-      Status: "Disetujui",
+      Status: "Butuh Persetujuan",
     },
     {
       id: 4,
       Name: "Fikri Januar",
       Lokasi: "Jakarta Barat",
-      ktp: "Ada",
+      NamaWarehouse: "Jaya Baya",
       Durasi: "1 Bulan",
-      Status: "Butuh Persetujuan",
+      Status: "Disetujui",
     },
     {
       id: 5,
       Name: "Aminah",
       Lokasi: "Jakarta Timur",
-      ktp: "Ada",
+      NamaWarehouse: "Amanah Warehouse",
       Durasi: "1 Tahun",
-      Status: "Disetujui",
+      Status: "Butuh Persetujuan",
     },
     {
       id: 6,
       Name: "Adi Susanto",
       Lokasi: "Jakarta Selatan",
-      ktp: "Ada",
+      NamaWarehouse: "Adimental Group",
       Durasi: "1 Bulan",
       Status: "Disetujui",
     },
@@ -58,7 +57,7 @@ const TransactionList = () => {
       id: 7,
       Name: "Rahmat",
       Lokasi: "Jakarta Timur",
-      ktp: "Ada",
+      NamaWarehouse: "Gudang Idaman",
       Durasi: "1 Minggu",
       Status: "Butuh Persetujuan",
     },
@@ -66,7 +65,7 @@ const TransactionList = () => {
       id: 8,
       Name: "Benyawan",
       Lokasi: "Depok",
-      ktp: "Ada",
+      NamaWarehouse: "Arum Warehouse",
       Durasi: "1 Tahun",
       Status: "Butuh Persetujuan",
     },
@@ -74,7 +73,7 @@ const TransactionList = () => {
       id: 9,
       Name: "Ahmad",
       Lokasi: "Tangerang Selatan",
-      ktp: "Ada",
+      NamaWarehouse: "Gudang Gula Merah",
       Durasi: "1 Bulan",
       Status: "Disetujui",
     },
@@ -131,35 +130,27 @@ const TransactionList = () => {
       <div className="overflow-x-auto">
         <table className="ml-4 md:table md:w-[93.2%]">
           <thead>
-            <tr className="gap-x-24 text-cloud-burst-500 border-b">
-              <th className="pb-2 pr-3 md:pr-6">No.</th>
+            <tr className="text-cloud-burst-500 border-b">
+              <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">KTP</th>
+              <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
               <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
-              <th className="pb-2 pr-3 md:pr-6 text-center">Status</th>
-              <th className="pb-2 pr-3 md:pl-24"></th>
+              <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
             </tr>
           </thead>
           <tbody>
             {dataTransaksi.map((item, index) => (
               <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
                 <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
-                <td className="pb-2 pl-3">{item?.Name}</td>
-                <td className="pb-2 pl-3">{item?.Lokasi}</td>
-                <td className="pb-2 pl-3">{item?.ktp}</td>
-                <td className="pb-2 pl-3">{item?.Durasi}</td>
-                <td className="pb-2 text-center">
-                  <button
-                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${
-                      item?.Status === "Disetujui" ? "bg-[#06C270] text-white" : item?.Status === "Butuh Persetujuan" ? "bg-red-500" : "bg-[#FF3B3B]"
-                    }`}
-                  >
+                <td className="pb-2 pr-3 md:pr-6">{item?.Name}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.Lokasi}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.NamaWarehouse}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.Durasi}</td>
+                <td className="pb-2 pr-3 md:pr-24 text-center">
+                  <button className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.Status === "Disetujui" ? "bg-[#06C270]" : item?.Status === "Butuh Persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}>
                     {item?.Status}
                   </button>
-                </td>
-                <td className="pb-2 pr-[12px] pl-3 cursor-pointer">
-                  <img src={moreIcon} alt="" />
                 </td>
               </tr>
             ))}
