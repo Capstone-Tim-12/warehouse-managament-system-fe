@@ -47,7 +47,7 @@ const DetailGudang = () => {
           value={selectedProvinsi}
           onChange={handleProvinsiChange}
         >
-          <option  disabled hidden>
+          <option value=""  disabled hidden>
             Provinsi
           </option>
           {provinsi.length > 0 ? (
@@ -62,9 +62,9 @@ const DetailGudang = () => {
         </select>
         <select
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
-          
+          value=""
         >
-          <option  disabled hidden>
+          <option value="" disabled hidden>
             Kota/Kabupaten
           </option>
           <option>Kota 1</option>
@@ -74,9 +74,9 @@ const DetailGudang = () => {
         </select>
         <select
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
-          
+          value=""
         >
-          <option  disabled hidden>
+          <option value="" disabled hidden>
             Kecamatan
           </option>
           <option>Kecamatan 1</option>
@@ -138,9 +138,9 @@ const DetailGudang = () => {
       <div className="mt-4">
         <select
           className=" w-[185px] h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none "
-          
+          value=""
         >
-          <option  disabled hidden>
+          <option value="" disabled hidden>
             Skema Pembayaran
           </option>
           <option>Mingguan</option>
