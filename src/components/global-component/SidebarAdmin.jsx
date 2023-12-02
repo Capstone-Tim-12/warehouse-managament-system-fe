@@ -19,7 +19,7 @@ const SidebarAdmin = () => {
     <div className="bg-cloud-burst-500 pb-20 md:pb-0 md:grid ">
       <div
         id="sidebar-wrapper"
-        className="border border-cloud-burst-500  h-screen"
+        className="border border-cloud-burst-500 h-screen "
       >
         <div
           id="sidebar-header"
@@ -90,7 +90,7 @@ const SidebarAdmin = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col items-center justify-center mt-44 ">
+          <div className="flex flex-col items-center justify-center mt-[120px] ">
             <ul>
               <li>
                 <Link
