@@ -16,10 +16,10 @@ const SidebarAdmin = () => {
   };
 
   return (
-    <div className="bg-cloud-burst-500 pb-20 md:pb-0 md:grid">
+    <div className="bg-cloud-burst-500 pb-20 md:pb-0 md:grid ">
       <div
         id="sidebar-wrapper"
-        className="border border-cloud-burst-500 h-screen"
+        className="border border-cloud-burst-500  h-screen"
       >
         <div
           id="sidebar-header"
@@ -29,8 +29,8 @@ const SidebarAdmin = () => {
           <p className="text-crusta-500">DigiHouse</p>
         </div>
 
-        <div className="flex flex-col gap-y-72 ">
-          <div className="flex flex-col items-center justify-center mt-24">
+        <div className="flex flex-col   ">
+          <div className="flex flex-col items-center justify-center mt-24 ">
             <ul className="flex flex-col items-center justify-center gap-y-[30px] text-center">
               <li>
                 <Link
@@ -90,7 +90,7 @@ const SidebarAdmin = () => {
             </ul>
           </div>
 
-          <div className="flex flex-col items-center justify-center mt-24">
+          <div className="flex flex-col items-center justify-center mt-44 ">
             <ul>
               <li>
                 <Link
