@@ -150,7 +150,7 @@ const WarehouseList = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className="ml-4 md:ml-10 w-[93.2%]">
+        <table className="ml-4 md:ml-10 w-max md:w-full">
           <thead>
             <tr className="text-cloud-burst-500 lg:text-left">
               <th className="relative pb-2 md:pr-6">
