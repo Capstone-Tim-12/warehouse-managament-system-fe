@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useState } from "react";
 import searchIcon from "../../assets/search-icon.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
 
+import Popup from "./Popup";
+
 const TransactionList = () => {
+  const [selectedTransaction, setSelectedTransaction] = useState(null);
+
   const dataTransaksi = [
     {
       id: 1,
@@ -78,6 +82,11 @@ const TransactionList = () => {
       Status: "Disetujui",
     },
   ];
+
+  const handleStatusClick = (transaction) => {
+    setSelectedTransaction(transaction);
+  };
+
   return (
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3 ">
@@ -148,7 +157,10 @@ const TransactionList = () => {
                 <td className="pb-2 pr-3 md:pr-6">{item?.NamaWarehouse}</td>
                 <td className="pb-2 pr-3 md:pr-6">{item?.Durasi}</td>
                 <td className="pb-2 pr-3 md:pr-24 text-center">
-                  <button className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.Status === "Disetujui" ? "bg-[#06C270]" : item?.Status === "Butuh Persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}>
+                  <button
+                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.Status === "Disetujui" ? "bg-[#06C270]" : item?.Status === "Butuh Persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
+                    onClick={() => handleStatusClick(item)}
+                  >
                     {item?.Status}
                   </button>
                 </td>
@@ -162,6 +174,7 @@ const TransactionList = () => {
         <p className="text-[#17345F] font-semibold">Halaman 1</p>
         <img src={arrowNext} alt="" />
       </div>
+      {selectedTransaction && <Popup transaction={selectedTransaction} />}
     </div>
   );
 };
