@@ -45,7 +45,7 @@ function LoginForm() {
         const name = response?.data?.data?.name;
         Cookies.set("token", token, { path: "/" });
         Cookies.set("name", name, { path: "/" });
-        navigate("/");
+        navigate("/admin/dashboard");
       })
       .catch((error) => {
         console.log(error);
