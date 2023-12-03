@@ -1,4 +1,6 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import logo from "../../assets/logo.svg";
 import dashboardIcon from "../../assets/dashboard-sidebar-icon.svg";
 import manageGudangIcon from "../../assets/manage-gudang-icon.svg";
@@ -8,11 +10,17 @@ import pengaturanIcon from "../../assets/pengaturan-icon.svg";
 
 const SidebarAdmin = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const isLinkActive = (pathname) => {
     return location.pathname === pathname
       ? "bg-[#102543] h-12 text-white font-bold rounded rounded-lg"
       : "text-[#eee]";
+  };
+
+  const handleLogOut = () => {
+    Cookies.remove("token");
+    navigate("/admin/login-admin");
   };
 
   return (
@@ -95,6 +103,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/login-admin"
+                  onClick={handleLogOut}
                   className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/logout"
                   )}`}
