@@ -8,7 +8,7 @@ import SidedarAdmin from "../../../components/global-component/SidedarAdmin";
 const Dashboard = () => {
   return (
     <div className="bg-[#DDE5E9]">
-      <div className=" grid grid-cols-1 md:grid-cols-[1fr_3fr]">
+      <div className=" grid grid-cols-1 md:grid-cols-[0fr_3fr]">
         <SidedarAdmin />
         <div>
           <TopBar title={"Statistik Umum"} />
