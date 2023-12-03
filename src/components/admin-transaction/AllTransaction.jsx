@@ -10,7 +10,6 @@ const TransactionList = () => {
       Jenis: "Bulanan",
       Nama: "Sucipto",
       Jumlah: "12.000.000.00",
-      Potongan: "200.000",
     },
     {
       id: "USE002",
@@ -18,7 +17,6 @@ const TransactionList = () => {
       Jenis: "Mingguan",
       Nama: "Darsono",
       Jumlah: "12.000.000.00",
-      Potongan: "-",
     },
     {
       id: "USE003",
@@ -26,7 +24,6 @@ const TransactionList = () => {
       Jenis: "Tahunan",
       Nama: "Jono",
       Jumlah: "560.000.000",
-      Potongan: "120.000.000",
     },
     {
       id: "USE004",
@@ -34,7 +31,6 @@ const TransactionList = () => {
       Jenis: "Mingguan",
       Nama: "Santoso",
       Jumlah: "12.000.000.00",
-      Potongan: "-",
     },
     {
       id: "USE005",
@@ -42,7 +38,6 @@ const TransactionList = () => {
       Jenis: "Bulanan",
       Nama: "Susilo",
       Jumlah: "50.000.000",
-      Potongan: "200.000",
     },
     {
       id: "USE005",
@@ -50,7 +45,6 @@ const TransactionList = () => {
       Jenis: "Mingguan",
       Nama: "Sainto",
       Jumlah: "12.000.000.00",
-      Potongan: "-",
     },
     {
       
@@ -59,7 +53,6 @@ const TransactionList = () => {
       Jenis: "Tahunan",
       Nama: "Sucipto lagi",
       Jumlah: "20.000.00",
-      Potongan: "400.000",
     },
   ];
   return (
@@ -105,7 +98,6 @@ const TransactionList = () => {
               <th className="pb-2">Jenis Transaksi</th>
               <th className="pb-2">Nama Pemesan</th>
               <th className="pb-2">Jumlah Tagihan (IDR)</th>
-              <th className="pb-2">Potongan harga (IDR)</th>
             </tr>
           </thead>
           <tbody className="w-full text-xs md:text-lg">
@@ -116,7 +108,6 @@ const TransactionList = () => {
                 <td className="pb-2">{item?.Jenis}</td>
                 <td className="pb-2">{item?.Nama}</td>
                 <td className="pb-2">{item?.Jumlah}</td>
-                <td className="pb-2">{item?.Potongan}</td>
               </tr>
             ))}
           </tbody>
