@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Overlay from "./Overlay";
 import foto1 from "../../assets/gudang-1.png";
 
-const Popup = () => {
+const Popup = ({ onClose }) => {
   const [showSelect, setShowSelect] = useState(false);
 
   const handleTolakClick = () => {
@@ -13,7 +13,9 @@ const Popup = () => {
       <div className="bg-white w-[546px] p-4 rounded-xl flex flex-col gap-y-5 py-4 text-cloud-burst-500">
         <div className="flex items-center border-b justify-between">
           <h1 className="font-bold text-xl py-1">Butuh Persetujuan Pengajuan Sewa</h1>
-          <p className="text-cloud-burst-500 text-xl font-bold cursor-default">X</p>
+          <p className="text-cloud-burst-500 text-xl font-bold cursor-default" onClick={onClose}>
+            X
+          </p>
         </div>
         <img src={foto1} alt="" className="rounded-xl" />
         <div className="flex flex-col gap-y-2">
