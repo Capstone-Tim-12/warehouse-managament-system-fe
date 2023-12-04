@@ -104,7 +104,7 @@ const SidebarAdmin = () => {
                 <Link
                   to="/admin/login-admin"
                   onClick={handleLogOut}
-                  className={`py-1 hover:bg-[#102543] h-12 rounded-lg px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  className={`py-1 hover:bg-[#102543] h-12 rounded-lg px-5 w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/logout"
                   )}`}
                 >
