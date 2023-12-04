@@ -7,7 +7,7 @@ const AllTransactions = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
     <SidebarAdmin />
-    <div>
+    <div className='overflow-hidden'>
       <TopBar title={"Seluruh Transaksi"} />
       <AllTransaction/>
     </div>
