@@ -14,8 +14,8 @@ const SidebarAdmin = () => {
 
   const isLinkActive = (pathname) => {
     return location.pathname === pathname
-      ? "bg-[#102543] h-12 text-white font-bold rounded rounded-lg"
-      : "text-[#eee]";
+      ? "bg-[#102543] h-12 text-white font-bold rounded rounded-lg transition-all duration-300"
+      : "text-[#eee] transition-all duration-300";
   };
 
   const handleLogOut = () => {
@@ -24,7 +24,7 @@ const SidebarAdmin = () => {
   };
 
   return (
-    <div className="bg-cloud-burst-500 pb-20 md:pb-0 md:grid ">
+    <div className="bg-cloud-burst-500 pb-20 md:pb-0 md:grid md:sticky md:top-0 h-screen md:w-[320px]">
       <div
         id="sidebar-wrapper"
         className="border border-cloud-burst-500 h-screen "
@@ -39,11 +39,11 @@ const SidebarAdmin = () => {
 
         <div className="flex flex-col   ">
           <div className="flex flex-col items-center justify-center mt-24 ">
-            <ul className="flex flex-col items-center justify-center gap-y-[30px] text-center">
+            <ul className="flex flex-col items-center justify-center gap-y-[20px] text-center">
               <li>
                 <Link
                   to="/admin/dashboard"
-                  className={` py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={`hover:bg-[#102543] h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/dashboard"
                   )}`}
                 >
@@ -54,7 +54,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/manage-gudang"
-                  className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={`hover:bg-[#102543] h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/manage-gudang"
                   )}`}
                 >
@@ -65,7 +65,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/transaksi"
-                  className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/transaksi"
                   )}`}
                 >
@@ -76,7 +76,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/manage-user"
-                  className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/manage-user"
                   )}`}
                 >
@@ -87,7 +87,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/pengaturan"
-                  className={`py-1 px-5 rounded w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
+                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
                     "/admin/pengaturan"
                   )}`}
                 >
@@ -104,7 +104,7 @@ const SidebarAdmin = () => {
                 <Link
                   to="/admin/login-admin"
                   onClick={handleLogOut}
-                  className={`py-1 px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  className={`py-1 hover:bg-[#102543] h-12 rounded-lg px-5 rounded w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/logout"
                   )}`}
                 >

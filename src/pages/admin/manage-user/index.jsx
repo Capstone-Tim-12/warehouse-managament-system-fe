@@ -8,7 +8,7 @@ const ManageUser = () => {
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
     <SidedarAdmin />
-    <div>
+    <div className='overflow-hidden'>
       <TopBar title={"Pengaturan Pengguna"} />
         <div className='container sm:p-3 py-5 '>
            <TopManageUser/>

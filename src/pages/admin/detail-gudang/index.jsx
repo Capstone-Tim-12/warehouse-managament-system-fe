@@ -18,7 +18,7 @@ const DetailGudang = () => {
         <TopBar title={"Manage Gudang"} />
 
         <div>
-            <div className="container mx-auto px-2 lg:px-9 sm:px-9 md:px-3 py-12 ]  ">
+            <div className="container mx-auto px-2 lg:px-9 sm:px-9 md:px-3 py-12 overflow-hidden  ">
                 {/* componen top */}
                 <TopDetail/>
                 {/* end component top */}
