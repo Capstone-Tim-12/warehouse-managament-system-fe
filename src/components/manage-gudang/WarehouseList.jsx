@@ -39,12 +39,6 @@ const WarehouseList = () => {
       });
   };
 
-  const handleSearchQuery = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-    handleDataWarehouse();
-  };
-
   const handleSearch = () => {
     handleDataWarehouse();
   };
@@ -107,18 +101,19 @@ const WarehouseList = () => {
             onSubmit={(e) => e.preventDefault()}
           >
             <button className="absolute pl-3">
-              <img
-                // onClick={handleSearch}
-                src={searchIcon}
-                alt="search"
-              />
+              <img onClick={handleSearch} src={searchIcon} alt="search" />
             </button>
             <input
+              id="input-search"
               type="text"
               placeholder="Search"
               value={searchQuery}
-              onChange={handleSearchQuery}
-              // onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e.target.value);
+                }
+              }}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none focus:ring-0 py-3 px-9 rounded-[10px]  "
             />
           </form>
