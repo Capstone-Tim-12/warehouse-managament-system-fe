@@ -19,14 +19,14 @@ function App() {
         <Route element={<LandingPage />} path="/" />
         <Route element={<Dashboard />} path="/admin/dashboard" />
         <Route element={<ManageGudang />} path="/admin/manage-gudang" />
-        <Route element={<DetailGudang />} path="/admin/detail-gudang" /> 
+        <Route element={<DetailGudang />} path="/admin/detail-gudang/:id" /> 
         <Route element={<AdminSetting />} path="/admin/pengaturan" />
         <Route element={<LoginAdmin />} path="/admin/login-admin" />
         <Route element={<AllTransactions />} path="/admin/all-transactions" />
         <Route element={<Transaction />} path="/admin/transaksi" />
         <Route element={<EditWarehouse/>} path="/admin/edit-warehouse"/>
         <Route element={<ManageUser/>} path="/admin/manage-user"/>
-        <Route element={<DetailUser/>} path="/admin/detail-user"/> 
+        <Route element={<DetailUser/>} path="/admin/detail-user/:id"/> 
         <Route element={<Error />} path="*" />
       </Routes>
     </BrowserRouter>
