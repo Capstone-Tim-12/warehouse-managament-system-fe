@@ -1,39 +1,47 @@
+import React, { useEffect, useState } from "react";
 import rightArrowIcon from "../../assets/right-arrow.svg";
+import axios from "axios";
+import Cookies from "js-cookie";
 
 const RecentCustomer = () => {
+  const [recentCustomer, setRecentCustomer] = useState({});
+
+  const handleRecentCustomer = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    axios
+      .get(
+        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=1&limit=10",
+        { headers }
+      )
+      .then((response) => {
+        const firstCustomer = response?.data?.data?.[0];
+        setRecentCustomer(firstCustomer);
+        console.log(firstCustomer);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    handleRecentCustomer();
+  }, []);
+
   return (
     <div className="bg-white rounded-[8px] p-3">
       <h3 className="text-[20px] font-bold">Recent Customer</h3>
       <div className="bg-cloud-burst-200 w-full h-auto p-3 rounded-[12px]">
-        <div className="flex  items-center gap-4">
-          <div className="bg-cloud-burst-500 w-[30px] h-[30px] flex justify-center items-center text-white rounded-full">
-            <h5>A</h5>
-          </div>
-          <div>
-            <p>Name</p>
-            <p>Email</p>
-          </div>
-        </div>
-      </div>
-      <div className="bg-cloud-burst-200 w-full h-auto my-5 p-3 rounded-[12px] ">
         <div className="flex items-center gap-4">
           <div className="bg-cloud-burst-500 w-[30px] h-[30px] flex justify-center items-center text-white rounded-full">
-            <h5>A</h5>
+            <h5>{recentCustomer.username?.charAt(0).toUpperCase()}</h5>
           </div>
           <div>
-            <p>Name</p>
-            <p>Email</p>
-          </div>
-        </div>
-      </div>
-      <div className="bg-cloud-burst-200 w-full h-auto my-5 p-3 rounded-[12px] ">
-        <div className="flex items-center gap-4">
-          <div className="bg-cloud-burst-500 w-[30px] h-[30px] flex justify-center items-center text-white rounded-full">
-            <h5>A</h5>
-          </div>
-          <div>
-            <p>Name</p>
-            <p>Email</p>
+            <p>{recentCustomer.username}</p>
+            <p>{recentCustomer.provinceName}</p>
           </div>
         </div>
       </div>
@@ -44,4 +52,5 @@ const RecentCustomer = () => {
     </div>
   );
 };
+
 export default RecentCustomer;
