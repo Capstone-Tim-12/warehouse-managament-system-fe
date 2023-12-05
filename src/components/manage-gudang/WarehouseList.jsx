@@ -156,7 +156,7 @@ const WarehouseList = () => {
                       />
                     </td>
                     <td className="pb-2 pl-[12px] ">{item?.id}</td>
-                    <td className="pb-2">{item?.name}</td>
+                    <td className="pb-2" onClick={() => navigate(`/admin/detail-gudang/${item.id}`, {state: {id:item.id}})}>{item?.name}</td>
                     <td className="pb-2">{item?.provinceName}</td>
                     <td className="pb-2">{item?.buildingArea}</td>
                     <td className="pb-2 pl-9 md:pl-0">{item?.annualPrice}</td>
