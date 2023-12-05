@@ -62,7 +62,10 @@ const Peta = () => {
           </Popup>
         </Marker>
       </MapContainer>
-      <button className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex  items-center justify-items-center ">
+      <button
+        className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex  items-center justify-items-center "
+        onClick={handleResetMap}
+      >
         <img src={IconDelete} alt="IconDelete" className="w-6 h-6" />
         <span className="text-white ml-2 ">Reset Map</span>
       </button>
