@@ -1,94 +1,42 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import searchIcon from "../../assets/search-icon.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 import Popup from "./Popup";
 
 const TransactionList = () => {
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [transactionList, setTransactionList] = useState([]);
+  const [selectedTransaction, setSelectedTransaction] = useState(false);
 
-  const dataTransaksi = [
-    {
-      id: 1,
-      Name: "Sucipto",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Warehouse Abadi",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-    {
-      id: 2,
-      Name: "Darsono",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Mega Store Center",
-      Durasi: "1 Minggu",
-      Status: "Ditolak",
-    },
-    {
-      id: 3,
-      Name: "Santoso",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Harmoni Warehouse",
-      Durasi: "1 Minggu",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 4,
-      Name: "Fikri Januar",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Jaya Baya",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-    {
-      id: 5,
-      Name: "Aminah",
-      Lokasi: "Jakarta Timur",
-      NamaWarehouse: "Amanah Warehouse",
-      Durasi: "1 Tahun",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 6,
-      Name: "Adi Susanto",
-      Lokasi: "Jakarta Selatan",
-      NamaWarehouse: "Adimental Group",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-    {
-      id: 7,
-      Name: "Rahmat",
-      Lokasi: "Jakarta Timur",
-      NamaWarehouse: "Gudang Idaman",
-      Durasi: "1 Minggu",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 8,
-      Name: "Benyawan",
-      Lokasi: "Depok",
-      NamaWarehouse: "Arum Warehouse",
-      Durasi: "1 Tahun",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 9,
-      Name: "Ahmad",
-      Lokasi: "Tangerang Selatan",
-      NamaWarehouse: "Gudang Gula Merah",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-  ];
+  const handleTransactionList = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=1&limit=10", { headers })
+      .then((response) => {
+        setTransactionList(response?.data?.data);
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    handleTransactionList();
+  }, []);
 
   const handleStatusClick = (transaction) => {
     setSelectedTransaction(transaction);
   };
 
   const closePopup = () => {
-    setSelectedTransaction(null);
+    setSelectedTransaction(false);
   };
 
   return (
@@ -98,7 +46,7 @@ const TransactionList = () => {
           <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
         </div>
         <div>
-          <select select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
+          <select select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" onChange={(e) => {}}>
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
@@ -120,7 +68,7 @@ const TransactionList = () => {
           </select>
         </div>
         <div>
-          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
+          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" onChange={(e) => {}}>
             <option value="" disabled hidden>
               Cari berdasarkan status
             </option>
@@ -153,19 +101,19 @@ const TransactionList = () => {
             </tr>
           </thead>
           <tbody>
-            {dataTransaksi.map((item, index) => (
+            {transactionList.map((item, index) => (
               <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
                 <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.Name}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.Lokasi}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.NamaWarehouse}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.Durasi}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.duration}</td>
                 <td className="pb-2 pr-3 md:pr-24 text-center">
                   <button
-                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.Status === "Disetujui" ? "bg-[#06C270]" : item?.Status === "Butuh Persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
+                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
                     onClick={() => handleStatusClick(item)}
                   >
-                    {item?.Status}
+                    {item?.status}
                   </button>
                 </td>
               </tr>
