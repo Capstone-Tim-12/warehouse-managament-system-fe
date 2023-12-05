@@ -3,7 +3,7 @@ import rightArrowIcon from "../../assets/right-arrow.svg";
 
 const TransactionDashboard = () => {
   return (
-    <div className="mx-3 bg-white p-3">
+    <div className="mx-3 bg-white p-3 w-max md:w-auto">
       <h4 className="text-[20px] font-bold">Transaction</h4>
       <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
         <tbody>

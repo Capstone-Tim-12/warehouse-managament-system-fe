@@ -1,5 +1,5 @@
 import React from 'react'
-import IconPlus from '../../assets/icons-plus.svg';
+import IconPlus from '../../assets/plus-Icons.svg';
 
 const TopEdit = () => {
   return (

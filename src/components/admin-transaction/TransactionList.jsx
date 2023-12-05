@@ -1,0 +1,134 @@
+import React, { useState, useEffect } from "react";
+import searchIcon from "../../assets/search-icon.svg";
+import arrowBack from "../../assets/arrow-back-left-Icons.svg";
+import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import Cookies from "js-cookie";
+import axios from "axios";
+
+import Popup from "./Popup";
+
+const TransactionList = () => {
+  const [transactionList, setTransactionList] = useState([]);
+  const [selectedTransaction, setSelectedTransaction] = useState(false);
+
+  const handleTransactionList = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=1&limit=10", { headers })
+      .then((response) => {
+        setTransactionList(response?.data?.data);
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    handleTransactionList();
+  }, []);
+
+  const handleStatusClick = (transaction) => {
+    setSelectedTransaction(transaction);
+  };
+
+  const closePopup = () => {
+    setSelectedTransaction(false);
+  };
+
+  return (
+    <div>
+      <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3 ">
+        <div>
+          <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
+        </div>
+        <div>
+          <select select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" onChange={(e) => {}}>
+            <option value="" disabled hidden>
+              Cari berdasarkan lokasi
+            </option>
+
+            <option value="Jakarta Pusat">Jakarta Pusat</option>
+            <option value="Jakarta Barat">Jakarta Barat</option>
+            <option value="Jakarta Timur">Jakarta Timur</option>
+            <option value="Jakarta Selatan">Jakarta Selatan</option>
+            <option value="Jawa Timur">jawa Timur</option>
+            <option value="Jawa Tengah">Jawa Tengah</option>
+            <option value="Jawa Barat">Jawa Barat</option>
+            <option value="Sumatera Utara">Sumatera Utara</option>
+            <option value="Sumatera Barat">Sumatera Barat</option>
+            <option value="Sumatera Selatan">Sumatera Selatan</option>
+            <option value="Kepulauan Riau">Kepulauan Riau</option>
+            <option value="Kalimantan Timur">Kalimantan Timur</option>
+            <option value="Kalimantan Barat">Kalimantan Barat</option>
+            <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+          </select>
+        </div>
+        <div>
+          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" onChange={(e) => {}}>
+            <option value="" disabled hidden>
+              Cari berdasarkan status
+            </option>
+            <option value="disetujui">Disetujui</option>
+            <option value="butuhPersetujuan">Butuh Persetujuan</option>
+          </select>
+        </div>
+        <div>
+          <form
+            className="relative rounded-[28px] flex items-center"
+            // onSubmit={(e) => e.preventDefault()}
+          >
+            <button className="absolute pl-3">
+              <img src={searchIcon} alt="search" />
+            </button>
+            <input type="text" placeholder="Search" className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  " />
+          </form>
+        </div>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="ml-4 md:table md:w-[93.2%]">
+          <thead>
+            <tr className="text-cloud-burst-500 border-b">
+              <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
+              <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
+              <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
+              <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
+              <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
+              <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {transactionList.map((item, index) => (
+              <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
+                <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.duration}</td>
+                <td className="pb-2 pr-3 md:pr-24 text-center">
+                  <button
+                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
+                    onClick={() => handleStatusClick(item)}
+                  >
+                    {item?.status}
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
+        <img src={arrowBack} alt="" />
+        <p className="text-[#17345F] font-semibold">Halaman 1</p>
+        <img src={arrowNext} alt="" />
+      </div>
+      {selectedTransaction && <Popup transaction={selectedTransaction} onClose={closePopup} />}
+    </div>
+  );
+};
+
+export default TransactionList;
