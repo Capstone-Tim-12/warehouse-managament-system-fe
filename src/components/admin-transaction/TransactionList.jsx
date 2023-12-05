@@ -87,6 +87,10 @@ const TransactionList = () => {
     setSelectedTransaction(transaction);
   };
 
+  const closePopup = () => {
+    setSelectedTransaction(null);
+  };
+
   return (
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3 ">
@@ -174,7 +178,7 @@ const TransactionList = () => {
         <p className="text-[#17345F] font-semibold">Halaman 1</p>
         <img src={arrowNext} alt="" />
       </div>
-      {selectedTransaction && <Popup transaction={selectedTransaction} />}
+      {selectedTransaction && <Popup transaction={selectedTransaction} onClose={closePopup} />}
     </div>
   );
 };
