@@ -26,7 +26,7 @@ function App() {
         <Route element={<Transaction />} path="/admin/transaksi" />
         <Route element={<EditWarehouse/>} path="/admin/edit-warehouse"/>
         <Route element={<ManageUser/>} path="/admin/manage-user"/>
-        <Route element={<DetailUser/>} path="/admin/detail-user"/> 
+        <Route element={<DetailUser/>} path="/admin/detail-user/:id"/> 
         <Route element={<Error />} path="*" />
       </Routes>
     </BrowserRouter>
