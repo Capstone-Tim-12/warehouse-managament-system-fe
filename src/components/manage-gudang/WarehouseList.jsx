@@ -18,6 +18,7 @@ const WarehouseList = () => {
   const [selectAll, setSelectAll] = useState(false);
   const [selectId, setSelectId] = useState([]);
   const [dataWarehouse, setDataWarehouse] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleDataWarehouse = () => {
     const token = Cookies.get("token");
@@ -26,7 +27,7 @@ const WarehouseList = () => {
     };
     axios
       .get(
-        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=1&limit=10",
+        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=1&limit=10&search=${searchQuery}`,
         { headers }
       )
       .then((response) => {
@@ -38,9 +39,19 @@ const WarehouseList = () => {
       });
   };
 
+  const handleSearch = () => {
+    handleDataWarehouse();
+  };
+
   useEffect(() => {
     handleDataWarehouse();
   }, []);
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      handleDataWarehouse();
+    }
+  }, [searchQuery]);
 
   const handleDropDown = (id) => {
     setOpenDropDown(openDropDown === id ? null : id);
@@ -87,15 +98,23 @@ const WarehouseList = () => {
           </button>
           <form
             className="relative rounded-[28px] flex items-center"
-            // onSubmit={(e) => e.preventDefault()}
+            onSubmit={(e) => e.preventDefault()}
           >
             <button className="absolute pl-3">
-              <img src={searchIcon} alt="search" />
+              <img onClick={handleSearch} src={searchIcon} alt="search" />
             </button>
             <input
+              id="input-search"
               type="text"
               placeholder="Search"
-              className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none  py-3 px-9 rounded-[10px]  "
+              value={searchQuery}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e.target.value);
+                }
+              }}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none focus:ring-0 py-3 px-9 rounded-[10px]  "
             />
           </form>
         </div>
@@ -156,7 +175,16 @@ const WarehouseList = () => {
                       />
                     </td>
                     <td className="pb-2 pl-[12px] ">{item?.id}</td>
-                    <td className="pb-2" onClick={() => navigate(`/admin/detail-gudang/${item.id}`, {state: {id:item.id}})}>{item?.name}</td>
+                    <td
+                      className="pb-2"
+                      onClick={() =>
+                        navigate(`/admin/detail-gudang/${item.id}`, {
+                          state: { id: item.id },
+                        })
+                      }
+                    >
+                      {item?.name}
+                    </td>
                     <td className="pb-2">{item?.provinceName}</td>
                     <td className="pb-2">{item?.buildingArea}</td>
                     <td className="pb-2 pl-9 md:pl-0">{item?.annualPrice}</td>
