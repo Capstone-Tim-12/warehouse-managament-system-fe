@@ -16,7 +16,7 @@ const ManageUser = () => {
       <TopBar title={"Pengaturan Pengguna"} />
         <div className='container sm:p-3 py-5 '>
           
-           <TopManageUser/>
+         
            
             {/* list user component */}
             <ListUser
