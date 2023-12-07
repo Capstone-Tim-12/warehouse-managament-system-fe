@@ -51,7 +51,7 @@ const RecentCustomer = () => {
         })}
       </div>
       <button className="flex items-center gap-5">
-        See More
+        Lihat Selengkapnya
         <img src={rightArrowIcon} alt="right arrow" />
       </button>
     </div>
