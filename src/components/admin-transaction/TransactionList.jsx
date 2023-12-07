@@ -57,20 +57,11 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
-            <option value="Jakarta Pusat">Jakarta Pusat</option>
-            <option value="Jakarta Barat">Jakarta Barat</option>
-            <option value="Jakarta Timur">Jakarta Timur</option>
-            <option value="Jakarta Selatan">Jakarta Selatan</option>
-            <option value="Jawa Timur">jawa Timur</option>
-            <option value="Jawa Tengah">Jawa Tengah</option>
-            <option value="Jawa Barat">Jawa Barat</option>
-            <option value="Sumatera Utara">Sumatera Utara</option>
-            <option value="Sumatera Barat">Sumatera Barat</option>
-            <option value="Sumatera Selatan">Sumatera Selatan</option>
-            <option value="Kepulauan Riau">Kepulauan Riau</option>
-            <option value="Kalimantan Timur">Kalimantan Timur</option>
-            <option value="Kalimantan Barat">Kalimantan Barat</option>
-            <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+            {[...new Set(searchInput.map((item) => item.provinceName))].map((provinceName, index) => (
+              <option key={index} value={provinceName}>
+                {provinceName}
+              </option>
+            ))}
           </select>
         </div>
         <div>
@@ -78,8 +69,11 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan status
             </option>
-            <option value="disetujui">Disetujui</option>
-            <option value="butuhPersetujuan">Butuh Persetujuan</option>
+            {[...new Set(searchInput.map((item) => item.status))].map((status, index) => (
+              <option key={index} value={status}>
+                {status}
+              </option>
+            ))}
           </select>
         </div>
         <div className="relative rounded-[28px] flex items-center">
