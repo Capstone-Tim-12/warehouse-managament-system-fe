@@ -19,15 +19,17 @@ const WarehouseList = () => {
   const [selectId, setSelectId] = useState([]);
   const [dataWarehouse, setDataWarehouse] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  const token = Cookies.get("token");
-  const headers = {
-    Authorization: `Bearer ${token}`,
-  };
   const handleDataWarehouse = (page) => {
+    setLoading(true);
+
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
     axios
       .get(
         `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=${page}&limit=10&search=${searchQuery}`,
@@ -36,10 +38,12 @@ const WarehouseList = () => {
       .then((response) => {
         setDataWarehouse(response?.data?.data);
         setTotalPages(response?.data?.pagination?.totalPage || 1);
+        setLoading(false);
         // console.log(response?.data);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -49,21 +53,7 @@ const WarehouseList = () => {
   };
 
   const handleSearch = () => {
-    setLoading(true);
-    axios
-      .get(
-        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=1&limit=10&search=${searchQuery}`,
-        { headers }
-      )
-      .then((response) => {
-        setDataWarehouse(response?.data?.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    handleDataWarehouse();
   };
 
   useEffect(() => {
@@ -194,13 +184,14 @@ const WarehouseList = () => {
           {loading ? (
             <tbody className="h-14 relative">
               <tr className="absolute top-2 text-slate-500 font-semibold">
-                loading..
+                Memuat data...
               </tr>
             </tbody>
-          ) : (
+          ) : dataWarehouse && dataWarehouse.length > 0 ? (
             <tbody>
               {dataWarehouse &&
                 dataWarehouse.map((item, index) => {
+                  const userNumber = (currentPage - 1) * 10 + index + 1;
                   return (
                     <tr
                       key={index}
@@ -214,9 +205,9 @@ const WarehouseList = () => {
                           className="focus:ring-0 border-slate-700 border-2 rounded-sm"
                         />
                       </td>
-                      <td className="pb-2 pl-[12px] ">{index + 1}</td>
+                      <td className="pb-2 pl-[12px] ">{userNumber}</td>
                       <td
-                        className="pb-2"
+                        className="pb-2 cursor-pointer"
                         onClick={() =>
                           navigate(`/admin/detail-gudang/${item.id}`, {
                             state: { id: item.id },
@@ -233,6 +224,10 @@ const WarehouseList = () => {
                           className={`${
                             item?.status === "tidak tersedia"
                               ? "bg-[#FF3B3B]"
+                              : "bg-[#06C270]"
+                          } ${
+                            item?.status === "pending"
+                              ? "bg-[#EABC03]"
                               : "bg-[#06C270]"
                           } rounded-md p-1 px-2 w-[100px] text-sm text-[#E8EBEF] font-regular`}
                         >
@@ -251,7 +246,7 @@ const WarehouseList = () => {
                           />
                         </button>
                         <td
-                          className={`absolute left-1 md:left-3 top-[60px] z-50 px-3 py-4 rounded-md shadow-md shadow-gray-500 bg-[#F2F2F5] font-semibold ${
+                          className={`absolute left-1 md:left-3 top-[60px] z-50 px-5 py-4 rounded-md shadow-md shadow-gray-500 bg-[#F2F2F5] font-semibold ${
                             openDropDown === index ? "block" : "hidden"
                           }`}
                         >
@@ -261,7 +256,7 @@ const WarehouseList = () => {
                               onClick={() => navigate("/admin/edit-warehouse")}
                               className="cursor-pointer"
                             >
-                              Tambahkan Gudang
+                              Edit Gudang
                             </p>
                           </div>
                         </td>
@@ -269,6 +264,12 @@ const WarehouseList = () => {
                     </tr>
                   );
                 })}
+            </tbody>
+          ) : (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
+                Tidak Ada Warehouse Terdaftar
+              </tr>
             </tbody>
           )}
         </table>
@@ -280,13 +281,13 @@ const WarehouseList = () => {
       >
         <img
           src={arrowBack}
-          alt=""
+          className="cursor-pointer"
           onClick={() => handlePageChange(currentPage - 1)}
         />
         <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
         <img
           src={arrowNext}
-          alt=""
+          className="cursor-pointer"
           onClick={() => handlePageChange(currentPage + 1)}
         />
       </div>
