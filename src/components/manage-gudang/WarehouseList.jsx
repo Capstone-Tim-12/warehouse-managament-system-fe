@@ -184,7 +184,7 @@ const WarehouseList = () => {
           {loading ? (
             <tbody className="h-14 relative">
               <tr className="absolute top-2 text-slate-500 font-semibold">
-                Memuat data...
+                <p className="text-[24px] mt-2">Memuat data...</p>
               </tr>
             </tbody>
           ) : dataWarehouse && dataWarehouse.length > 0 ? (
