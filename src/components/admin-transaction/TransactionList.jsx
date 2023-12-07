@@ -102,7 +102,9 @@ const TransactionList = () => {
                 <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
                 <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
                 <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.duration}</td>
+                <td className="pb-2 pr-3 md:pr-6">
+                  {item?.duration} {item?.paymentScheme}
+                </td>
                 <td className="pb-2 pr-3 md:pr-24 text-center">
                   <button
                     className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
