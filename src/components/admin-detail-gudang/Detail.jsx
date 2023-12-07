@@ -8,7 +8,7 @@ import IconNoPemilik from '../../assets/icon-no-pemilik.svg'
 import IconSkemaPembayaran from '../../assets/icon-skema-pembayaran.svg'
 import IconKoordinatGudang from '../../assets/icon-koordinat-gudang.svg'
 
-const Detail = () => {
+const Detail = ({luasTanah, luasBangunan, status, noTelpon, namaPemilik, longitude, latitude, harga}) => {
   return (
     <>
     <div className='flex justify-between h-full sm:w-1/2  '>
@@ -22,12 +22,19 @@ const Detail = () => {
             <img src={IconStatus}  alt="Lt" />Status</span>
         </div>
         <div className='grid grid-rows-4 gap-y-4 text-end '>
-          <span>1700 m<sup>2</sup></span>
-          <span>1200 m<sup>2</sup></span>
-          <span className=''>Rp10.000.000,00</span>
+          <span>{luasTanah} m<sup>2</sup></span>
+          <span>{luasBangunan} m<sup>2</sup></span>
+          <span className=''>{harga}</span>
           <div className='flex justify-end   '>
-          <div className=' bg-crusta-300 rounded-lg text-cloud-burst-500 border-[#79747E] border-2 font-semibold   '>
-            <span className='p-3  '>Tersedia</span></div>
+          <button
+            className={`${
+              status === "tidak tersedia"
+                ? "bg-[#FF3B3B]"
+                : "bg-[#06C270]"
+            } rounded-md p-1 px-2 w-[100px] text-sm text-[#E8EBEF] font-regular`}
+            >
+              {status}
+            </button>
           </div>
         </div>
 
@@ -40,15 +47,12 @@ const Detail = () => {
           <span className='flex gap-2 justify-start items-center'>
           <img src={IconNoPemilik}  alt="no pemilik" className='' />No. Ponsel Pemilik</span>
           <span className='flex gap-2 justify-start items-center'>
-          <img src={IconSkemaPembayaran}  alt="skema pembayaran" className='' />Skema Pembayaran</span>
-          <span className='flex gap-2 justify-start items-center'>
           <img src={IconKoordinatGudang}  alt="koordinator gudang" className='' />Koordinat Gudang</span>
         </div>
         <div className='grid grid-rows-4 gap-y-4 text-end items-center'>
-          <span >Abadi Budiyanto</span>
-          <span >081244556677</span>
-          <span >Bulanan, Tahunan</span>
-          <span className='' >6°10'08.5"S 106°44'33.7"E</span>
+          <span >{namaPemilik}</span>
+          <span >{noTelpon}</span>
+          <span className='' >{longitude} {latitude}</span>
     </div>
     </div>
     </>

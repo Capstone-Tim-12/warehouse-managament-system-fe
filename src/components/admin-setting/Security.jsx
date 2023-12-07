@@ -29,6 +29,7 @@ const Security = () => {
                             placeholder="Email" />
                         <span className='absolute left-0 transition duration-200 label-input'>Email</span>
                     </label>
+
                 </div>
             </div>
             <div className={`flex flex-row items-center m-auto px-4 gap-2 h-16 rounded-lg w-full focus-within:border-cloud-burst-500 border ${account.password !== '' && 'border-cloud-burst-500 border'}`}>

@@ -51,19 +51,19 @@ const Navbar = () => {
           smooth={true}
           duration={500}
         >
-          <p className="hover:text-[#455D7F]">Beranda</p>
+          <p id="beranda" className="hover:text-[#455D7F]">Beranda</p>
         </ScrollLink>
         <ScrollLink to="aboutUs" smooth={true} duration={500}>
-          <p className="hover:text-[#455D7F]">Tentang</p>
+          <p id="tentang" className="hover:text-[#455D7F]">Tentang</p>
         </ScrollLink>
-        <ScrollLink to="faq" smooth={true} duration={500}>
-          <p className="hover:text-[#455D7F]">FAQ</p>
+        <ScrollLink to="Faq" smooth={true} duration={500}>
+          <p id="faq" className="hover:text-[#455D7F]">FAQ</p>
         </ScrollLink>
         <ScrollLink to="contactUs" smooth={true} duration={500}>
-          <p className="hover:text-[#455D7F]">Kontak</p>
+          <p id="kontak" className="hover:text-[#455D7F]">Kontak</p>
         </ScrollLink>
       </div>
-
+      
       {isMobileMenuOpen && (
         <div className="sm:hidden absolute top-16 left-0 right-0 bg-white">
           <div className="flex justify-between pr-4 bg-[#17345F] items-center text-center">
@@ -72,7 +72,7 @@ const Navbar = () => {
               <p className="text-lg font-bold">DigiHouse</p>
             </div>
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col cursor-pointer">
             <ScrollLink
               to="heroSection"
               smooth={true}
@@ -81,7 +81,7 @@ const Navbar = () => {
                 toggleMobileMenu();
               }}
             >
-              <p className="block hover:text-[#455D7F] p-4">Beranda</p>
+              <p id="beranda" className="block hover:text-[#455D7F] p-4">Beranda</p>
             </ScrollLink>
 
             <ScrollLink
@@ -92,17 +92,17 @@ const Navbar = () => {
                 toggleMobileMenu();
               }}
             >
-              <p className="block hover:text-[#455D7F] p-4">Tentang</p>
+              <p id="tentang" className="block hover:text-[#455D7F] p-4">Tentang</p>
             </ScrollLink>
             <ScrollLink
-              to="faq"
+              to="Faq"
               smooth={true}
               duration={500}
               onClick={() => {
                 toggleMobileMenu();
               }}
             >
-              <p className="block hover:text-[#455D7F] p-4">FAQ</p>
+              <p id="faq" className="block hover:text-[#455D7F] p-4">FAQ</p>
             </ScrollLink>
             <ScrollLink
              to="contactUs"
@@ -111,10 +111,10 @@ const Navbar = () => {
              onClick={() => {
                toggleMobileMenu();
              }}>
-              <p className="block hover:text-[#455D7F] p-4">Kontak</p>
+              <p id="kontak" className="block hover:text-[#455D7F] p-4">Kontak</p>
             </ScrollLink>
           </div>
-          <button className="block bg-[#17345F] text-white font-bold p-4 w-full hover:bg-[#455D7F] rounded-b-md">
+          <button id="download-sekarang" className="block bg-[#17345F] text-white font-bold p-4 w-full hover:bg-[#455D7F] rounded-b-md">
             Download Sekarang
           </button>
         </div>
