@@ -28,10 +28,10 @@ const Detail = ({luasTanah, luasBangunan, status, noTelpon, namaPemilik, longitu
           <div className='flex justify-end   '>
           <button
             className={`${
-              status === "tersewa"
+              status === "tidak tersedia"
                 ? "bg-[#FF3B3B]"
                 : "bg-[#06C270]"
-            } rounded-md p-1 px-2 text-sm text-[#E8EBEF] font-regular`}
+            } rounded-md p-1 px-2 w-[100px] text-sm text-[#E8EBEF] font-regular`}
             >
               {status}
             </button>
