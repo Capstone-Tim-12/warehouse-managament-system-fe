@@ -8,7 +8,7 @@ import IconNoPemilik from '../../assets/icon-no-pemilik.svg'
 import IconSkemaPembayaran from '../../assets/icon-skema-pembayaran.svg'
 import IconKoordinatGudang from '../../assets/icon-koordinat-gudang.svg'
 
-const Detail = ({luasTanah, luasBangunan, status, noTelpon, namaPemilik, longitude, latitude}) => {
+const Detail = ({luasTanah, luasBangunan, status, noTelpon, namaPemilik, longitude, latitude, harga}) => {
   return (
     <>
     <div className='flex justify-between h-full sm:w-1/2  '>
@@ -24,10 +24,17 @@ const Detail = ({luasTanah, luasBangunan, status, noTelpon, namaPemilik, longitu
         <div className='grid grid-rows-4 gap-y-4 text-end '>
           <span>{luasTanah} m<sup>2</sup></span>
           <span>{luasBangunan} m<sup>2</sup></span>
-          <span className=''>Rp10.000.000,00</span>
+          <span className=''>{harga}</span>
           <div className='flex justify-end   '>
-          <div className=' bg-crusta-300 rounded-lg text-cloud-burst-500 border-[#79747E] border-2 font-semibold   '>
-            <span className='p-3  '>{status}</span></div>
+          <button
+            className={`${
+              status === "tersewa"
+                ? "bg-[#FF3B3B]"
+                : "bg-[#06C270]"
+            } rounded-md p-1 px-2 text-sm text-[#E8EBEF] font-regular`}
+            >
+              {status}
+            </button>
           </div>
         </div>
 

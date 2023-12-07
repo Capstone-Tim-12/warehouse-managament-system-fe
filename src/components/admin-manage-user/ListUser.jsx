@@ -20,32 +20,38 @@ const ListUser = () => {
     const [totalPages, setTotalPages] = useState(1);
     const [searchQuery, setSearchQuery] = useState("");
 
-  const handleDataUser = (page) => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
+    const handleDataUser = (page) => {
+      const token = Cookies.get("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+      
+      axios
+        .get(
+          `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/user/list?limit=10&page=${page}&search=${searchQuery}`,
+          { headers }
+        )
+        .then((response) => {
+          console.log('API Response:', response)
+          setDataUser(response?.data?.data)
+          setTotalPages(response?.data?.pagination?.totalPage)
+          console.log('Total Pages:', response?.data?.pagination?.totalPage)
+          console.log('Current Page:', page)
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     };
-    axios
-      .get(
-        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/user/list?page=${page}&limit=10&search=${searchQuery}`,
-        { headers }
-      )
-      .then((response) => {
-        setDataUser(response?.data?.data);
-        setTotalPages(response?.data?.pagination?.totalPage || 1);
-        // console.log(response?.data?.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+    
 
+  
   useEffect(()=> {
     handleDataUser()
   },[])
 
 
   const handlePageChange = (newPage) => {
+    console.log('New Page:', newPage)
     setCurrentPage(newPage);
     handleDataUser(newPage);
   };
@@ -62,7 +68,8 @@ const ListUser = () => {
   }, [searchQuery]);
 
 
-
+  
+  
   return (
     <>
          <div className='grid grid-cols-2'>
@@ -150,9 +157,9 @@ const ListUser = () => {
                 
                 {/* component pagination */}
                 <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
-                <img src={arrowBack} alt="" onClick={() => handlePageChange(currentPage - 1)} />
+                <img src={arrowBack} alt="" onClick={() => handlePageChange(currentPage - 1)} className={currentPage === 1 ? 'hidden' : 'inline-block'} />
                 <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
-                <img src={arrowNext} alt="" onClick={() => handlePageChange(currentPage + 1)}  />
+                <img src={arrowNext} alt="" onClick={() => handlePageChange(currentPage  + 1)} className={currentPage === totalPages  ? 'hidden' : 'inline-block'} />
                 </div>
                 {/* end component pagination */}
     </>

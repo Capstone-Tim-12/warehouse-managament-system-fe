@@ -39,7 +39,8 @@ const DetailUser = () => {
         <div className='container sm:p-5 py-5 px-1 '>
           {item? (
           <TopDetailUser
-          username={item.username} />
+          username={item.username}
+          photo={item.photo} />
         
           ) : (<p>Loading...</p>)}
           

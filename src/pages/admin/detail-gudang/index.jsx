@@ -78,11 +78,9 @@ const DetailGudang = () => {
                   <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold mb-2.5">Foto</h2>
                   <hr className="border-solid" />
                   <div className='flex lg:flex gap-2 sm:ml-5 md:grid md:grid-rows-2 md:grid-flow-col '>
-                    <img src={item.image[0]} alt="" />
-                    <Foto FotoDetail={Foto1}/>
-                    <Foto FotoDetail={Foto2}/>
-                    <Foto FotoDetail={Foto3}/>
-                    <Foto FotoDetail={Foto4}/>
+                    <Foto FotoDetail={item.image[0]}/>
+                    <Foto FotoDetail={item.image[1]}/>
+                    <Foto FotoDetail={item.image[2]}/>
                   </div>
 
                 </div>
@@ -103,6 +101,7 @@ const DetailGudang = () => {
                     noTelpon={item.phoneNumber}
                     longitude={item.longitude}
                     latitude={item.latitude}
+                    harga={item?.annualPrice}
                     />
                   
                   </div>
