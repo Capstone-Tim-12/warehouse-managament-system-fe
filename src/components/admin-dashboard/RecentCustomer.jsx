@@ -35,11 +35,10 @@ const RecentCustomer = () => {
   return (
     <div className="bg-white rounded-[8px] p-3">
       <h3 className="text-[20px] font-bold">Recent Customer</h3>
-
       {loading ? (
         <p className="text-xl py-5">Memuat data...</p>
       ) : (
-        <div className="  flex flex-col gap-5">
+        <div className="  flex flex-col gap-5 my-2">
           {recentCustomer.slice(0, 4).map((item) => {
             return (
               <div
