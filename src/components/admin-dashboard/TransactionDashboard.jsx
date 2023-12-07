@@ -3,9 +3,12 @@ import rightArrowIcon from "../../assets/right-arrow.svg";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const TransactionDashboard = () => {
   const [transactionData, setTransactionData] = useState([]);
+
+  const navigate = useNavigate();
 
   const fetchTransaction = () => {
     const token = Cookies.get("token");
@@ -57,15 +60,11 @@ const TransactionDashboard = () => {
         <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
           <thead>
             <tr className="bg-gray-100">
-              <th className="py-2 px-4 border-b text-start">ID User</th>
-              <th className="py-2 px-4 border-b text-start">
-                Tanggal Transaksi
-              </th>
-              <th className="py-2 px-4 border-b text-start">
-                Nama Skema Pembayaran
-              </th>
-              <th className="py-2 px-4 border-b text-start">Username</th>
-              <th className="py-2 px-4 border-b text-start">Nominal</th>
+              <th className="py-2 px-4 border-b text-start">Kode Transaksi</th>
+              <th className="py-2 px-4 border-b text-start">Waktu Transaksi</th>
+              <th className="py-2 px-4 border-b text-start">Jenis Transaksi</th>
+              <th className="py-2 px-4 border-b text-start">Nama Pemesan</th>
+              <th className="py-2 px-4 border-b text-start">Jumlah Tagihan</th>
             </tr>
           </thead>
           <tbody>
@@ -84,7 +83,12 @@ const TransactionDashboard = () => {
             ))}
           </tbody>
         </table>
-        <button className="flex items-center gap-5 mt-3">
+        <button
+          className="flex items-center gap-5 mt-3"
+          onClick={() => {
+            navigate("/admin/all-transactions");
+          }}
+        >
           Lihat Selengkapnya
           <img src={rightArrowIcon} alt="right arrow" />
         </button>
