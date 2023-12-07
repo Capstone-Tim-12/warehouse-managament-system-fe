@@ -10,19 +10,6 @@ const TopBar = ({ title }) => {
           {title}
         </h2>
         <div className=" flex items-center gap-8">
-          <form
-            className="relative bg-white rounded-[28px] flex items-center"
-            // onSubmit={(e) => e.preventDefault()}
-          >
-            <input
-              type="text"
-              placeholder="Pencarian"
-              className="w-[180px] md:w-[300px]  focus:outline-none py-3 px-3 rounded-[28px]  "
-            />
-            <button className="  pr-3  ">
-              <img src={searchIcon} alt="search" />
-            </button>
-          </form>
           <div className="flex items-center gap-1 lg:gap-6">
             <Link>
               <img src={notificationIcon} alt="notification icon" />

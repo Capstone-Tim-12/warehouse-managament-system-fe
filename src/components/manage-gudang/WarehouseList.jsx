@@ -1,86 +1,89 @@
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import Cookies from "js-cookie";
+
 import searchIcon from "../../assets/search-icon.svg";
 import plusIcon from "../../assets/plus-Icons.svg";
 import deleteWhiteIcon from "../../assets/delete(white)-Icons.svg";
-import deleteOrangeIcon from "../../assets/delete(orange)-Icons.svg";
-import editIcon from "../../assets/edit-Icons.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import arrowTopDown from "../../assets/arrow-top-down-icons.svg";
+import dropDownIcon from "../../assets/icon-dropdown.svg";
+import moreIcon from "../../assets/icon-more.svg";
+import { useEffect, useState } from "react";
 
 const WarehouseList = () => {
-  const dataWarehouse = [
-    {
-      id: 1,
-      Name: "Warehouse Abadi",
-      Lokasi: "Jakarta Barat",
-      Harga: "Rp 10.000.000.00",
-      Ukuran: "1200m",
-      Status: "Tersedia",
-    },
-    {
-      id: 2,
-      Name: "Mega Stroage Center",
-      Lokasi: "Jakarta Barat",
-      Harga: "Rp 40.000.000.00",
-      Ukuran: "1000m",
-      Status: "Tersedia",
-    },
-    {
-      id: 3,
-      Name: "Harmoni Warehouse",
-      Lokasi: "Jakarta Barat",
-      Harga: "Rp 80.000.000.00",
-      Ukuran: "2000m",
-      Status: "Tersedia",
-    },
-    {
-      id: 4,
-      Name: "Jaya Baya",
-      Lokasi: "Jakarta Timur",
-      Harga: "Rp 16.000.000.00",
-      Ukuran: "500m",
-      Status: "Tersedia",
-    },
-    {
-      id: 5,
-      Name: "Amanah Warehouse",
-      Lokasi: "Jakarta Barat",
-      Harga: "Rp 60.000.000.00",
-      Ukuran: "1500m",
-      Status: "Tersedia",
-    },
-    {
-      id: 6,
-      Name: "Adimental Group",
-      Lokasi: "Jakarta Selatan",
-      Harga: "Rp 28.000.000.00",
-      Ukuran: "550m",
-      Status: "Tersedia",
-    },
-    {
-      id: 7,
-      Name: "Gudang Idaman",
-      Lokasi: "Jakarta Timut",
-      Harga: "Rp 30.000.000.00",
-      Ukuran: "620m",
-      Status: "Tersedia",
-    },
-    {
-      id: 8,
-      Name: "Arum Warehouse",
-      Lokasi: "Depok",
-      Harga: "Rp 44.000.000.00",
-      Ukuran: "1000m",
-      Status: "Tersedia",
-    },
-    {
-      id: 9,
-      Name: "Gudang Gula Merah",
-      Lokasi: "Tanggerang",
-      Harga: "Rp 45.000.000.00",
-      Ukuran: "700m",
-      Status: "Tersedia",
-    },
-  ];
+  const navigate = useNavigate();
+  const [openDropDown, setOpenDropDown] = useState(null);
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectId, setSelectId] = useState([]);
+  const [dataWarehouse, setDataWarehouse] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+
+  const handleDataWarehouse = (page) => {
+    setLoading(true);
+
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .get(
+        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=${page}&limit=10&search=${searchQuery}`,
+        { headers }
+      )
+      .then((response) => {
+        setDataWarehouse(response?.data?.data);
+        setTotalPages(response?.data?.pagination?.totalPage || 1);
+        setLoading(false);
+        // console.log(response?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    handleDataWarehouse(newPage);
+  };
+
+  const handleSearch = () => {
+    handleDataWarehouse();
+  };
+
+  useEffect(() => {
+    handleDataWarehouse();
+  }, []);
+
+  useEffect(() => {
+    if (searchQuery === "") {
+      handleDataWarehouse();
+    }
+  }, [searchQuery]);
+
+  const handleDropDown = (index) => {
+    setOpenDropDown(openDropDown === index ? null : index);
+  };
+
+  const handleSelectAllCheckBox = () => {
+    setSelectAll(!selectAll);
+    setSelectId(selectAll ? [] : dataWarehouse.map((item) => item.id));
+  };
+
+  const handleSelectIdCheckBox = (id) => {
+    setSelectId((prevId) => {
+      if (prevId.includes(id)) {
+        return prevId.filter((prevId) => prevId !== id);
+      } else {
+        return [...prevId, id];
+      }
+    });
+  };
 
   return (
     <div>
@@ -91,82 +94,202 @@ const WarehouseList = () => {
           </h2>
         </div>
         <div className="flex gap-x-3">
-          <button className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ">
+          <button
+            id="addWarehouse"
+            onClick={() => navigate("/admin/edit-warehouse")}
+            className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
+          >
             <img src={plusIcon} />
             <p className="hidden md:block">Tambah Gudang</p>
           </button>
-          <button className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ">
+          <button
+            id="deleteWarehouse"
+            className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
+          >
             <img src={deleteWhiteIcon} />
             <p className="hidden md:block">Hapus Gudang</p>
           </button>
           <form
             className="relative rounded-[28px] flex items-center"
-            // onSubmit={(e) => e.preventDefault()}
+            onSubmit={(e) => e.preventDefault()}
           >
             <button className="absolute pl-3">
-              <img src={searchIcon} alt="search" />
+              <img
+                onClick={() => handleDataWarehouse(currentPage)}
+                src={searchIcon}
+                alt="search"
+              />
             </button>
             <input
+              id="input-search"
               type="text"
               placeholder="Search"
-              className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  "
+              value={searchQuery}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e.target.value);
+                }
+              }}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none focus:ring-0 py-3 px-9 rounded-[10px]  "
             />
           </form>
         </div>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="ml-4 md:ml-10 md:table">
+        <table
+          className={`ml-4 md:ml-10 w-max md:w-[93.2%] ${
+            openDropDown === 9 ? "mb-[90px]" : ""
+          } ${openDropDown === 8 ? "mb-[20px]" : ""} ${
+            searchQuery ? "mb-[90px]" : ""
+          }`}
+        >
           <thead>
-            <tr className="gap-x-24 text-cloud-burst-500">
-              <th className="pb-2 pr-[12px] md:pr-6">
-                <input type="checkbox" />
+            <tr className="text-cloud-burst-500 text-center md:text-left border-b-2">
+              <th className="relative pb-5 md:pr-6">
+                <input
+                  className="absolute left-0 focus:outline-none focus:ring-0 border-slate-700 border-2 rounded-sm"
+                  checked={selectAll}
+                  onChange={handleSelectAllCheckBox}
+                  type="checkbox"
+                />
               </th>
-              <th className="pb-2 pr-[12px] md:pr-6">No. </th>
-              <th className="pb-2 pr-[12px] md:pr-24">Nama Warehouse</th>
-              <th className="pb-2 pr-[12px] md:pr-24">Lokasi</th>
-              <th className="pb-2 pr-[1px] md:pr-8">Ukuran</th>
-              <th className="pb-2 pr-[12px] md:pr-24">Harga</th>
-              <th>Status</th>
+              <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
+              <th className="pb-2 pr-[160px] md:pr-26">Nama Warehouse</th>
+              <th className="pb-2 pr-[90px] md:pr-24">Lokasi</th>
+              <th className="cursor-pointer relative pb-2 pr-6 md:pr-8">
+                Ukuran
+                <img
+                  className="absolute right-0 md:left-[55px] bottom-[6px] md:bottom-1.5"
+                  src={arrowTopDown}
+                />
+              </th>
+              <th className="cursor-pointer relative pb-2 pl-4 pr-[12px] md:pr-24">
+                Harga
+                <img
+                  className="absolute right-[15px] md:left-[61px] bottom-[6px] md:bottom-1.5"
+                  src={arrowTopDown}
+                />
+              </th>
+              <th className="cursor-pointer relative pr-5">
+                Status
+                <img
+                  className="absolute left-16 md:left-[50px] bottom-[4px] md:bottom-1"
+                  src={dropDownIcon}
+                />
+              </th>
             </tr>
           </thead>
-          <tbody>
-            {dataWarehouse.map((item) => (
-              <tr className="h-16 divide-y align-bottom text-cloud-burst-500">
-                <td className="pb-2">
-                  <input type="checkbox" />
-                </td>
-                <td className="pb-2">{item?.id}</td>
-                <td className="pb-2">{item?.Name}</td>
-                <td className="pb-2">{item?.Lokasi}</td>
-                <td className="pb-2">{item?.Ukuran}</td>
-                <td className="pb-2 pl-9 md:pl-0">{item?.Harga}</td>
-                <td className="pb-2 px-4 md:px-0">
-                  <button className="bg-[#FFD5C0] rounded-md p-1 px-2 text-sm text-[#17345F] border border-[#79747E] font-regular">
-                    {item?.Status}
-                  </button>
-                </td>
-                <td className="px-0 md:px-5 pb-2">
-                  <button className="flex items-center">
-                    <img className="pr-1" src={deleteOrangeIcon} />
-                    <p className="hidden md:block">Hapus</p>
-                  </button>
-                </td>
-                <td className="pb-2">
-                  <button className="flex items-center">
-                    <img className="pr-1" src={editIcon} />
-                    <p className="hidden md:block">Ubah</p>
-                  </button>
-                </td>
+          {loading ? (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-2 text-slate-500 font-semibold">
+                Memuat data...
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) : dataWarehouse && dataWarehouse.length > 0 ? (
+            <tbody>
+              {dataWarehouse &&
+                dataWarehouse.map((item, index) => {
+                  const userNumber = (currentPage - 1) * 10 + index + 1;
+                  return (
+                    <tr
+                      key={index}
+                      className="h-[70px] border-b align-bottom text-cloud-burst-500"
+                    >
+                      <td className="pb-2">
+                        <input
+                          onChange={() => handleSelectIdCheckBox(item.id)}
+                          type="checkbox"
+                          checked={selectId.includes(item.id)}
+                          className="focus:ring-0 border-slate-700 border-2 rounded-sm"
+                        />
+                      </td>
+                      <td className="pb-2 pl-[12px] ">{userNumber}</td>
+                      <td
+                        className="pb-2 cursor-pointer"
+                        onClick={() =>
+                          navigate(`/admin/detail-gudang/${item.id}`, {
+                            state: { id: item.id },
+                          })
+                        }
+                      >
+                        {item?.name}
+                      </td>
+                      <td className="pb-2">{item?.provinceName}</td>
+                      <td className="pb-2">{item?.buildingArea}</td>
+                      <td className="pb-2 pl-9 md:pl-0">{item?.annualPrice}</td>
+                      <td className="pb-2 px-4 md:px-0">
+                        <button
+                          className={`${
+                            item?.status === "tidak tersedia"
+                              ? "bg-[#FF3B3B]"
+                              : "bg-[#06C270]"
+                          } ${
+                            item?.status === "pending"
+                              ? "bg-[#EABC03]"
+                              : "bg-[#06C270]"
+                          } rounded-md p-1 px-2 w-[100px] text-sm text-[#E8EBEF] font-regular`}
+                        >
+                          {item?.status}
+                        </button>
+                      </td>
+                      <td
+                        className={`md:w-[182px] relative ${
+                          openDropDown ? "w-[182px]" : "pr-5"
+                        }`}
+                      >
+                        <button className="px-0 md:px-5 pb-2">
+                          <img
+                            onClick={() => handleDropDown(index)}
+                            src={moreIcon}
+                          />
+                        </button>
+                        <td
+                          className={`absolute left-1 md:left-3 top-[60px] z-50 px-5 py-4 rounded-md shadow-md shadow-gray-500 bg-[#F2F2F5] font-semibold ${
+                            openDropDown === index ? "block" : "hidden"
+                          }`}
+                        >
+                          <div>
+                            <p className="cursor-pointer mb-4">Hapus Gudang</p>
+                            <p
+                              onClick={() => navigate("/admin/edit-warehouse")}
+                              className="cursor-pointer"
+                            >
+                              Edit Gudang
+                            </p>
+                          </div>
+                        </td>
+                      </td>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          ) : (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
+                Tidak Ada Warehouse Terdaftar
+              </tr>
+            </tbody>
+          )}
         </table>
       </div>
-      <div className="flex justify-end items-center gap-x-3 my-8 mr-6">
-        <img src={arrowBack} alt="" />
-        <p className="text-[#17345F] font-semibold">Halaman 1</p>
-        <img src={arrowNext} alt="" />
+      <div
+        className={`flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6 ${
+          searchQuery || loading ? "hidden" : ""
+        }`}
+      >
+        <img
+          src={arrowBack}
+          className="cursor-pointer"
+          onClick={() => handlePageChange(currentPage - 1)}
+        />
+        <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
+        <img
+          src={arrowNext}
+          className="cursor-pointer"
+          onClick={() => handlePageChange(currentPage + 1)}
+        />
       </div>
     </div>
   );
