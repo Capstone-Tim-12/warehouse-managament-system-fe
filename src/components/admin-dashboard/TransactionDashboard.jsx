@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 const TransactionDashboard = () => {
   const [transactionData, setTransactionData] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -30,10 +31,11 @@ const TransactionDashboard = () => {
           transactionDate: formatDate(item.transactionDate),
         }));
         setTransactionData(formattedData);
-        console.log(formattedData);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
@@ -57,32 +59,46 @@ const TransactionDashboard = () => {
     <>
       <div className="mx-3 bg-white p-3 w-max md:w-auto">
         <h4 className="text-2xl font-bold mb-4">Transaction</h4>
-        <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
-          <thead>
-            <tr className="bg-gray-100">
-              <th className="py-2 px-4 border-b text-start">Kode Transaksi</th>
-              <th className="py-2 px-4 border-b text-start">Waktu Transaksi</th>
-              <th className="py-2 px-4 border-b text-start">Jenis Transaksi</th>
-              <th className="py-2 px-4 border-b text-start">Nama Pemesan</th>
-              <th className="py-2 px-4 border-b text-start">Jumlah Tagihan</th>
-            </tr>
-          </thead>
-          <tbody>
-            {transactionData.map((item) => (
-              <tr key={item.userId} className="border-b">
-                <td className="py-2 px-4">{item.userId}</td>
-                <td className="py-2 px-4">{item.transactionDate}</td>
-                <td className="py-2 px-4">
-                  {capitalizeFirstLetter(item.paymentSchemeName)}
-                </td>
-                <td className="py-2 px-4">
-                  {capitalizeFirstLetter(item.username)}
-                </td>
-                <td className="py-2 px-4">{item.nominal}</td>
+
+        {loading ? (
+          <p className="text-xl py-5">Memuat data...</p>
+        ) : (
+          <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="py-2 px-4 border-b text-start">
+                  Kode Transaksi
+                </th>
+                <th className="py-2 px-4 border-b text-start">
+                  Waktu Transaksi
+                </th>
+                <th className="py-2 px-4 border-b text-start">
+                  Jenis Transaksi
+                </th>
+                <th className="py-2 px-4 border-b text-start">Nama Pemesan</th>
+                <th className="py-2 px-4 border-b text-start">
+                  Jumlah Tagihan
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {transactionData.map((item) => (
+                <tr key={item.userId} className="border-b">
+                  <td className="py-2 px-4">{item.userId}</td>
+                  <td className="py-2 px-4">{item.transactionDate}</td>
+                  <td className="py-2 px-4">
+                    {capitalizeFirstLetter(item.paymentSchemeName)}
+                  </td>
+                  <td className="py-2 px-4">
+                    {capitalizeFirstLetter(item.username)}
+                  </td>
+                  <td className="py-2 px-4">{item.nominal}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
         <button
           className="flex items-center gap-5 mt-3"
           onClick={() => {
