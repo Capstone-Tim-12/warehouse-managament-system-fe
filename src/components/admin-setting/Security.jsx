@@ -25,7 +25,7 @@ const Security = () => {
                             name='email'
                             value={account.email}
                             onChange={handleChange}
-                            className="focus:outline-none border border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
+                            className="focus:outline-none border focus:ring-0 border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
                             placeholder="Email" />
                         <span className='absolute left-0 transition duration-200 label-input'>Email</span>
                     </label>
@@ -43,7 +43,7 @@ const Security = () => {
                             value={account.password}
                             id='inpt-setting-secure-password'
                             onChange={handleChange}
-                            className="focus:outline-none"
+                            className="focus:outline-none border focus:ring-0 border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
                             placeholder="" />
                         <span className='absolute left-0 transition duration-200 label-input'>Password</span>
                     </label>
