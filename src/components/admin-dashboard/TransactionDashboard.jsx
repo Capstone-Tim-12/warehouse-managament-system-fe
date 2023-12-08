@@ -100,6 +100,7 @@ const TransactionDashboard = () => {
         )}
 
         <button
+          id="see-more-transaction"
           className="flex items-center gap-5 mt-3"
           onClick={() => {
             navigate("/admin/all-transactions");
