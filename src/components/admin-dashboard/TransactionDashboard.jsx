@@ -19,7 +19,7 @@ const TransactionDashboard = () => {
 
     axios
       .get(
-        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/home/trx-history?page=1&limit=10",
+        "https://digiwarehouse-app.onrender.com/dasboard/home/trx-history?page=1&limit=10",
         { headers }
       )
       .then((response) => {
