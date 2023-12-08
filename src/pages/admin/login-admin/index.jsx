@@ -9,6 +9,7 @@ import Icon3 from "../../../assets/icon3-login-admin.svg";
 import Icon4 from "../../../assets/icon4-login-admin.svg";
 import Icon5 from "../../../assets/icon5-login-admin.svg";
 import Icon6 from "../../../assets/icon6-login-admin.svg";
+import Eye from "../../../assets/eye-icon.svg";
 
 function LoginForm() {
   const [usernameFocused, setUsernameFocused] = useState(false);
@@ -17,6 +18,7 @@ function LoginForm() {
   const [password, setPassword] = useState("");
   const [emailError, setEmailError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [errorInvalid, setErrorInvalid] = useState("");
   const navigate = useNavigate();
 
@@ -35,6 +37,15 @@ function LoginForm() {
   const handlePasswordBlur = () => {
     setPasswordFocused(false);
   };
+  
+    const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
 
   const validateEmail = () => {
     if (!email) {
@@ -158,7 +169,7 @@ function LoginForm() {
             </p>
           </label>
           <input
-            type="password"
+            type={showPassword ? 'text' : 'password'}
             id="password"
             name="password"
             value={password}
@@ -170,10 +181,24 @@ function LoginForm() {
             onChange={(e) => {
               setPassword(e.target.value);
               validatePassword();
+              handlePasswordChange()
             }}
           />
+          {password && (
+            <div
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              <img
+                src={Eye}
+                alt="Toggle Password Visibility"
+                className="w-5 h-5"
+              />
+            </div>
+          )}
           {passwordError && <p className="text-red-400">{passwordError}</p>}
           {errorInvalid && <p className="text-red-400">{errorInvalid}</p>}
+
         </div>
 
         <div className="flex justify-between">
