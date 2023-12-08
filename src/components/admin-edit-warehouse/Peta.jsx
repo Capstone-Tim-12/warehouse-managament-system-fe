@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import IconDelete from '../../assets/icon-delete.svg'; 
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
@@ -9,6 +9,8 @@ const Peta = () => {
   const [position, setPosition] = useState(JakartaCoordinates);
   const [longitude, setLongitude] = useState(JakartaCoordinates[1].toString());
   const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
+
+  const mapRef = useRef(null);
 
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
@@ -40,9 +42,16 @@ const Peta = () => {
     setLatitude(JakartaCoordinates[0].toString());
   };
 
+  useEffect(() =>{
+    if (mapRef.current) {
+      mapRef.current.setView(position, 13);
+    }
+  }, [position]);
+
   return (
     <div>
       <MapContainer
+        ref={mapRef}
         center={position}
         zoom={13}
         style={{ height: "360px", width: "100%" }}
