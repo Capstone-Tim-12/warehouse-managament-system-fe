@@ -41,7 +41,7 @@ const RecentCustomer = () => {
         <p className="text-xl py-5">Memuat data...</p>
       ) : (
         <div className="  flex flex-col gap-5 my-2">
-          {recentCustomer.slice(0, 4).map((item) => {
+          {recentCustomer.slice(0, 3).map((item) => {
             return (
               <div
                 className=" bg-cloud-burst-200 w-full h-auto p-3 rounded-[12px] flex items-center gap-4 border border-black"
