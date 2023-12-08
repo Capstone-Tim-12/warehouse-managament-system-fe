@@ -19,30 +19,37 @@ const WarehouseList = () => {
   const [selectId, setSelectId] = useState([]);
   const [dataWarehouse, setDataWarehouse] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
-  const handleDataWarehouse = () => {
+  const handleDataWarehouse = (page) => {
+    setLoading(true);
+
     const token = Cookies.get("token");
     const headers = {
       Authorization: `Bearer ${token}`,
     };
     axios
       .get(
-        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=1&limit=10&search=${searchQuery}`,
+        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=${page}&limit=10&search=${searchQuery}`,
         { headers }
       )
       .then((response) => {
         setDataWarehouse(response?.data?.data);
-        console.log(response?.data?.data);
+        setTotalPages(response?.data?.pagination?.totalPage || 1);
+        setLoading(false);
+        // console.log(response?.data);
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
       });
   };
 
-  const handleSearchQuery = (e) => {
-    const value = e.target.value;
-    setSearchQuery(value);
-    handleDataWarehouse();
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    handleDataWarehouse(newPage);
   };
 
   const handleSearch = () => {
@@ -59,8 +66,8 @@ const WarehouseList = () => {
     }
   }, [searchQuery]);
 
-  const handleDropDown = (id) => {
-    setOpenDropDown(openDropDown === id ? null : id);
+  const handleDropDown = (index) => {
+    setOpenDropDown(openDropDown === index ? null : index);
   };
 
   const handleSelectAllCheckBox = () => {
@@ -108,17 +115,22 @@ const WarehouseList = () => {
           >
             <button className="absolute pl-3">
               <img
-                // onClick={handleSearch}
+                onClick={() => handleDataWarehouse(currentPage)}
                 src={searchIcon}
                 alt="search"
               />
             </button>
             <input
+              id="input-search"
               type="text"
               placeholder="Search"
               value={searchQuery}
-              onChange={handleSearchQuery}
-              // onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e.target.value);
+                }
+              }}
+              onChange={(e) => setSearchQuery(e.target.value)}
               className="w-[220px] sm:w-[380px] md:w-[410px] border border-[#D1D1D6] focus:outline-none focus:ring-0 py-3 px-9 rounded-[10px]  "
             />
           </form>
@@ -126,7 +138,13 @@ const WarehouseList = () => {
       </div>
 
       <div className="overflow-x-auto">
-        <table className={`ml-4 md:ml-10 w-max md:w-[93.2%]`}>
+        <table
+          className={`ml-4 md:ml-10 w-max md:w-[93.2%] ${
+            openDropDown === 9 ? "mb-[90px]" : ""
+          } ${openDropDown === 8 ? "mb-[20px]" : ""} ${
+            searchQuery ? "mb-[90px]" : ""
+          }`}
+        >
           <thead>
             <tr className="text-cloud-burst-500 text-center md:text-left border-b-2">
               <th className="relative pb-5 md:pr-6">
@@ -163,84 +181,115 @@ const WarehouseList = () => {
               </th>
             </tr>
           </thead>
-          <tbody>
-            {dataWarehouse &&
-              dataWarehouse.map((item, index) => {
-                return (
-                  <tr
-                    key={index}
-                    className="h-[70px] border-b align-bottom text-cloud-burst-500"
-                  >
-                    <td className="pb-2">
-                      <input
-                        onChange={() => handleSelectIdCheckBox(item.id)}
-                        type="checkbox"
-                        checked={selectId.includes(item.id)}
-                        className="focus:ring-0 border-slate-700 border-2 rounded-sm"
-                      />
-                    </td>
-                    <td className="pb-2 pl-[12px] ">{item?.id}</td>
-                    <td
-                      className="pb-2"
-                      onClick={() =>
-                        navigate(`/admin/detail-gudang/${item.id}`, {
-                          state: { id: item.id },
-                        })
-                      }
+          {loading ? (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-2 text-slate-500 font-semibold">
+                <p className="text-[24px] mt-2">Memuat data...</p>
+              </tr>
+            </tbody>
+          ) : dataWarehouse && dataWarehouse.length > 0 ? (
+            <tbody>
+              {dataWarehouse &&
+                dataWarehouse.map((item, index) => {
+                  const userNumber = (currentPage - 1) * 10 + index + 1;
+                  return (
+                    <tr
+                      key={index}
+                      className="h-[70px] border-b align-bottom text-cloud-burst-500"
                     >
-                      {item?.name}
-                    </td>
-                    <td className="pb-2">{item?.provinceName}</td>
-                    <td className="pb-2">{item?.buildingArea}</td>
-                    <td className="pb-2 pl-9 md:pl-0">{item?.annualPrice}</td>
-                    <td className="pb-2 px-4 md:px-0">
-                      <button
-                        className={`${
-                          item?.status === "tersewa"
-                            ? "bg-[#FF3B3B]"
-                            : "bg-[#06C270]"
-                        } rounded-md p-1 px-2 text-sm text-[#E8EBEF] font-regular`}
-                      >
-                        {item?.status}
-                      </button>
-                    </td>
-                    <td
-                      className={`md:w-[182px] relative ${
-                        openDropDown ? "w-[182px]" : "pr-5"
-                      }`}
-                    >
-                      <button className="px-0 md:px-5 pb-2">
-                        <img
-                          onClick={() => handleDropDown(item.id)}
-                          src={moreIcon}
+                      <td className="pb-2">
+                        <input
+                          onChange={() => handleSelectIdCheckBox(item.id)}
+                          type="checkbox"
+                          checked={selectId.includes(item.id)}
+                          className="focus:ring-0 border-slate-700 border-2 rounded-sm"
                         />
-                      </button>
+                      </td>
+                      <td className="pb-2 pl-[12px] ">{userNumber}</td>
                       <td
-                        className={`absolute left-1 md:left-3 top-[60px] z-50 px-3 py-4 rounded-md shadow-md shadow-gray-500 bg-[#F2F2F5] font-semibold ${
-                          openDropDown === item.id ? "block" : "hidden"
+                        className="pb-2 cursor-pointer"
+                        onClick={() =>
+                          navigate(`/admin/detail-gudang/${item.id}`, {
+                            state: { id: item.id },
+                          })
+                        }
+                      >
+                        {item?.name}
+                      </td>
+                      <td className="pb-2">{item?.provinceName}</td>
+                      <td className="pb-2">{item?.buildingArea}</td>
+                      <td className="pb-2 pl-9 md:pl-0">{item?.annualPrice}</td>
+                      <td className="pb-2 px-4 md:px-0">
+                        <button
+                          className={`${
+                            item?.status === "tidak tersedia"
+                              ? "bg-[#FF3B3B]"
+                              : "bg-[#06C270]"
+                          } ${
+                            item?.status === "pending"
+                              ? "bg-[#EABC03]"
+                              : "bg-[#06C270]"
+                          } rounded-md p-1 px-2 w-[100px] text-sm text-[#E8EBEF] font-regular`}
+                        >
+                          {item?.status}
+                        </button>
+                      </td>
+                      <td
+                        className={`md:w-[182px] relative ${
+                          openDropDown ? "w-[182px]" : "pr-5"
                         }`}
                       >
-                        <div>
-                          <p className="cursor-pointer mb-4">Hapus Gudang</p>
-                          <p
-                            onClick={() => navigate("/admin/edit-warehouse")}
-                            className="cursor-pointer"
-                          >
-                            Tambahkan Gudang
-                          </p>
-                        </div>
+                        <button className="px-0 md:px-5 pb-2">
+                          <img
+                            onClick={() => handleDropDown(index)}
+                            src={moreIcon}
+                          />
+                        </button>
+                        <td
+                          className={`absolute left-1 md:left-3 top-[60px] z-50 px-5 py-4 rounded-md shadow-md shadow-gray-500 bg-[#F2F2F5] font-semibold ${
+                            openDropDown === index ? "block" : "hidden"
+                          }`}
+                        >
+                          <div>
+                            <p className="cursor-pointer mb-4">Hapus Gudang</p>
+                            <p
+                              onClick={() => navigate("/admin/edit-warehouse")}
+                              className="cursor-pointer"
+                            >
+                              Edit Gudang
+                            </p>
+                          </div>
+                        </td>
                       </td>
-                    </td>
-                  </tr>
-                );
-              })}
-          </tbody>
+                    </tr>
+                  );
+                })}
+            </tbody>
+          ) : (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
+                Tidak Ada Warehouse Terdaftar
+              </tr>
+            </tbody>
+          )}
         </table>
       </div>
-      <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
-        <img src={arrowBack} alt="" />
-        <p className="text-[#17345F] font-semibold">Halaman 1</p>
-        <img src={arrowNext} alt="" />
+      <div
+        className={`flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6 ${
+          searchQuery || loading ? "hidden" : ""
+        }`}
+      >
+        <img
+          src={arrowBack}
+          className="cursor-pointer"
+          onClick={() => handlePageChange(currentPage - 1)}
+        />
+        <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
+        <img
+          src={arrowNext}
+          className="cursor-pointer"
+          onClick={() => handlePageChange(currentPage + 1)}
+        />
       </div>
     </div>
   );

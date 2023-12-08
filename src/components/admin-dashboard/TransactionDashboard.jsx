@@ -1,94 +1,116 @@
 import arrowDownLeft from "../../assets/arrow-down-left.svg";
 import rightArrowIcon from "../../assets/right-arrow.svg";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const TransactionDashboard = () => {
+  const [transactionData, setTransactionData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const navigate = useNavigate();
+
+  const fetchTransaction = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    axios
+      .get(
+        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/home/trx-history?page=1&limit=10",
+        { headers }
+      )
+      .then((response) => {
+        const formattedData = response?.data?.data.map((item) => ({
+          ...item,
+          paymentSchemeName: capitalizeFirstLetter(item.paymentSchemeName),
+          username: capitalizeFirstLetter(item.username),
+          nominal: formatNominal(item.nominal),
+          transactionDate: formatDate(item.transactionDate),
+        }));
+        setTransactionData(formattedData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  const capitalizeFirstLetter = (str) => {
+    return str?.charAt(0).toUpperCase() + str?.slice(1);
+  };
+
+  const formatNominal = (value) => {
+    return value?.toLocaleString("id-ID");
+  };
+
+  const formatDate = (dateString) => {
+    return new Date(dateString).toLocaleDateString("id-ID");
+  };
+
+  useEffect(() => {
+    fetchTransaction();
+  }, []);
+
   return (
-    <div className="mx-3 bg-white p-3 w-max md:w-auto">
-      <h4 className="text-[20px] font-bold">Transaction</h4>
-      <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
-        <tbody>
-          <tr className="border-b border-gray-200">
-            <td className="py-3 px-4">
-              <div className="flex items-center">
-                <p className="text-indigo-600 font-bold">X</p>
-              </div>
-            </td>
-            <td className="py-3 px-4 text-gray-800 font-medium">
-              Miftaqul Fauzi to me
-            </td>
-            <td className="py-3 px-4">
-              <button className="bg-[#10b981] text-black px-6 py-2 rounded-full pointer-events-none">
-                Success
-              </button>
-            </td>
-            <td className="py-3 px-4 text-gray-800 font-medium">
-              Rp1.700.00,00
-            </td>
-            <td className="py-3 px-4">
-              <img
-                src={arrowDownLeft}
-                alt="arrow down left icon"
-                className="h-6 w-6"
-              />
-            </td>
-          </tr>
-          <tr className="border-b border-gray-200">
-            <td className="py-3 px-4">
-              <div className="flex items-center">
-                <p className="text-indigo-600 font-bold">X</p>
-              </div>
-            </td>
-            <td className="py-3 px-4 text-gray-800 font-medium">
-              Miftaqul Fauzi to me
-            </td>
-            <td className="py-3 px-4">
-              <button className="bg-[#10b981] text-black px-6 py-2 rounded-full pointer-events-none">
-                Success
-              </button>
-            </td>
-            <td className="py-3 px-4 text-gray-800 font-medium">
-              Rp1.700.00,00
-            </td>
-            <td className="py-3 px-4">
-              <img
-                src={arrowDownLeft}
-                alt="arrow down left icon"
-                className="h-6 w-6"
-              />
-            </td>
-          </tr>
-          <tr className="border-b border-gray-200">
-            <td className="py-3 px-4">
-              <div className="flex items-center">
-                <p className="text-indigo-600 font-bold">X</p>
-              </div>
-            </td>
-            <td className="py-3 px-4 text-gray-800 font-medium">
-              Miftaqul Fauzi to me
-            </td>
-            <td className="py-3 px-4">
-              <button className="bg-[#10b981] text-black px-6 py-2 rounded-full pointer-events-none">
-                Success
-              </button>
-            </td>
-            <td className="py-3 px-4 text-gray-800 font-medium">
-              Rp1.700.00,00
-            </td>
-            <td className="py-3 px-4">
-              <img
-                src={arrowDownLeft}
-                alt="arrow down left icon"
-                className="h-6 w-6"
-              />
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <button className="flex items-center gap-5 m-3">
-        See More
-        <img src={rightArrowIcon} alt="right arrow" />
-      </button>
-    </div>
+    <>
+      <div className="mx-3 bg-white p-3 w-max md:w-auto">
+        <h4 className="text-2xl font-bold mb-4">Transaction</h4>
+
+        {loading ? (
+          <p className="text-xl py-5">Memuat data...</p>
+        ) : (
+          <table className="min-w-full bg-white border border-gray-300 shadow-md rounded-lg overflow-hidden">
+            <thead>
+              <tr className="bg-gray-100">
+                <th className="py-2 px-4 border-b text-start">
+                  Kode Transaksi
+                </th>
+                <th className="py-2 px-4 border-b text-start">
+                  Waktu Transaksi
+                </th>
+                <th className="py-2 px-4 border-b text-start">
+                  Jenis Transaksi
+                </th>
+                <th className="py-2 px-4 border-b text-start">Nama Pemesan</th>
+                <th className="py-2 px-4 border-b text-start">
+                  Jumlah Tagihan
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {transactionData.map((item) => (
+                <tr key={item.userId} className="border-b">
+                  <td className="py-2 px-4">{item.userId}</td>
+                  <td className="py-2 px-4">{item.transactionDate}</td>
+                  <td className="py-2 px-4">
+                    {capitalizeFirstLetter(item.paymentSchemeName)}
+                  </td>
+                  <td className="py-2 px-4">
+                    {capitalizeFirstLetter(item.username)}
+                  </td>
+                  <td className="py-2 px-4">{item.nominal}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+
+        <button
+          className="flex items-center gap-5 mt-3"
+          onClick={() => {
+            navigate("/admin/all-transactions");
+          }}
+        >
+          Lihat Selengkapnya
+          <img src={rightArrowIcon} alt="right arrow" />
+        </button>
+      </div>
+    </>
   );
 };
+
 export default TransactionDashboard;

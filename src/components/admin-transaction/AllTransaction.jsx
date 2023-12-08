@@ -1,60 +1,48 @@
-import React from "react";
-import ArrowBack from "../../assets/arrow-back-left-Icons.svg"
-import ArrowNext from "../../assets/arrow-next-right-Icons.svg"
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import Cookies from "js-cookie";
+import ArrowBack from "../../assets/arrow-back-left-Icons.svg";
+import ArrowNext from "../../assets/arrow-next-right-Icons.svg";
 
 const TransactionList = () => {
-  const dataTransactions = [
-    {
-      id: "USE001",
-      Waktu: "2023-09-11",
-      Jenis: "Bulanan",
-      Nama: "Sucipto",
-      Jumlah: "12.000.000.00",
-    },
-    {
-      id: "USE002",
-      Waktu: "2023-09-11",
-      Jenis: "Mingguan",
-      Nama: "Darsono",
-      Jumlah: "12.000.000.00",
-    },
-    {
-      id: "USE003",
-      Waktu: "2023-09-11",
-      Jenis: "Tahunan",
-      Nama: "Jono",
-      Jumlah: "560.000.000",
-    },
-    {
-      id: "USE004",
-      Waktu: "2023-09-11",
-      Jenis: "Mingguan",
-      Nama: "Santoso",
-      Jumlah: "12.000.000.00",
-    },
-    {
-      id: "USE005",
-      Waktu: "2023-09-11",
-      Jenis: "Bulanan",
-      Nama: "Susilo",
-      Jumlah: "50.000.000",
-    },
-    {
-      id: "USE005",
-      Waktu: "2023-09-11",
-      Jenis: "Mingguan",
-      Nama: "Sainto",
-      Jumlah: "12.000.000.00",
-    },
-    {
-      
-      id: "USE006",
-      Waktu: "2023-09-11",
-      Jenis: "Tahunan",
-      Nama: "Sucipto lagi",
-      Jumlah: "20.000.00",
-    },
-  ];
+  const [transactionList, setTransactionList] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [selectedPaymentScheme, setSelectedPaymentScheme] = useState("");
+
+  const handleAllTransaction = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    const params = {
+      page: 1,
+      limit: 10,
+      paymentSchemeId: selectedPaymentScheme,
+    };
+
+    axios
+      .get(
+        "https://digiwarehouse-app.onrender.com/dasboard/home/trx-history",
+        {
+          headers,
+          params,
+        }
+      )
+      .then((response) => {
+        setLoading(false);
+        setTransactionList(response?.data?.data || []); 
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setLoading(false);
+      });
+  };
+
+  useEffect(() => {
+    handleAllTransaction();
+  }, [selectedPaymentScheme]);
+
   return (
     <div>
       <div className="flex flex-col justify-between items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 gap-5 my-4 p-8">
@@ -65,14 +53,15 @@ const TransactionList = () => {
           <div>
             <select
               className="w-[200px] lg:w-[300px] h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none"
-              value=""
+              value={selectedPaymentScheme}
+              onChange={(e) => setSelectedPaymentScheme(e.target.value)}
             >
               <option value="" disabled hidden>
                 Filter Jenis Transaksi
               </option>
-              <option>Mingguan</option>
-              <option>Bulanan</option>
-              <option>Tahunan</option>
+              <option value="1">Mingguan</option>
+              <option value="2">Bulanan</option>
+              <option value="3">Tahunan</option>
             </select>
           </div>
         </div>
@@ -90,29 +79,36 @@ const TransactionList = () => {
       </div>
 
       <div className="px-4 md:px-8">
-        <table className="w-full">
-          <thead>
-            <tr className="text-cloud-burst-500 border-b text-left text-xs md:text-xl">
-              <th className="pb-2">Kode Transaksi </th>
-              <th className="pb-2">Waktu Transaksi</th>
-              <th className="pb-2">Jenis Transaksi</th>
-              <th className="pb-2">Nama Pemesan</th>
-              <th className="pb-2">Jumlah Tagihan (IDR)</th>
-            </tr>
-          </thead>
-          <tbody className="w-full text-xs md:text-lg">
-            {dataTransactions.map((item) => (
-              <tr className="h-16 text-cloud-burst-500 border-b">
-                <td className="pb-2">{item?.id}</td>
-                <td className="pb-2">{item?.Waktu}</td>
-                <td className="pb-2">{item?.Jenis}</td>
-                <td className="pb-2">{item?.Nama}</td>
-                <td className="pb-2">{item?.Jumlah}</td>
+        {loading ? (
+          <p className="text-xl py-5 text-center">Memuat data...</p>
+        ) : !transactionList || transactionList.length === 0 ? (
+          <p className="text-xl py-5 text-center">Tidak ada data transaksi</p>
+        ) : (
+          <table className="w-full">
+            <thead>
+              <tr className="text-cloud-burst-500 border-b text-left text-xs md:text-xl">
+                <th className="pb-2">Kode Transaksi </th>
+                <th className="pb-2">Waktu Transaksi</th>
+                <th className="pb-2">Jenis Transaksi</th>
+                <th className="pb-2">Nama Pemesan</th>
+                <th className="pb-2">Jumlah Tagihan (IDR)</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="w-full text-xs md:text-lg">
+              {transactionList.map((item) => (
+                <tr className="h-16 text-cloud-burst-500 border-b" key={item?.userId}>
+                  <td className="pb-2">{item?.userId}</td>
+                  <td className="pb-2">{item?.transactionDate}</td>
+                  <td className="pb-2">{item?.paymentSchemeName}</td>
+                  <td className="pb-2">{item?.username}</td>
+                  <td className="pb-2">Rp. {item?.nominal}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
+
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
         <img src={ArrowBack} alt="" />
         <p className="text-[#17345F] font-semibold">Halaman 1</p>

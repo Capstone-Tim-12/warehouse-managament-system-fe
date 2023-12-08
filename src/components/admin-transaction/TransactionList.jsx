@@ -10,6 +10,7 @@ import Popup from "./Popup";
 const TransactionList = () => {
   const [transactionList, setTransactionList] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(false);
+  const [searchInput, setSearchInput] = useState([]);
 
   const handleTransactionList = () => {
     const token = Cookies.get("token");
@@ -20,6 +21,7 @@ const TransactionList = () => {
       .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=1&limit=10", { headers })
       .then((response) => {
         setTransactionList(response?.data?.data);
+        setSearchInput(response?.data?.data);
         console.log(response?.data?.data);
       })
       .catch((error) => {
@@ -39,6 +41,11 @@ const TransactionList = () => {
     setSelectedTransaction(false);
   };
 
+  const filterSearch = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchInput(transactionList.filter((item) => item.username.toLowerCase().includes(searchTerm) || item.provinceName.toLowerCase().includes(searchTerm) || item.warehouseName.toLowerCase().includes(searchTerm)));
+  };
+
   return (
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3 ">
@@ -46,46 +53,34 @@ const TransactionList = () => {
           <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
         </div>
         <div>
-          <select select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" onChange={(e) => {}}>
+          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="">
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
-
-            <option value="Jakarta Pusat">Jakarta Pusat</option>
-            <option value="Jakarta Barat">Jakarta Barat</option>
-            <option value="Jakarta Timur">Jakarta Timur</option>
-            <option value="Jakarta Selatan">Jakarta Selatan</option>
-            <option value="Jawa Timur">jawa Timur</option>
-            <option value="Jawa Tengah">Jawa Tengah</option>
-            <option value="Jawa Barat">Jawa Barat</option>
-            <option value="Sumatera Utara">Sumatera Utara</option>
-            <option value="Sumatera Barat">Sumatera Barat</option>
-            <option value="Sumatera Selatan">Sumatera Selatan</option>
-            <option value="Kepulauan Riau">Kepulauan Riau</option>
-            <option value="Kalimantan Timur">Kalimantan Timur</option>
-            <option value="Kalimantan Barat">Kalimantan Barat</option>
-            <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+            {[...new Set(searchInput.map((item) => item.provinceName))].map((provinceName, index) => (
+              <option key={index} value={provinceName}>
+                {provinceName}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" onChange={(e) => {}}>
+          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="">
             <option value="" disabled hidden>
               Cari berdasarkan status
             </option>
-            <option value="disetujui">Disetujui</option>
-            <option value="butuhPersetujuan">Butuh Persetujuan</option>
+            {[...new Set(searchInput.map((item) => item.status))].map((status, index) => (
+              <option key={index} value={status}>
+                {status}
+              </option>
+            ))}
           </select>
         </div>
-        <div>
-          <form
-            className="relative rounded-[28px] flex items-center"
-            // onSubmit={(e) => e.preventDefault()}
-          >
-            <button className="absolute pl-3">
-              <img src={searchIcon} alt="search" />
-            </button>
-            <input type="text" placeholder="Search" className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  " />
-          </form>
+        <div className="relative rounded-[28px] flex items-center">
+          <button className="absolute pl-3">
+            <img src={searchIcon} alt="search" />
+          </button>
+          <input type="text" placeholder="Search" className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]" onChange={filterSearch} />
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -101,13 +96,15 @@ const TransactionList = () => {
             </tr>
           </thead>
           <tbody>
-            {transactionList.map((item, index) => (
+            {searchInput.map((item, index) => (
               <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
                 <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
                 <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
                 <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
                 <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.duration}</td>
+                <td className="pb-2 pr-3 md:pr-6">
+                  {item?.duration} {item?.paymentScheme}
+                </td>
                 <td className="pb-2 pr-3 md:pr-24 text-center">
                   <button
                     className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}

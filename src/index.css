@@ -2,6 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 
+input[type="text"]:focus ~ .label-input,
+input[type="text"]:not(:placeholder-shown) ~ .label-input,
+input[type="email"]:focus ~ .label-input,
+input[type="email"]:not(:placeholder-shown) ~ .label-input,
+input[type="password"]:focus ~ .label-input,
+input[type="password"]:not(:placeholder-shown) ~ .label-input,
+textarea:focus ~ .label-input,
+textarea:not(:placeholder-shown) ~ .label-input {
+  @apply transform -translate-y-5 -translate-x-1 scale-75;
+}
+
 img {
   object-fit: cover;
 }
@@ -9,7 +20,6 @@ img {
 a {
   display: inline-block;
 }
-
 .peta-container {
   position: sticky;
 }
