@@ -9,6 +9,7 @@ const Peta = () => {
   const [position, setPosition] = useState(JakartaCoordinates);
   const [longitude, setLongitude] = useState(JakartaCoordinates[1].toString());
   const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
+  const mapRef = useRef(null);
 
   const mapRef = useRef(null);
 
@@ -36,10 +37,20 @@ const Peta = () => {
     }
   }, [longitude, latitude]);
 
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.setView(position, 13);
+    }
+  }, [position]);
+
   const handleResetMap = () => {
     setPosition(JakartaCoordinates);
     setLongitude(JakartaCoordinates[1].toString());
     setLatitude(JakartaCoordinates[0].toString());
+
+    if (mapRef.current) {
+      mapRef.current.setView(JakartaCoordinates, 13);
+    }
   };
 
   useEffect(() =>{
@@ -72,7 +83,7 @@ const Peta = () => {
         </Marker>
       </MapContainer>
       <button
-        className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex  items-center justify-items-center "
+        className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
         onClick={handleResetMap}
       >
         <img src={IconDelete} alt="IconDelete" className="w-6 h-6" />

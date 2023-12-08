@@ -11,10 +11,10 @@ a {
 }
 
 .peta-container {
-  position: fixed;
+  position: sticky;
 }
 
-/* Styling untuk map agar tetap di posisi */
+
 .leaflet-container {
   position: relative !important;
   top: 0;
