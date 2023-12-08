@@ -13,7 +13,7 @@ const Dashboard = () => {
         <div>
           <TopBar title={"Statistik Umum"} />
           <CardTotal />
-          <div className="p-3  grid grid-cols-1 gap-3 md:m-3 md:grid-cols-2">
+          <div className="grid p-3 gap-3 grid-cols-1 md:m-3 md:grid-cols-2">
             <StatisticCarts />
             <RecentCustomer />
           </div>

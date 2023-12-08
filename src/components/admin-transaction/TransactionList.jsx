@@ -1,90 +1,49 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import searchIcon from "../../assets/search-icon.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import Cookies from "js-cookie";
+import axios from "axios";
 
 import Popup from "./Popup";
 
 const TransactionList = () => {
-  const [selectedTransaction, setSelectedTransaction] = useState(null);
+  const [transactionList, setTransactionList] = useState([]);
+  const [selectedTransaction, setSelectedTransaction] = useState(false);
+  const [searchInput, setSearchInput] = useState([]);
 
-  const dataTransaksi = [
-    {
-      id: 1,
-      Name: "Sucipto",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Warehouse Abadi",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-    {
-      id: 2,
-      Name: "Darsono",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Mega Store Center",
-      Durasi: "1 Minggu",
-      Status: "Ditolak",
-    },
-    {
-      id: 3,
-      Name: "Santoso",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Harmoni Warehouse",
-      Durasi: "1 Minggu",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 4,
-      Name: "Fikri Januar",
-      Lokasi: "Jakarta Barat",
-      NamaWarehouse: "Jaya Baya",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-    {
-      id: 5,
-      Name: "Aminah",
-      Lokasi: "Jakarta Timur",
-      NamaWarehouse: "Amanah Warehouse",
-      Durasi: "1 Tahun",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 6,
-      Name: "Adi Susanto",
-      Lokasi: "Jakarta Selatan",
-      NamaWarehouse: "Adimental Group",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-    {
-      id: 7,
-      Name: "Rahmat",
-      Lokasi: "Jakarta Timur",
-      NamaWarehouse: "Gudang Idaman",
-      Durasi: "1 Minggu",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 8,
-      Name: "Benyawan",
-      Lokasi: "Depok",
-      NamaWarehouse: "Arum Warehouse",
-      Durasi: "1 Tahun",
-      Status: "Butuh Persetujuan",
-    },
-    {
-      id: 9,
-      Name: "Ahmad",
-      Lokasi: "Tangerang Selatan",
-      NamaWarehouse: "Gudang Gula Merah",
-      Durasi: "1 Bulan",
-      Status: "Disetujui",
-    },
-  ];
+  const handleTransactionList = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=1&limit=10", { headers })
+      .then((response) => {
+        setTransactionList(response?.data?.data);
+        setSearchInput(response?.data?.data);
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    handleTransactionList();
+  }, []);
 
   const handleStatusClick = (transaction) => {
     setSelectedTransaction(transaction);
+  };
+
+  const closePopup = () => {
+    setSelectedTransaction(false);
+  };
+
+  const filterSearch = (event) => {
+    const searchTerm = event.target.value.toLowerCase();
+    setSearchInput(transactionList.filter((item) => item.username.toLowerCase().includes(searchTerm) || item.provinceName.toLowerCase().includes(searchTerm) || item.warehouseName.toLowerCase().includes(searchTerm)));
   };
 
   return (
@@ -94,46 +53,34 @@ const TransactionList = () => {
           <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
         </div>
         <div>
-          <select select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
+          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="">
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
-
-            <option value="Jakarta Pusat">Jakarta Pusat</option>
-            <option value="Jakarta Barat">Jakarta Barat</option>
-            <option value="Jakarta Timur">Jakarta Timur</option>
-            <option value="Jakarta Selatan">Jakarta Selatan</option>
-            <option value="Jawa Timur">jawa Timur</option>
-            <option value="Jawa Tengah">Jawa Tengah</option>
-            <option value="Jawa Barat">Jawa Barat</option>
-            <option value="Sumatera Utara">Sumatera Utara</option>
-            <option value="Sumatera Barat">Sumatera Barat</option>
-            <option value="Sumatera Selatan">Sumatera Selatan</option>
-            <option value="Kepulauan Riau">Kepulauan Riau</option>
-            <option value="Kalimantan Timur">Kalimantan Timur</option>
-            <option value="Kalimantan Barat">Kalimantan Barat</option>
-            <option value="Kalimantan Selatan">Kalimantan Selatan</option>
+            {[...new Set(searchInput.map((item) => item.provinceName))].map((provinceName, index) => (
+              <option key={index} value={provinceName}>
+                {provinceName}
+              </option>
+            ))}
           </select>
         </div>
         <div>
-          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
+          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="">
             <option value="" disabled hidden>
               Cari berdasarkan status
             </option>
-            <option value="disetujui">Disetujui</option>
-            <option value="butuhPersetujuan">Butuh Persetujuan</option>
+            {[...new Set(searchInput.map((item) => item.status))].map((status, index) => (
+              <option key={index} value={status}>
+                {status}
+              </option>
+            ))}
           </select>
         </div>
-        <div>
-          <form
-            className="relative rounded-[28px] flex items-center"
-            // onSubmit={(e) => e.preventDefault()}
-          >
-            <button className="absolute pl-3">
-              <img src={searchIcon} alt="search" />
-            </button>
-            <input type="text" placeholder="Search" className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]  " />
-          </form>
+        <div className="relative rounded-[28px] flex items-center">
+          <button className="absolute pl-3">
+            <img src={searchIcon} alt="search" />
+          </button>
+          <input type="text" placeholder="Search" className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]" onChange={filterSearch} />
         </div>
       </div>
       <div className="overflow-x-auto">
@@ -149,19 +96,21 @@ const TransactionList = () => {
             </tr>
           </thead>
           <tbody>
-            {dataTransaksi.map((item, index) => (
+            {searchInput.map((item, index) => (
               <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
                 <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.Name}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.Lokasi}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.NamaWarehouse}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.Durasi}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
+                <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
+                <td className="pb-2 pr-3 md:pr-6">
+                  {item?.duration} {item?.paymentScheme}
+                </td>
                 <td className="pb-2 pr-3 md:pr-24 text-center">
                   <button
-                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.Status === "Disetujui" ? "bg-[#06C270]" : item?.Status === "Butuh Persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
+                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
                     onClick={() => handleStatusClick(item)}
                   >
-                    {item?.Status}
+                    {item?.status}
                   </button>
                 </td>
               </tr>
@@ -174,7 +123,7 @@ const TransactionList = () => {
         <p className="text-[#17345F] font-semibold">Halaman 1</p>
         <img src={arrowNext} alt="" />
       </div>
-      {selectedTransaction && <Popup transaction={selectedTransaction} />}
+      {selectedTransaction && <Popup transaction={selectedTransaction} onClose={closePopup} />}
     </div>
   );
 };
