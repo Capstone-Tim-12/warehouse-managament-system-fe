@@ -128,7 +128,6 @@ function LoginForm() {
             id="username"
             name="email"
             value={email}
-            required
             className={`w-[300px] sm:w-[421px] md:w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border ${
               errorInvalid || emailError ? "border-red-600" : ""
             } rounded-md focus:outline-none focus:border-blue-400 focus:ring-0`}
