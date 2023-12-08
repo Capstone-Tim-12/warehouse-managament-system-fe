@@ -73,7 +73,7 @@ function LoginForm() {
 
     axios
       .post(
-        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/login",
+        "https://digiwarehouse-app.onrender.com/user/login",
         { email: email, password: password }
       )
       .then((response) => {
