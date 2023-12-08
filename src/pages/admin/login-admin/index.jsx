@@ -6,10 +6,13 @@ import Icon3 from "../../../assets/icon3-login-admin.svg";
 import Icon4 from "../../../assets/icon4-login-admin.svg";
 import Icon5 from "../../../assets/icon5-login-admin.svg";
 import Icon6 from "../../../assets/icon6-login-admin.svg";
+import Eye from "../../../assets/eye-icon.svg";
 
 function LoginForm() {
     const [usernameFocused, setUsernameFocused] = useState(false);
     const [passwordFocused, setPasswordFocused] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    const [passwordValue, setPasswordValue] = useState('');
 
     const handleUsernameFocus = () => {
         setUsernameFocused(true);
@@ -25,6 +28,14 @@ function LoginForm() {
 
     const handlePasswordBlur = () => {
         setPasswordFocused(false);
+    };
+
+    const handlePasswordChange = (e) => {
+        setPasswordValue(e.target.value);
+    };
+
+    const togglePasswordVisibility = () => {
+        setShowPassword(!showPassword);
     };
 
     return (
@@ -52,7 +63,7 @@ function LoginForm() {
                         type="text"
                         id="username"
                         name="username"
-                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border rounded-md focus:outline-none focus:border-blue-400 focus:ring-0"
+                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-[30px] border rounded-md focus:outline-none focus:border-blue-400 focus:ring-0"
                         onFocus={handleUsernameFocus}
                         onBlur={handleUsernameBlur}
                     />
@@ -66,14 +77,29 @@ function LoginForm() {
                         <img src={Icon4} alt="Icon4" className="w-5 h-5 mr-2 mt-[20px]" />
                         Password
                     </label>
+
                     <input
-                        type="password"
+                        type={showPassword ? 'text' : 'password'}
                         id="password"
                         name="password"
-                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border rounded-md focus:outline-none focus:border-blue-400 focus:ring-0"
+                        value={passwordValue}
+                        onChange={handlePasswordChange}
+                        className="w-[421px] h-[57px] pl-[50px] pr-14 pt-[30px] border rounded-md focus:outline-none focus:border-blue-400 focus:ring-0"
                         onFocus={handlePasswordFocus}
                         onBlur={handlePasswordBlur}
                     />
+                    {passwordValue && (
+                        <div
+                            className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+                            onClick={togglePasswordVisibility}
+                        >
+                            <img
+                                src={Eye}
+                                alt="Toggle Password Visibility"
+                                className="w-5 h-5"
+                            />
+                        </div>
+                    )}
                 </div>
 
                 <div className="flex justify-between">
