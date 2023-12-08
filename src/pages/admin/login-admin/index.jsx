@@ -70,28 +70,34 @@ function LoginForm() {
       validatePassword();
       return;
     }
-
+  
     axios
       .post(
         "https://digiwarehouse-app.onrender.com/user/login",
         { email: email, password: password }
       )
       .then((response) => {
-        const token = response?.data?.data?.token;
-        const name = response?.data?.data?.name;
-        Cookies.set("token", token, { path: "/" });
-        Cookies.set("name", name, { path: "/" });
-        navigate("/admin/dashboard");
+        const user = response?.data?.data;
+        
+        if (user && user.role === "admin") {
+          const token = user.token;
+          const name = user.name;
+          Cookies.set("token", token, { path: "/" });
+          Cookies.set("name", name, { path: "/" });
+          navigate("/admin/dashboard");
+        } else {
+          setErrorInvalid("Anda tidak memiliki izin untuk masuk sebagai admin.");
+        }
       })
       .catch((error) => {
         console.log(error);
         if (error.response) {
           const status = error.response.status;
-
+  
           if (status === 400 || status === 404) {
             setErrorInvalid("Email atau Password tidak valid !");
           } else {
-            console.log("Terjadi kesalah pada server");
+            console.log("Terjadi kesalahan pada server");
           }
         } else {
           console.log("Terjadi kesalahan");
