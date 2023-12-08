@@ -11,7 +11,7 @@ const Peta = () => {
   const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
   const mapRef = useRef(null);
 
-  const mapRef = useRef(null);
+ 
 
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
@@ -36,12 +36,12 @@ const Peta = () => {
       setPosition([newLatitude, newLongitude]);
     }
   }, [longitude, latitude]);
-
-  useEffect(() => {
+  useEffect(() =>{
     if (mapRef.current) {
       mapRef.current.setView(position, 13);
     }
   }, [position]);
+
 
   const handleResetMap = () => {
     setPosition(JakartaCoordinates);
@@ -53,11 +53,7 @@ const Peta = () => {
     }
   };
 
-  useEffect(() =>{
-    if (mapRef.current) {
-      mapRef.current.setView(position, 13);
-    }
-  }, [position]);
+  
 
   return (
     <div>
