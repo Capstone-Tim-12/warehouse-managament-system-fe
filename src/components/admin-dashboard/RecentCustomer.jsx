@@ -2,10 +2,12 @@ import React, { useEffect, useState } from "react";
 import rightArrowIcon from "../../assets/right-arrow.svg";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 
 const RecentCustomer = () => {
   const [recentCustomer, setRecentCustomer] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   const handleRecentCustomer = () => {
     const token = Cookies.get("token");
@@ -58,7 +60,12 @@ const RecentCustomer = () => {
         </div>
       )}
 
-      <button className="flex items-center gap-5">
+      <button
+        className="flex items-center gap-5"
+        onClick={() => {
+          navigate("/admin/transaksi");
+        }}
+      >
         Lihat Selengkapnya
         <img src={rightArrowIcon} alt="right arrow" />
       </button>
