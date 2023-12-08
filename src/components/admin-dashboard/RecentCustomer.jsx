@@ -61,6 +61,7 @@ const RecentCustomer = () => {
       )}
 
       <button
+        id="see-more-customer"
         className="flex items-center gap-5"
         onClick={() => {
           navigate("/admin/transaksi");
