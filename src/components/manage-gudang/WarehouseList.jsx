@@ -32,7 +32,7 @@ const WarehouseList = () => {
     };
     axios
       .get(
-        `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/warehouse/user/list?page=${page}&limit=10&search=${searchQuery}`,
+        `https://digiwarehouse-app.onrender.com/warehouse/user/list?page=${page}&limit=10&search=${searchQuery}`,
         { headers }
       )
       .then((response) => {
@@ -217,8 +217,15 @@ const WarehouseList = () => {
                         {item?.name}
                       </td>
                       <td className="pb-2">{item?.provinceName}</td>
-                      <td className="pb-2">{item?.buildingArea}</td>
-                      <td className="pb-2 pl-9 md:pl-0">{item?.annualPrice}</td>
+                      <td className="pb-2">
+                        {item?.buildingArea} m<sup>2</sup>
+                      </td>
+                      <td className="pb-2 pl-9 md:pl-0">
+                        {item?.annualPrice.toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        })}
+                      </td>
                       <td className="pb-2 px-4 md:px-0">
                         <button
                           className={`${
