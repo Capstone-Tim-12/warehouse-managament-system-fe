@@ -12,8 +12,10 @@ const TransactionList = () => {
   const [selectedTransaction, setSelectedTransaction] = useState(false);
   const [searchInput, setSearchInput] = useState([]);
   const [provinceId, setProvinceId] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleTransactionList = () => {
+    setLoading(true);
     const token = Cookies.get("token");
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -23,7 +25,8 @@ const TransactionList = () => {
       .then((response) => {
         setTransactionList(response?.data?.data);
         setSearchInput(response?.data?.data);
-        console.log(response?.data?.data);
+        // console.log(response?.data?.data);
+        setLoading(false);
       })
       .catch((error) => {
         console.log(error);
@@ -114,27 +117,41 @@ const TransactionList = () => {
               <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
             </tr>
           </thead>
-          <tbody>
-            {searchInput.map((item, index) => (
-              <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
-                <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
-                <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
-                <td className="pb-2 pr-3 md:pr-6">
-                  {item?.duration} {item?.paymentScheme}
-                </td>
-                <td className="pb-2 pr-3 md:pr-24 text-center">
-                  <button
-                    className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
-                    onClick={() => handleStatusClick(item)}
-                  >
-                    {item?.status}
-                  </button>
-                </td>
+          {loading ? (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-2 text-slate-500 font-semibold text-[24px] mt-2">
+                <td>Memuat data...</td>
               </tr>
-            ))}
-          </tbody>
+            </tbody>
+          ) : transactionList && transactionList.length > 0 ? (
+            <tbody>
+              {searchInput.map((item, index) => {
+                return (
+                  <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
+                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
+                    <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
+                    <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
+                    <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
+                    <td className="pb-2 pr-3 md:pr-6">
+                      {item?.duration} {item?.paymentScheme}
+                    </td>
+                    <td className="pb-2 pr-3 md:pr-24 text-center">
+                      <button
+                        className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
+                        onClick={() => handleStatusClick(item)}
+                      >
+                        {item?.status}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          ) : (
+            <tbody className="h-14 relative">
+              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">Tidak Ada Transaksi Terdaftar</tr>
+            </tbody>
+          )}
         </table>
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
