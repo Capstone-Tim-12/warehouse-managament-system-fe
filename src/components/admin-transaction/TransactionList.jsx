@@ -13,23 +13,38 @@ const TransactionList = () => {
   const [searchInput, setSearchInput] = useState([]);
   const [provinceId, setProvinceId] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
 
-  const handleTransactionList = () => {
+  const handleTransactionList = (page) => {
     setLoading(true);
     const token = Cookies.get("token");
     const headers = {
       Authorization: `Bearer ${token}`,
     };
     axios
-      .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=1&limit=10", { headers })
+      .get(`http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=${page}&limit=10&search=${searchQuery}`, { headers })
       .then((response) => {
-        setTransactionList(response?.data?.data);
-        setSearchInput(response?.data?.data);
-        // console.log(response?.data?.data);
-        setLoading(false);
+        const responseData = response?.data;
+        if (responseData && responseData.data) {
+          setTransactionList(responseData.data);
+          setSearchInput(responseData.data);
+          setLoading(false);
+          setTotalPages(responseData.pagination?.totalPage || 1);
+        } else {
+          setTransactionList([]);
+          setSearchInput([]);
+          setLoading(false);
+          setTotalPages(1);
+        }
       })
       .catch((error) => {
         console.log(error);
+        setLoading(false);
+        setTransactionList([]);
+        setSearchInput([]);
+        setTotalPages(1);
       });
   };
 
@@ -68,6 +83,11 @@ const TransactionList = () => {
   const filterSearch = (event) => {
     const searchTerm = event.target.value.toLowerCase();
     setSearchInput(transactionList.filter((item) => item.username.toLowerCase().includes(searchTerm) || item.provinceName.toLowerCase().includes(searchTerm) || item.warehouseName.toLowerCase().includes(searchTerm)));
+  };
+
+  const handlePageChange = (newPage) => {
+    setCurrentPage(newPage);
+    handleTransactionList(newPage);
   };
 
   return (
@@ -126,9 +146,10 @@ const TransactionList = () => {
           ) : transactionList && transactionList.length > 0 ? (
             <tbody>
               {searchInput.map((item, index) => {
+                const transactionNumber = (currentPage - 1) * 10 + index + 1;
                 return (
                   <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
-                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{index + 1}</td>
+                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{transactionNumber}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
@@ -149,15 +170,19 @@ const TransactionList = () => {
             </tbody>
           ) : (
             <tbody className="h-14 relative">
-              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">Tidak Ada Transaksi Terdaftar</tr>
+              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">Tidak Ada Transaksi</tr>
             </tbody>
           )}
         </table>
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
-        <img src={arrowBack} alt="" />
-        <p className="text-[#17345F] font-semibold">Halaman 1</p>
-        <img src={arrowNext} alt="" />
+        <button className="cursor-pointer" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1}>
+          <img src={arrowBack} alt="Prev Page" />
+        </button>{" "}
+        <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
+        <button className="cursor-pointer" onClick={() => handlePageChange(currentPage + 1)}>
+          <img src={arrowNext} alt="Next Page" />
+        </button>
       </div>
       {selectedTransaction && <Popup transaction={selectedTransaction} onClose={closePopup} />}
     </div>
