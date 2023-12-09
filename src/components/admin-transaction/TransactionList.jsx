@@ -11,6 +11,7 @@ const TransactionList = () => {
   const [transactionList, setTransactionList] = useState([]);
   const [selectedTransaction, setSelectedTransaction] = useState(false);
   const [searchInput, setSearchInput] = useState([]);
+  const [provinceId, setProvinceId] = useState([]);
 
   const handleTransactionList = () => {
     const token = Cookies.get("token");
@@ -31,6 +32,26 @@ const TransactionList = () => {
 
   useEffect(() => {
     handleTransactionList();
+  }, []);
+
+  const selectLocation = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/province", { headers })
+      .then((response) => {
+        setProvinceId(response?.data?.data);
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    selectLocation();
   }, []);
 
   const handleStatusClick = (transaction) => {
@@ -57,10 +78,8 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
-            {[...new Set(searchInput.map((item) => item.provinceName))].map((provinceName, index) => (
-              <option key={index} value={provinceName}>
-                {provinceName}
-              </option>
+            {provinceId.map((item, index) => (
+              <option key={index}>{item?.name}</option>
             ))}
           </select>
         </div>
