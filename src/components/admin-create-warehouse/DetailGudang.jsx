@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Peta from "../admin-create-warehouse/Peta";
 
 const DetailGudang = () => {
   const [provinsi, setProvinsi] = useState([]);
@@ -191,6 +192,7 @@ const DetailGudang = () => {
           placeholder="No. Telp"
         />
       </div>
+      <Peta/>
       <div className="mt-4">
         
       </div>
