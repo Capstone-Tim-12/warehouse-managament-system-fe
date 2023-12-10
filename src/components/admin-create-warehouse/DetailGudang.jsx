@@ -45,7 +45,7 @@ const DetailGudang = () => {
   useEffect(() => {
     axios
       .get(
-        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/province"
+        "https://digiwarehouse-app.onrender.com/user/province"
       )
       .then((response) => {
         console.log("Data:", response.data.data);
@@ -64,7 +64,7 @@ const DetailGudang = () => {
     if (selectedProvinsi !== "") {
       axios
         .get(
-          `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/regency/${selectedProvinsi}`
+          `https://digiwarehouse-app.onrender.com/user/regency/${selectedProvinsi}`
         )
         .then((response) => {
           console.log("Data Kota:", response.data.data);
@@ -84,7 +84,7 @@ const DetailGudang = () => {
     if (selectedKota !== "") {
       axios
         .get(
-          `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/district/${selectedKota}`
+          `https://digiwarehouse-app.onrender.com/user/district/${selectedKota}`
         )
         .then((response) => {
           console.log("Data Kecamatan:", response.data.data);
