@@ -24,7 +24,7 @@ const TransactionList = () => {
       Authorization: `Bearer ${token}`,
     };
     axios
-      .get(`http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/list/trx-history?page=${page}&limit=10&search=${searchQuery}`, { headers })
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10&search=${searchQuery}`, { headers })
       .then((response) => {
         const responseData = response?.data;
         if (responseData && responseData.data) {
@@ -58,7 +58,7 @@ const TransactionList = () => {
       Authorization: `Bearer ${token}`,
     };
     axios
-      .get("http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/province", { headers })
+      .get("https://digiwarehouse-app.onrender.com/user/province", { headers })
       .then((response) => {
         setProvinceId(response?.data?.data);
         console.log(response?.data?.data);
@@ -170,7 +170,9 @@ const TransactionList = () => {
             </tbody>
           ) : (
             <tbody className="h-14 relative">
-              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">Tidak Ada Transaksi</tr>
+              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
+                <td>Tidak Ada Transaksi</td>
+              </tr>
             </tbody>
           )}
         </table>
