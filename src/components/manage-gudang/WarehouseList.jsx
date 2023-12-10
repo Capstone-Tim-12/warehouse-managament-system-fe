@@ -96,7 +96,7 @@ const WarehouseList = () => {
         <div className="flex gap-x-3">
           <button
             id="addWarehouse"
-            onClick={() => navigate("/admin/edit-warehouse")}
+            onClick={() => navigate("/admin/create-warehouse")}
             className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
           >
             <img src={plusIcon} />
