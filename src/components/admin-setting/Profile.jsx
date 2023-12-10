@@ -10,6 +10,8 @@ const Profile = () => {
         password: '',
     })
 
+    const isEmptyValue = Object.values(profile).some(val => val === null || val === '')
+
     const handleChange = (e) => {
         const { name, value } = e.target
         setProfile({ ...profile, [name]: value })
@@ -69,7 +71,8 @@ const Profile = () => {
             </div>
             <div className="flex justify-end">
                 <button id="save-profile-setting"
-                     className="bg-crusta-500 text-white flex justify-center items-center h-10 w-72 rounded-lg hover:bg-crusta-600"
+                    disabled={isEmptyValue}
+                    className={`bg-crusta-500 text-white flex justify-center items-center h-10 w-72 rounded-lg hover:bg-crusta-600 ${isEmptyValue && 'bg-crusta-500 opacity-50 cursor-not-allowed'}`}
                 >
                     Simpan
                 </button>
