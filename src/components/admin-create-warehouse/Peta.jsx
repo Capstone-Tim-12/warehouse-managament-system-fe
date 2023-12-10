@@ -1,17 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
-import IconDelete from '../../assets/icon-delete.svg'; 
+import IconDelete from "../../assets/icon-delete.svg";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 
 const JakartaCoordinates = [-6.2088, 106.8456];
 
-const Peta = () => {
+const Peta = ({dataWarehouse, setDataWarehouse}) => {
   const [position, setPosition] = useState(JakartaCoordinates);
   const [longitude, setLongitude] = useState(JakartaCoordinates[1].toString());
   const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
   const mapRef = useRef(null);
-
- 
 
   const handleMapClick = (e) => {
     const { lat, lng } = e.latlng;
@@ -21,10 +19,16 @@ const Peta = () => {
   };
 
   const handleLongitudeChange = (e) => {
+    setDataWarehouse((prev) => ({
+      ...prev, longitude: parseFloat(e.target.value)
+    }))
     setLongitude(e.target.value);
   };
 
   const handleLatitudeChange = (e) => {
+    setDataWarehouse((prev) => ({
+      ...prev, latitude: parseFloat(e.target.value)
+    }))
     setLatitude(e.target.value);
   };
 
@@ -36,12 +40,11 @@ const Peta = () => {
       setPosition([newLatitude, newLongitude]);
     }
   }, [longitude, latitude]);
-  useEffect(() =>{
+  useEffect(() => {
     if (mapRef.current) {
       mapRef.current.setView(position, 13);
     }
   }, [position]);
-
 
   const handleResetMap = () => {
     setPosition(JakartaCoordinates);
@@ -52,8 +55,6 @@ const Peta = () => {
       mapRef.current.setView(JakartaCoordinates, 13);
     }
   };
-
-  
 
   return (
     <div>
@@ -79,6 +80,7 @@ const Peta = () => {
         </Marker>
       </MapContainer>
       <button
+        type="button"
         className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
         onClick={handleResetMap}
       >
