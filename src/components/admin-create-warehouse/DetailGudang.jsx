@@ -4,6 +4,22 @@ import Cookies from "js-cookie";
 import Peta from "../admin-create-warehouse/Peta";
 
 const DetailGudang = () => {
+  const [dataWarehouse, setDataWarehouse] = useState({
+    name: "",
+    description: "",
+    districId: "",
+    address: "jl kebangsaan timur no 754",
+    surfaceArea: 0,
+    buildingArea: 0,
+    price: 0,
+    owner: "",
+    warehouseTypeId: 0,
+    phoneNumber: "",
+    longitude: 0,
+    latitude: 0,
+    image: [],
+  });
+
   const [provinsi, setProvinsi] = useState([]);
   const [kota, setKota] = useState([]);
   const [kecamatan, setKecamatan] = useState([]);
@@ -16,6 +32,19 @@ const DetailGudang = () => {
   const token = Cookies.get("token");
   const headers = {
     Authorization: `Bearer ${token}`,
+  };
+
+  const handleProvinsiChange = (event) => {
+    setSelectedProvinsi(event.target.value);
+  };
+
+  const handleKotaChange = (event) => {
+    setSelectedKota(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDataWarehouse((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
   const handleTypeWarehouse = () => {
@@ -38,6 +67,56 @@ const DetailGudang = () => {
       });
   };
 
+  const handleSubmitAddPicture = async (file) => {
+    let formData = new FormData();
+    formData.append("photos", file);
+
+    try {
+      const response = await fetch(
+        "https://digiwarehouse-app.onrender.com/warehouse/photo/upload",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setDataWarehouse((prev) => ({
+          ...prev,
+          image: data.data.images,
+        }));
+        console.log(data.data.images);
+      } else {
+        console.log("Oops! something err");
+      }
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(
+        "https://digiwarehouse-app.onrender.com/warehouse/detail",
+        dataWarehouse,
+        {
+          headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
   useEffect(() => {
     handleTypeWarehouse();
   }, []);
@@ -53,19 +132,6 @@ const DetailGudang = () => {
         console.error("Error fetching data:", error);
       });
   }, []);
-
-  const handleProvinsiChange = (event) => {
-    setSelectedProvinsi(event.target.value);
-  };
-
-  const handleKotaChange = (event) => {
-    setSelectedKota(event.target.value);
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setDataWarehouse((prevFormData) => ({ ...prevFormData, [name]: value }));
-  };
 
   useEffect(() => {
     if (selectedProvinsi !== "") {
@@ -99,40 +165,8 @@ const DetailGudang = () => {
     }
   }, [selectedKota]);
 
-  const handleSubmitAddPicture = async (file) => {
-    let formData = new FormData();
-    formData.append("photos", file);
-
-    try {
-      const response = await fetch(
-        "https://digiwarehouse-app.onrender.com/warehouse/photo/upload",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.ok) {
-        // eslint-disable-next-line no-unused-vars
-        const data = await response.json();
-        setDataWarehouse((prev) => ({
-          ...prev,
-          image: data.data.images,
-        }));
-        console.log(data.data.images);
-      } else {
-        console.log("Oops! something err");
-      }
-    } catch (error) {
-      console.error("Error occurred:", error);
-    }
-  };
-
   return (
-    <form className="">
+    <form className="" onSubmit={handleSubmit}>
       <div className="mt-8 mb-8">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
@@ -289,7 +323,7 @@ const DetailGudang = () => {
           onChange={handleChange}
         />
       </div>
-      <Peta />
+      <Peta dataWarehouse={dataWarehouse} setDataWarehouse={setDataWarehouse} />
       <div>
         <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
           Picture
