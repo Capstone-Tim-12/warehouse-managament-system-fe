@@ -38,7 +38,14 @@ const CardTotal = () => {
       className="grid grid-cols-1 gap-5 mt-[50px] mx-3 lg:grid lg:grid-cols-3 "
     >
       <div className="bg-[#E8EBEF] py-6 px-5 rounded-[8px]">
-        <img src={manageGudangIcon} alt="manage gudang icon" />
+        <img
+          src={manageGudangIcon}
+          alt="manage gudang icon"
+          style={{
+            filter:
+              "invert(66%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
+          }}
+        />
         <p className="text-[20px] my-[20px]">Total gudang yang tersedia</p>
         <h3 className="font-bold text-[24px]">
           {" "}
@@ -46,14 +53,28 @@ const CardTotal = () => {
         </h3>
       </div>
       <div className="bg-[#E8EBEF] py-6 px-5  rounded-[8px]">
-        <img src={manageGudangIcon} alt="manage gudang icon" />
+        <img
+          src={manageGudangIcon}
+          alt="manage gudang icon"
+          style={{
+            filter:
+              "invert(66%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
+          }}
+        />
         <p className="text-[20px] my-[20px]">Total gudang yang disewa</p>
         <h3 className="font-bold text-[24px]">
           {loading ? "Memuat data..." : data.totalWarehouseNotAvailable}
         </h3>
       </div>
       <div className="bg-[#E8EBEF]  py-6 px-5  rounded-[8px]">
-        <img src={transaksiIcon} alt="transaksi icon" />
+        <img
+          src={transaksiIcon}
+          alt="transaksi icon"
+          style={{
+            filter:
+              "invert(66%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
+          }}
+        />
         <p className="text-[20px] my-[20px]">Total pendapatan</p>
         <h3 className="font-bold text-[24px]">
           {loading
