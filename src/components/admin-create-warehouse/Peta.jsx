@@ -93,7 +93,6 @@ const Peta = ({dataWarehouse, setDataWarehouse}) => {
             className="w-full h-[56px] mt-8 p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none placeholder:text-[#2C2C2E]"
             type="text"
             placeholder="Longitude"
-            value={longitude}
             onChange={handleLongitudeChange}
           />
         </div>
@@ -102,7 +101,6 @@ const Peta = ({dataWarehouse, setDataWarehouse}) => {
             className="w-full h-[56px] mt-8 p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none placeholder:text-[#2C2C2E]"
             type="text"
             placeholder="Latitude"
-            value={latitude}
             onChange={handleLatitudeChange}
           />
         </div>

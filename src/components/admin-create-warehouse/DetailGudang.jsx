@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { notification } from "antd";
 import Peta from "../admin-create-warehouse/Peta";
 
 const DetailGudang = () => {
@@ -25,8 +26,8 @@ const DetailGudang = () => {
   const [kecamatan, setKecamatan] = useState([]);
   const [selectedProvinsi, setSelectedProvinsi] = useState("");
   const [selectedKota, setSelectedKota] = useState("");
-  const [selectedType, setSelectedType] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(false);
 
   const token = Cookies.get("token");
   const headers = {
@@ -101,18 +102,27 @@ const DetailGudang = () => {
     e.preventDefault();
 
     axios
-      .post(
-        "https://digiwarehouse-app.onrender.com/warehouse/detail",
-        dataWarehouse,
-        {
-          headers,
-        }
-      )
+      .post("https://digiwarehouse-app.onrender.com/warehouse/detail", dataWarehouse, {
+        headers,
+      })
       .then((res) => {
         console.log(res);
+        setIsSuccess(true);
+
+        notification.success({
+          message: "Success",
+          description: "Data warehouse berhasil ditambahkan.",
+          placement: "top", 
+        });
       })
       .catch((err) => {
         console.log(err);
+
+        notification.error({
+          message: "Error",
+          description: "Terjadi kesalahan saat menambahkan data warehouse.",
+          placement: "top", 
+        });
       });
   };
 
@@ -258,11 +268,11 @@ const DetailGudang = () => {
             type="text"
             placeholder="Luas Tanah"
             onChange={(e) =>
-                setDataWarehouse((prevFormData) => ({
-                  ...prevFormData,
-                  surfaceArea: parseInt(e.target.value),
-                }))
-              }
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                surfaceArea: parseInt(e.target.value),
+              }))
+            }
           />
         </div>
         <div className="mb-4">
@@ -273,11 +283,11 @@ const DetailGudang = () => {
             type="text"
             placeholder="Luas Bangunan"
             onChange={(e) =>
-                setDataWarehouse((prevFormData) => ({
-                  ...prevFormData,
-                  buildingArea: parseInt(e.target.value),
-                }))
-              }
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                buildingArea: parseInt(e.target.value),
+              }))
+            }
           />
         </div>
         <div className="mb-4">
@@ -286,13 +296,13 @@ const DetailGudang = () => {
             name="warehouseTypeId"
             className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
             onChange={(e) =>
-                setDataWarehouse((prevFormData) => ({
-                  ...prevFormData,
-                  warehouseTypeId: parseInt(e.target.value),
-                }))
-              }
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                warehouseTypeId: parseInt(e.target.value),
+              }))
+            }
           >
-            <option value="" disabled hidden>
+            <option value="" disabled selected>
               Ukuran
             </option>
             {typeOptions.map((option) => (
@@ -354,7 +364,7 @@ const DetailGudang = () => {
         />
       </div>
       <div>
-        <button className="bg-orange-500 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8">
+        <button className="bg-orange-500 hover:bg-orange-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8">
           Submit
         </button>
       </div>
