@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
 import Peta from "../admin-create-warehouse/Peta";
 
 const DetailGudang = () => {
@@ -9,16 +10,46 @@ const DetailGudang = () => {
   const [selectedProvinsi, setSelectedProvinsi] = useState("");
   const [selectedKota, setSelectedKota] = useState("");
   const [selectedKecamatan, setSelectedKecamatan] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [typeOptions, setTypeOptions] = useState([]);
+
+  const token = Cookies.get("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const handleTypeWarehouse = () => {
+    axios
+      .get("https://digiwarehouse-app.onrender.com/dasboard/warehouse/type", {
+        headers,
+      })
+      .then((response) => {
+        const data = response.data.data;
+
+        const formattedData = data.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+
+        setTypeOptions(formattedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
 
   useEffect(() => {
-    // Panggil API untuk mendapatkan data Provinsi saat komponen dimuat
+    handleTypeWarehouse();
+  }, []);
+
+  useEffect(() => {
     axios
       .get(
         "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/province"
       )
       .then((response) => {
         console.log("Data:", response.data.data);
-        setProvinsi(response.data.data); // Set Provinsi data into state
+        setProvinsi(response.data.data); 
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -26,7 +57,7 @@ const DetailGudang = () => {
   }, []);
 
   const handleProvinsiChange = (event) => {
-    setSelectedProvinsi(event.target.value); // Menyimpan nilai provinsi yang dipilih
+    setSelectedProvinsi(event.target.value); 
   };
 
   useEffect(() => {
@@ -37,7 +68,7 @@ const DetailGudang = () => {
         )
         .then((response) => {
           console.log("Data Kota:", response.data.data);
-          setKota(response.data.data); // Set data kota ke state
+          setKota(response.data.data); 
         })
         .catch((error) => {
           console.error("Error fetching city data:", error);
@@ -46,7 +77,7 @@ const DetailGudang = () => {
   }, [selectedProvinsi]);
 
   const handleKotaChange = (event) => {
-    setSelectedKota(event.target.value); // Menyimpan nilai kota yang dipilih
+    setSelectedKota(event.target.value); 
   };
 
   useEffect(() => {
@@ -57,7 +88,7 @@ const DetailGudang = () => {
         )
         .then((response) => {
           console.log("Data Kecamatan:", response.data.data);
-          setKecamatan(response.data.data); // Set data kecamatan ke state
+          setKecamatan(response.data.data); 
         })
         .catch((error) => {
           console.error("Error fetching district data:", error);
@@ -66,7 +97,7 @@ const DetailGudang = () => {
   }, [selectedKota]);
 
   const handleKecamatanChange = (event) => {
-    setSelectedKecamatan(event.target.value); // Menyimpan nilai kota yang dipilih
+    setSelectedKecamatan(event.target.value); 
   };
 
   return (
@@ -168,6 +199,25 @@ const DetailGudang = () => {
           />
         </div>
         <div className="mb-4">
+        <select
+            id="warehouseTypeId"
+            name="warehouseTypeId"
+            className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
+            value={selectedType}
+            onChange={(e) => setSelectedType(e.target.value)}
+          >
+            <option value="" disabled hidden>
+              Ukuran
+            </option>
+            {typeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+        <div className="mb-4">
           <input
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="username"
@@ -175,7 +225,6 @@ const DetailGudang = () => {
             placeholder="Harga"
           />
         </div>
-      </div>
       <div className="mt-8 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
@@ -193,8 +242,24 @@ const DetailGudang = () => {
         />
       </div>
       <Peta/>
-      <div className="mt-4">
-        
+      <div>
+        <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
+          Picture
+        </h2>
+        <input
+          className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none mt-3"
+          type="file"
+          id="foto1"
+          accept="image/png, image/jpeg"
+          onChange={(e) => {
+            handleSubmitAddPicture(e.target.files[0]);
+          }}
+        />
+      </div>
+      <div>
+        <button className="bg-orange-500 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8">
+          Submit
+        </button>
       </div>
     </form>
   );
