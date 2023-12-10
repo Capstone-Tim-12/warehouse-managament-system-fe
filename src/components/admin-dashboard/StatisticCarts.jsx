@@ -52,7 +52,7 @@ function StatisticCarts() {
 
   return (
     <div>
-      <div style={{ height: 350 }} className="bg-[#DDE5E9] p-3 rounded">
+      <div style={{ height: 350 }} className="bg-[#E8EBEF] p-3 rounded">
         <BarChart chartData={userData} />
       </div>
     </div>
