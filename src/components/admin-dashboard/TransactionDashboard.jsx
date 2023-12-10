@@ -101,7 +101,7 @@ const TransactionDashboard = () => {
 
         <button
           id="see-more-transaction"
-          className="flex items-center gap-5 mt-3"
+          className="flex items-center gap-5 mt-3 text-[#17345F] font-bold"
           onClick={() => {
             navigate("/admin/all-transactions");
           }}

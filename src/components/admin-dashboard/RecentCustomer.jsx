@@ -62,7 +62,7 @@ const RecentCustomer = () => {
 
       <button
         id="see-more-customer"
-        className="flex items-center gap-5"
+        className="flex items-center gap-5 text-[#17345F] font-bold"
         onClick={() => {
           navigate("/admin/transaksi");
         }}
