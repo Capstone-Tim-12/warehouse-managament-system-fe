@@ -192,17 +192,7 @@ const DetailGudang = () => {
         />
       </div>
       <div className="mt-4">
-        <select
-          className=" w-[185px] h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none "
-          value=""
-        >
-          <option value="" disabled hidden>
-            Skema Pembayaran
-          </option>
-          <option>Mingguan</option>
-          <option>Bulanan</option>
-          <option>Tahunan</option>
-        </select>
+        
       </div>
     </form>
   );
