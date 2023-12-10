@@ -25,7 +25,6 @@ const DetailGudang = () => {
   const [kecamatan, setKecamatan] = useState([]);
   const [selectedProvinsi, setSelectedProvinsi] = useState("");
   const [selectedKota, setSelectedKota] = useState("");
-  const [selectedKecamatan, setSelectedKecamatan] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
 
@@ -261,7 +260,12 @@ const DetailGudang = () => {
             name="surfaceArea"
             type="text"
             placeholder="Luas Tanah"
-            onChange={handleChange}
+            onChange={(e) =>
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  surfaceArea: parseInt(e.target.value),
+                }))
+              }
           />
         </div>
         <div className="mb-4">
@@ -271,7 +275,12 @@ const DetailGudang = () => {
             name="buildingArea"
             type="text"
             placeholder="Luas Bangunan"
-            onChange={handleChange}
+            onChange={(e) =>
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  buildingArea: parseInt(e.target.value),
+                }))
+              }
           />
         </div>
         <div className="mb-4">
@@ -279,8 +288,12 @@ const DetailGudang = () => {
             id="warehouseTypeId"
             name="warehouseTypeId"
             className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
-            value={selectedType}
-            onChange={(e) => setSelectedType(e.target.value)}
+            onChange={(e) =>
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  warehouseTypeId: parseInt(e.target.value),
+                }))
+              }
           >
             <option value="" disabled hidden>
               Ukuran
@@ -300,7 +313,12 @@ const DetailGudang = () => {
           name="price"
           type="text"
           placeholder="Harga"
-          onChange={handleChange}
+          onChange={(e) =>
+            setDataWarehouse((prevFormData) => ({
+              ...prevFormData,
+              price: parseInt(e.target.value),
+            }))
+          }
         />
       </div>
       <div className="mt-8 mb-4">
