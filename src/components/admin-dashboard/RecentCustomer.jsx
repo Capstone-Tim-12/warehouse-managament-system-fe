@@ -44,7 +44,7 @@ const RecentCustomer = () => {
           {recentCustomer.slice(0, 3).map((item) => {
             return (
               <div
-                className=" bg-cloud-burst-200 w-full h-auto p-3 rounded-[12px] flex items-center gap-4 border border-black"
+                className=" bg-[#94A2B5] w-full h-auto p-3 rounded-[12px] flex items-center gap-4 border border-black"
                 key={item.transactionId}
               >
                 <div className="bg-cloud-burst-500 w-[30px] h-[30px] flex justify-center items-center text-white rounded-full">
