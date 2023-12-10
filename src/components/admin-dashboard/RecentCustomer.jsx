@@ -35,7 +35,7 @@ const RecentCustomer = () => {
   }, []);
 
   return (
-    <div className="bg-white rounded-[8px] p-3">
+    <div className=" rounded-[8px] p-3 bg-[#DDE5E9]">
       <h3 className="text-[20px] font-bold">Recent Customer</h3>
       {loading ? (
         <p className="text-xl py-5">Memuat data...</p>

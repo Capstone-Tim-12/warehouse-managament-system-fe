@@ -57,7 +57,7 @@ const TransactionDashboard = () => {
 
   return (
     <>
-      <div className="mx-3 bg-white p-3 w-max md:w-auto">
+      <div className="mx-3 bg-[#DDE5E9] p-3 w-max md:w-auto">
         <h4 className="text-2xl font-bold mb-4">Transaction</h4>
 
         {loading ? (
