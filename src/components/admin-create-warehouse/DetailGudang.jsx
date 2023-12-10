@@ -124,7 +124,6 @@ const DetailGudang = () => {
     axios
       .get("https://digiwarehouse-app.onrender.com/user/province")
       .then((response) => {
-        console.log("Data:", response.data.data);
         setProvinsi(response.data.data);
       })
       .catch((error) => {
@@ -139,7 +138,6 @@ const DetailGudang = () => {
           `https://digiwarehouse-app.onrender.com/user/regency/${selectedProvinsi}`
         )
         .then((response) => {
-          console.log("Data Kota:", response.data.data);
           setKota(response.data.data);
         })
         .catch((error) => {
@@ -155,7 +153,6 @@ const DetailGudang = () => {
           `https://digiwarehouse-app.onrender.com/user/district/${selectedKota}`
         )
         .then((response) => {
-          console.log("Data Kecamatan:", response.data.data);
           setKecamatan(response.data.data);
         })
         .catch((error) => {
