@@ -1,12 +1,13 @@
 import userIcon from '../../assets/user-setting-icon.svg'
 import emailIcon from '../../assets/icon-email-setting.svg'
+import passIcon from '../../assets/icon-pass-setting.svg'
 import { useState } from 'react'
 
 const Profile = () => {
     const [profile, setProfile] = useState({
         user: '',
         email: '',
-        address: '',
+        password: '',
     })
 
     const handleChange = (e) => {
@@ -49,21 +50,27 @@ const Profile = () => {
                     </label>
                 </div>
             </div>
-            <div className={`flex flex-row items-center m-auto py-2 px-4 gap-2 rounded-lg w-full focus-within:border-cloud-burst-500 border ${profile.address !== '' && 'border-cloud-burst-500 border'}`}>
-                <label className="relative cursor-pointer mt-4 w-full">
-                    <textarea
-                        name="address"
-                        id="inptSettingAddress"
-                        value={profile.address}
-                        onChange={handleChange}
-                        placeholder="Alamat"
-                        className="w-full h-full rounded-lg focus:outline-none focus:ring-0 border border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"></textarea>
-                    <span className='absolute left-0 transition duration-200 label-input'>Alamat</span>
-                </label>
+            <div className={`flex flex-row items-center m-auto px-4 gap-2 h-16 rounded-lg w-full focus-within:border-cloud-burst-500 border ${profile.password !== '' && 'border-cloud-burst-500 border'}`}>
+                <div>
+                    <img src={passIcon} alt="" />
+                </div>
+                <div className="flex flex-col w-full relative">
+                    <label className="relative cursor-pointer mt-1">
+                        <input type="password"
+                            name='password'
+                            value={profile.password}
+                            id='inpt-setting-secure-password'
+                            onChange={handleChange}
+                            className="focus:outline-none focus:ring-0 border border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
+                            placeholder="" />
+                        <span className='absolute left-0 transition duration-200 label-input'>Password</span>
+                    </label>
+                </div>
             </div>
-            <div className="flex justify-start">
+            <div className="flex justify-end">
                 <button id="save-profile-setting"
-                    className="bg-crusta-500 text-white flex justify-center items-center h-10 w-72 rounded-lg hover:bg-crusta-600">
+                     className="bg-crusta-500 text-white flex justify-center items-center h-10 w-72 rounded-lg hover:bg-crusta-600"
+                >
                     Simpan
                 </button>
             </div>
