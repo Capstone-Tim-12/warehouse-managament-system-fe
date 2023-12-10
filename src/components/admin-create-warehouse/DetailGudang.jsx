@@ -58,6 +58,15 @@ const DetailGudang = () => {
     setSelectedProvinsi(event.target.value);
   };
 
+  const handleKotaChange = (event) => {
+    setSelectedKota(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDataWarehouse((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
   useEffect(() => {
     if (selectedProvinsi !== "") {
       axios
@@ -73,10 +82,6 @@ const DetailGudang = () => {
         });
     }
   }, [selectedProvinsi]);
-
-  const handleKotaChange = (event) => {
-    setSelectedKota(event.target.value);
-  };
 
   useEffect(() => {
     if (selectedKota !== "") {
@@ -94,8 +99,36 @@ const DetailGudang = () => {
     }
   }, [selectedKota]);
 
-  const handleKecamatanChange = (event) => {
-    setSelectedKecamatan(event.target.value);
+  const handleSubmitAddPicture = async (file) => {
+    let formData = new FormData();
+    formData.append("photos", file);
+
+    try {
+      const response = await fetch(
+        "https://digiwarehouse-app.onrender.com/warehouse/photo/upload",
+        {
+          method: "POST",
+          body: formData,
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        // eslint-disable-next-line no-unused-vars
+        const data = await response.json();
+        setDataWarehouse((prev) => ({
+          ...prev,
+          image: data.data.images,
+        }));
+        console.log(data.data.images);
+      } else {
+        console.log("Oops! something err");
+      }
+    } catch (error) {
+      console.error("Error occurred:", error);
+    }
   };
 
   return (
@@ -107,6 +140,7 @@ const DetailGudang = () => {
           name="name"
           type="text"
           placeholder="Nama Warehouse"
+          onChange={handleChange}
         />
       </div>
       <div className="mt-8 mb-8">
@@ -115,6 +149,7 @@ const DetailGudang = () => {
           id="description"
           name="description"
           placeholder="Deskripsi Gudang"
+          onChange={handleChange}
         ></textarea>
       </div>
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
@@ -158,8 +193,7 @@ const DetailGudang = () => {
           id="disctridId"
           name="districId"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
-          value={selectedKecamatan}
-          onChange={handleKecamatanChange}
+          onChange={handleChange}
         >
           <option value="" disabled hidden>
             Kecamatan
@@ -182,6 +216,7 @@ const DetailGudang = () => {
           name="address"
           type="text"
           placeholder="Alamat"
+          onChange={handleChange}
         />
       </div>
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
@@ -192,6 +227,7 @@ const DetailGudang = () => {
             name="surfaceArea"
             type="text"
             placeholder="Luas Tanah"
+            onChange={handleChange}
           />
         </div>
         <div className="mb-4">
@@ -201,6 +237,7 @@ const DetailGudang = () => {
             name="buildingArea"
             type="text"
             placeholder="Luas Bangunan"
+            onChange={handleChange}
           />
         </div>
         <div className="mb-4">
@@ -229,6 +266,7 @@ const DetailGudang = () => {
           name="price"
           type="text"
           placeholder="Harga"
+          onChange={handleChange}
         />
       </div>
       <div className="mt-8 mb-4">
@@ -238,6 +276,7 @@ const DetailGudang = () => {
           name="owner"
           type="text"
           placeholder="Nama Pemilik"
+          onChange={handleChange}
         />
       </div>
       <div className="mt-4 mb-4">
@@ -247,6 +286,7 @@ const DetailGudang = () => {
           name="phoneNumber"
           type="text"
           placeholder="No. Telp"
+          onChange={handleChange}
         />
       </div>
       <Peta />
