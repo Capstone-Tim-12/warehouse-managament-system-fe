@@ -7,10 +7,6 @@ const Popup = ({ onClose, transaction }) => {
   const [showSelect, setShowSelect] = useState(false);
   const [transactionPopup, setTransactionPopup] = useState([]);
 
-  const handleTolakClick = () => {
-    setShowSelect(true);
-  };
-
   const handlePopup = () => {
     const token = Cookies.get("token");
     const headers = {
@@ -32,6 +28,27 @@ const Popup = ({ onClose, transaction }) => {
       handlePopup(transaction?.transactionId);
     }
   }, [transaction]);
+
+  //Handle transaksi diterima
+  const handleTransactionApprove = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/approval/${transaction.transactionId}`, transactionPopup, { headers })
+      .then((response) => {
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //Handle transaksi ditolak
+  const handleTolakClick = () => {
+    setShowSelect(true);
+  };
   return (
     <Overlay>
       <div className="bg-white w-[546px] p-4 rounded-xl flex flex-col gap-y-5 py-4 text-cloud-burst-500">
@@ -75,7 +92,7 @@ const Popup = ({ onClose, transaction }) => {
           </div>
         ) : (
           <div className="flex justify-evenly">
-            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={() => {}}>
+            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionApprove}>
               Terima
             </button>
             <button className="text-crusta-500 w-[177px] h-[40px] rounded-lg border border-crusta-500" onClick={handleTolakClick}>
