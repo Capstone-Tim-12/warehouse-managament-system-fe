@@ -5,7 +5,7 @@ import axios from "axios";
 import Logo from "../../../assets/logo.svg";
 import Icon1 from "../../../assets/icon1-login-admin.svg";
 import Icon2 from "../../../assets/icon2-login-admin.svg";
-import Icon3 from "../../../assets/icon3-login-admin.svg";
+import Icon3 from "../../../assets/icon-email-setting.svg";
 import Icon4 from "../../../assets/icon4-login-admin.svg";
 import Icon5 from "../../../assets/icon5-login-admin.svg";
 import Icon6 from "../../../assets/icon6-login-admin.svg";
@@ -28,6 +28,7 @@ function LoginForm() {
 
   const handleUsernameBlur = () => {
     setUsernameFocused(false);
+    validateEmail();
   };
 
   const handlePasswordFocus = () => {
@@ -36,16 +37,12 @@ function LoginForm() {
 
   const handlePasswordBlur = () => {
     setPasswordFocused(false);
-  };
-  
-    const handlePasswordChange = (e) => {
-    setPassword(e.target.value);
+    validatePassword();
   };
 
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
   };
-
 
   const validateEmail = () => {
     if (!email) {
@@ -70,15 +67,15 @@ function LoginForm() {
       validatePassword();
       return;
     }
-  
+
     axios
-      .post(
-        "https://digiwarehouse-app.onrender.com/user/login",
-        { email: email, password: password }
-      )
+      .post("https://digiwarehouse-app.onrender.com/user/login", {
+        email: email,
+        password: password,
+      })
       .then((response) => {
         const user = response?.data?.data;
-        
+
         if (user && user.role === "admin") {
           const token = user.token;
           const name = user.name;
@@ -86,14 +83,16 @@ function LoginForm() {
           Cookies.set("name", name, { path: "/" });
           navigate("/admin/dashboard");
         } else {
-          setErrorInvalid("Anda tidak memiliki izin untuk masuk sebagai admin.");
+          setErrorInvalid(
+            "Anda tidak memiliki izin untuk masuk sebagai admin."
+          );
         }
       })
       .catch((error) => {
         console.log(error);
         if (error.response) {
           const status = error.response.status;
-  
+
           if (status === 400 || status === 404) {
             setErrorInvalid("Email atau Password tidak valid !");
           } else {
@@ -133,11 +132,11 @@ function LoginForm() {
             <p
               className={`${
                 usernameFocused || email
-                  ? "text-semibold text-cloud-burst-500 -translate-y-2"
-                  : ""
+                  ? "font-semibold text-cloud-burst-500 -translate-y-0.5"
+                  : "font-semibold text-cloud-burst-500 pt-4"
               }`}
             >
-              Username
+              Email
             </p>
           </label>
           <input
@@ -145,14 +144,13 @@ function LoginForm() {
             id="username"
             name="email"
             value={email}
-            className={`w-[300px] sm:w-[421px] md:w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border ${
+            className={`w-[300px] sm:w-[421px] md:w-[421px] h-[57px] pl-[50px] pr-14 pt-7 text-[#2C2C2E] border ${
               errorInvalid || emailError ? "border-red-600" : ""
             } rounded-md focus:outline-none focus:border-blue-400 focus:ring-0`}
             onFocus={handleUsernameFocus}
             onBlur={handleUsernameBlur}
             onChange={(e) => {
               setEmail(e.target.value);
-              validateEmail();
             }}
           />
           {emailError && <p className="text-red-400">{emailError}</p>}
@@ -167,27 +165,25 @@ function LoginForm() {
             <p
               className={`${
                 passwordFocused || password
-                  ? "text-semibold text-cloud-burst-500 -translate-y-2"
-                  : ""
+                  ? "font-semibold text-cloud-burst-500 -translate-y-0.5"
+                  : "font-semibold text-cloud-burst-500 pt-4"
               }`}
             >
               Password
             </p>
           </label>
           <input
-            type={showPassword ? 'text' : 'password'}
+            type={showPassword ? "text" : "password"}
             id="password"
             name="password"
             value={password}
-            className={`w-[300px] sm:w-[421px] md:w-[421px] h-[57px] pl-[50px] pr-14 pt-4 border ${
+            className={`w-[300px] sm:w-[421px] md:w-[421px] h-[57px] pl-[50px] pr-14 pt-7 text-[#2C2C2E] border ${
               errorInvalid || passwordError ? "border-red-600" : ""
             } rounded-md focus:outline-none focus:border-blue-400 focus:ring-0`}
             onFocus={handlePasswordFocus}
             onBlur={handlePasswordBlur}
             onChange={(e) => {
               setPassword(e.target.value);
-              validatePassword();
-              handlePasswordChange()
             }}
           />
           {password && (
@@ -204,16 +200,18 @@ function LoginForm() {
           )}
           {passwordError && <p className="text-red-400">{passwordError}</p>}
           {errorInvalid && <p className="text-red-400">{errorInvalid}</p>}
-
         </div>
 
         <div className="flex justify-between">
           <button
             type="button"
             className="w-1/2 bg-crusta-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-crusta-600 transition duration-300 mr-2 flex justify-center"
+            onClick={() => {
+              setEmail(""), setPassword("");
+            }}
           >
             <img src={Icon5} alt="Icon5" className="w-6 h-6 mr-3 " />
-            Hapus
+            Reset
           </button>
 
           <button
