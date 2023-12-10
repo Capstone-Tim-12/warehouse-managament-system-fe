@@ -44,12 +44,10 @@ const DetailGudang = () => {
 
   useEffect(() => {
     axios
-      .get(
-        "https://digiwarehouse-app.onrender.com/user/province"
-      )
+      .get("https://digiwarehouse-app.onrender.com/user/province")
       .then((response) => {
         console.log("Data:", response.data.data);
-        setProvinsi(response.data.data); 
+        setProvinsi(response.data.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
@@ -57,7 +55,7 @@ const DetailGudang = () => {
   }, []);
 
   const handleProvinsiChange = (event) => {
-    setSelectedProvinsi(event.target.value); 
+    setSelectedProvinsi(event.target.value);
   };
 
   useEffect(() => {
@@ -68,7 +66,7 @@ const DetailGudang = () => {
         )
         .then((response) => {
           console.log("Data Kota:", response.data.data);
-          setKota(response.data.data); 
+          setKota(response.data.data);
         })
         .catch((error) => {
           console.error("Error fetching city data:", error);
@@ -77,7 +75,7 @@ const DetailGudang = () => {
   }, [selectedProvinsi]);
 
   const handleKotaChange = (event) => {
-    setSelectedKota(event.target.value); 
+    setSelectedKota(event.target.value);
   };
 
   useEffect(() => {
@@ -88,7 +86,7 @@ const DetailGudang = () => {
         )
         .then((response) => {
           console.log("Data Kecamatan:", response.data.data);
-          setKecamatan(response.data.data); 
+          setKecamatan(response.data.data);
         })
         .catch((error) => {
           console.error("Error fetching district data:", error);
@@ -97,7 +95,7 @@ const DetailGudang = () => {
   }, [selectedKota]);
 
   const handleKecamatanChange = (event) => {
-    setSelectedKecamatan(event.target.value); 
+    setSelectedKecamatan(event.target.value);
   };
 
   return (
@@ -105,7 +103,8 @@ const DetailGudang = () => {
       <div className="mt-8 mb-8">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="name"
+          name="name"
           type="text"
           placeholder="Nama Warehouse"
         />
@@ -114,6 +113,7 @@ const DetailGudang = () => {
         <textarea
           className="shadow appearance-none border rounded-xl w-full h-[120px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
           id="description"
+          name="description"
           placeholder="Deskripsi Gudang"
         ></textarea>
       </div>
@@ -155,6 +155,8 @@ const DetailGudang = () => {
           )}
         </select>
         <select
+          id="disctridId"
+          name="districId"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
           value={selectedKecamatan}
           onChange={handleKecamatanChange}
@@ -176,7 +178,8 @@ const DetailGudang = () => {
       <div className="mt-4 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="address"
+          name="address"
           type="text"
           placeholder="Alamat"
         />
@@ -185,7 +188,8 @@ const DetailGudang = () => {
         <div className="mb-4">
           <input
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
+            id="surfaceArea"
+            name="surfaceArea"
             type="text"
             placeholder="Luas Tanah"
           />
@@ -193,13 +197,14 @@ const DetailGudang = () => {
         <div className="mb-4">
           <input
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
+            id="buildingArea"
+            name="buildingArea"
             type="text"
             placeholder="Luas Bangunan"
           />
         </div>
         <div className="mb-4">
-        <select
+          <select
             id="warehouseTypeId"
             name="warehouseTypeId"
             className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
@@ -217,18 +222,20 @@ const DetailGudang = () => {
           </select>
         </div>
       </div>
-        <div className="mb-4">
-          <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
-            type="text"
-            placeholder="Harga"
-          />
-        </div>
+      <div className="mb-4">
+        <input
+          className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+          id="price"
+          name="price"
+          type="text"
+          placeholder="Harga"
+        />
+      </div>
       <div className="mt-8 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="owner"
+          name="owner"
           type="text"
           placeholder="Nama Pemilik"
         />
@@ -236,12 +243,13 @@ const DetailGudang = () => {
       <div className="mt-4 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="phoneNumber"
+          name="phoneNumber"
           type="text"
           placeholder="No. Telp"
         />
       </div>
-      <Peta/>
+      <Peta />
       <div>
         <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
           Picture
