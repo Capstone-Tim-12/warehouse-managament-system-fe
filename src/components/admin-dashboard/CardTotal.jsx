@@ -43,7 +43,7 @@ const CardTotal = () => {
           alt="manage gudang icon"
           style={{
             filter:
-              "invert(66%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
+              "invert(30%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
           }}
         />
         <p className="text-[20px] my-[20px]">Total gudang yang tersedia</p>
@@ -58,7 +58,7 @@ const CardTotal = () => {
           alt="manage gudang icon"
           style={{
             filter:
-              "invert(66%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
+              "invert(30%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
           }}
         />
         <p className="text-[20px] my-[20px]">Total gudang yang disewa</p>
@@ -72,7 +72,7 @@ const CardTotal = () => {
           alt="transaksi icon"
           style={{
             filter:
-              "invert(66%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
+              "invert(30%) sepia(98%) saturate(3365%) hue-rotate(338deg) brightness(103%) contrast(101%)",
           }}
         />
         <p className="text-[20px] my-[20px]">Total pendapatan</p>
