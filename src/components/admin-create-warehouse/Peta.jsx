@@ -1,11 +1,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import IconDelete from "../../assets/icon-delete.svg";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+import L from "leaflet";
 import "leaflet/dist/leaflet.css";
+
+import customMarkerIcon from "../../assets/marker.svg";
 
 const JakartaCoordinates = [-6.2088, 106.8456];
 
-const Peta = ({dataWarehouse, setDataWarehouse}) => {
+const customIcon = new L.Icon({
+  iconUrl: customMarkerIcon,
+  iconSize: [25, 40],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
+
+const Peta = ({ dataWarehouse, setDataWarehouse }) => {
   const [position, setPosition] = useState(JakartaCoordinates);
   const [longitude, setLongitude] = useState(JakartaCoordinates[1].toString());
   const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
@@ -20,15 +30,17 @@ const Peta = ({dataWarehouse, setDataWarehouse}) => {
 
   const handleLongitudeChange = (e) => {
     setDataWarehouse((prev) => ({
-      ...prev, longitude: parseFloat(e.target.value)
-    }))
+      ...prev,
+      longitude: parseFloat(e.target.value),
+    }));
     setLongitude(e.target.value);
   };
 
   const handleLatitudeChange = (e) => {
     setDataWarehouse((prev) => ({
-      ...prev, latitude: parseFloat(e.target.value)
-    }))
+      ...prev,
+      latitude: parseFloat(e.target.value),
+    }));
     setLatitude(e.target.value);
   };
 
@@ -40,6 +52,7 @@ const Peta = ({dataWarehouse, setDataWarehouse}) => {
       setPosition([newLatitude, newLongitude]);
     }
   }, [longitude, latitude]);
+
   useEffect(() => {
     if (mapRef.current) {
       mapRef.current.setView(position, 13);
@@ -69,7 +82,7 @@ const Peta = ({dataWarehouse, setDataWarehouse}) => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         />
-        <Marker position={position}>
+        <Marker position={position} icon={customIcon}>
           <Popup>
             <div>
               <h2>Selected Location</h2>
