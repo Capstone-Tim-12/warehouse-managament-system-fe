@@ -2,6 +2,11 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { notification } from "antd";
+import { Upload, message } from "antd";
+import { InboxOutlined, CloseCircleOutlined } from "@ant-design/icons";
+
+const Dragger = Upload.Dragger;
+
 import Peta from "../admin-create-warehouse/Peta";
 
 const DetailGudang = () => {
@@ -67,44 +72,69 @@ const DetailGudang = () => {
       });
   };
 
+  const [fileList, setFileList] = useState([]);
+
   const handleSubmitAddPicture = async (file) => {
-    let formData = new FormData();
-    formData.append("photos", file);
+    return new Promise(async (resolve, reject) => {
+      let formData = new FormData();
+      formData.append("photos", file);
 
-    try {
-      const response = await fetch(
-        "https://digiwarehouse-app.onrender.com/warehouse/photo/upload",
-        {
-          method: "POST",
-          body: formData,
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+      try {
+        const response = await fetch(
+          "https://digiwarehouse-app.onrender.com/warehouse/photo/upload",
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setDataWarehouse((prev) => ({
+            ...prev,
+            image: [...prev.image, ...data.data.images],
+          }));
+
+          setFileList((prev) => [
+            ...prev,
+            {
+              uid: `${file.uid}-${fileList.length}`,
+              name: file.name,
+              status: "done",
+              url: data.data.images[0],
+            },
+          ]);
+
+          resolve();
+        } else {
+          console.log("Oops! something err");
+          reject("Upload failed");
         }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setDataWarehouse((prev) => ({
-          ...prev,
-          image: data.data.images,
-        }));
-        console.log(data.data.images);
-      } else {
-        console.log("Oops! something err");
+      } catch (error) {
+        console.error("Error occurred:", error);
+        reject(error);
       }
-    } catch (error) {
-      console.error("Error occurred:", error);
-    }
+    });
+  };
+
+  const handleRemove = (file) => {
+    setFileList((prev) => prev.filter((item) => item.uid !== file.uid));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     axios
-      .post("https://digiwarehouse-app.onrender.com/warehouse/detail", dataWarehouse, {
-        headers,
-      })
+      .post(
+        "https://digiwarehouse-app.onrender.com/warehouse/detail",
+        dataWarehouse,
+        {
+          headers,
+        }
+      )
       .then((res) => {
         console.log(res);
         setIsSuccess(true);
@@ -112,7 +142,7 @@ const DetailGudang = () => {
         notification.success({
           message: "Success",
           description: "Data warehouse berhasil ditambahkan.",
-          placement: "top", 
+          placement: "top",
         });
       })
       .catch((err) => {
@@ -121,7 +151,7 @@ const DetailGudang = () => {
         notification.error({
           message: "Error",
           description: "Terjadi kesalahan saat menambahkan data warehouse.",
-          placement: "top", 
+          placement: "top",
         });
       });
   };
@@ -350,18 +380,30 @@ const DetailGudang = () => {
       </div>
       <Peta dataWarehouse={dataWarehouse} setDataWarehouse={setDataWarehouse} />
       <div>
-        <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
+      <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
           Picture
         </h2>
-        <input
-          className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none mt-3"
-          type="file"
-          id="foto1"
-          accept="image/png, image/jpeg"
-          onChange={(e) => {
-            handleSubmitAddPicture(e.target.files[0]);
+        <Dragger
+          multiple
+          listType="picture-card"
+          fileList={fileList}
+          customRequest={({ file, onSuccess, onError }) => {
+            handleSubmitAddPicture(file)
+              .then(() => onSuccess())
+              .catch((error) => {
+                console.error("Error uploading picture:", error);
+                onError(error);
+              });
           }}
-        />
+          onRemove={(file) => handleRemove(file)}
+        >
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">
+            Click or drag file to this area to upload
+          </p>
+        </Dragger>
       </div>
       <div>
         <button className="bg-orange-500 hover:bg-orange-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8">
