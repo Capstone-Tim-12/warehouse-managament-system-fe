@@ -6,6 +6,7 @@ import axios from "axios";
 const Popup = ({ onClose, transaction }) => {
   const [showSelect, setShowSelect] = useState(false);
   const [transactionPopup, setTransactionPopup] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const handlePopup = () => {
     const token = Cookies.get("token");
@@ -39,6 +40,7 @@ const Popup = ({ onClose, transaction }) => {
       .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/approval/${transaction.transactionId}`, transactionPopup, { headers })
       .then((response) => {
         console.log(response?.data?.data);
+        onClose();
       })
       .catch((error) => {
         console.log(error);
@@ -48,6 +50,26 @@ const Popup = ({ onClose, transaction }) => {
   //Handle transaksi ditolak
   const handleTolakClick = () => {
     setShowSelect(true);
+  };
+
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
+  const handleTransactionRejected = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/rejected/${transaction.transactionId}`, transactionPopup, { headers })
+      .then((response) => {
+        console.log(response?.data?.data);
+        onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Overlay>
@@ -78,7 +100,7 @@ const Popup = ({ onClose, transaction }) => {
         </div>
         {showSelect ? (
           <div className="flex flex-col gap-y-4">
-            <select className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
+            <select className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value={selectedOption} onChange={handleSelectChange}>
               <option value="" disabled hidden>
                 Alasan Menolak
               </option>
@@ -88,7 +110,9 @@ const Popup = ({ onClose, transaction }) => {
               <option value="Opsi 4">Opsi 4</option>
               <option value="Opsi 5">Opsi 5</option>
             </select>
-            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg">Kirim</button>
+            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionRejected}>
+              Kirim
+            </button>
           </div>
         ) : (
           <div className="flex justify-evenly">
