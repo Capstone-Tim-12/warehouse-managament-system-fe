@@ -15,7 +15,7 @@ const DetailUser = () => {
     const headers = {
       Authorization:`Bearer ${token}`,
     };
-    axios.get(`http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/user/${id}`, {headers})
+    axios.get(`https://digiwarehouse-app.onrender.com/dasboard/user/${id}`, {headers})
     .then((response)=> {
       setItem(response?.data?.data)
       console.log(response?.data?.data)

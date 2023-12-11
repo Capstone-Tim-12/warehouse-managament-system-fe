@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
 
@@ -7,10 +8,16 @@ import manageGudangIcon from "../../assets/manage-gudang-icon.svg";
 import managerUserIcon from "../../assets/manage-user-icon.svg";
 import transaksiIcon from "../../assets/transaksi-icon.svg";
 import pengaturanIcon from "../../assets/pengaturan-icon.svg";
+import sidebarDropdown from "../../assets/dropdown-sidebar-admin.svg";
 
 const SidebarAdmin = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const toggleDropdown = () => {
+    setIsDropdownOpen(!isDropdownOpen);
+  };
 
   const isLinkActive = (pathname) => {
     return location.pathname === pathname
@@ -43,7 +50,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/dashboard"
-                  className={`hover:bg-[#102543] h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={` h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/dashboard"
                   )}`}
                 >
@@ -54,7 +61,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/manage-gudang"
-                  className={`hover:bg-[#102543] h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={` h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/manage-gudang"
                   )}`}
                 >
@@ -63,20 +70,57 @@ const SidebarAdmin = () => {
                 </Link>
               </li>
               <li>
-                <Link
-                  to="/admin/transaksi"
-                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
-                    "/admin/transaksi"
-                  )}`}
-                >
-                  <img src={transaksiIcon} alt="transaksi icon" />
-                  Transaksi
-                </Link>
+                <div className="relative inline-block text-left">
+                  <div>
+                    <button
+                      onClick={toggleDropdown}
+                      className={`${
+                        isDropdownOpen
+                          ? "bg-[#102543] h-12 text-white font-bold  rounded-lg transition-all duration-300"
+                          : "text-[#eee] transition-all duration-300"
+                      }  h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2`}
+                    >
+                      <img src={transaksiIcon} alt="transaksi icon" />
+                      Transaksi
+                      <span className="ml-10">
+                        <img src={sidebarDropdown} />
+                      </span>
+                    </button>
+                  </div>
+
+                  {isDropdownOpen && (
+                    <div
+                      className="absolute right-0 mt-2 origin-top-right bg-[#102543] divide-y divide-gray-800 rounded-md shadow-lg"
+                      role="menu"
+                      aria-orientation="vertical"
+                      aria-labelledby="options-menu"
+                    >
+                      <div className="py-1">
+                        <Link
+                          to="/admin/transaksi"
+                          className="block px-4 py-2 text-sm text-white "
+                          role="menuitem"
+                        >
+                          Daftar Transaksi
+                        </Link>
+                      </div>
+                      <div className="py-1">
+                        <Link
+                          to="/admin/all-transactions"
+                          className="block px-4 py-2 text-sm text-white "
+                          role="menuitem"
+                        >
+                          Laporan Transaksi
+                        </Link>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </li>
               <li>
                 <Link
                   to="/admin/manage-user"
-                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  className={`py-1 px-5  h-12 rounded-lg w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/manage-user"
                   )}`}
                 >
@@ -87,7 +131,7 @@ const SidebarAdmin = () => {
               <li>
                 <Link
                   to="/admin/pengaturan"
-                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
+                  className={`py-1 px-5 h-12 rounded-lg w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
                     "/admin/pengaturan"
                   )}`}
                 >

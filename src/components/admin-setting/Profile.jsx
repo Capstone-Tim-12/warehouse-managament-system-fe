@@ -29,7 +29,7 @@ const Profile = () => {
                             name='user'
                             value={profile.user}
                             onChange={handleChange}
-                            className="focus:outline-none focus:ring-0 border border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
+                            className="focus:outline-none border focus:ring-0 border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
                             placeholder="Name" />
                         <span className='absolute left-0 transition duration-200 label-input'>Name</span>
                     </label>
@@ -46,7 +46,7 @@ const Profile = () => {
                             name='email'
                             value={profile.email}
                             onChange={handleChange}
-                            className="focus:outline-none focus:ring-0 border border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
+                            className="focus:outline-none border focus:ring-0 border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300"
                             placeholder="Email" />
                         <span className='absolute left-0 transition duration-200 label-input'>Email</span>
                     </label>

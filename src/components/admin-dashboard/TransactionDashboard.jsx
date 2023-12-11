@@ -19,7 +19,7 @@ const TransactionDashboard = () => {
 
     axios
       .get(
-        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/dasboard/home/trx-history?page=1&limit=10",
+        "https://digiwarehouse-app.onrender.com/dasboard/home/trx-history?page=1&limit=10",
         { headers }
       )
       .then((response) => {
@@ -57,7 +57,7 @@ const TransactionDashboard = () => {
 
   return (
     <>
-      <div className="mx-3 bg-white p-3 w-max md:w-auto">
+      <div className="mx-3 bg-[#E8EBEF] p-3 w-max md:w-auto">
         <h4 className="text-2xl font-bold mb-4">Transaction</h4>
 
         {loading ? (
@@ -100,7 +100,8 @@ const TransactionDashboard = () => {
         )}
 
         <button
-          className="flex items-center gap-5 mt-3"
+          id="see-more-transaction"
+          className="flex items-center gap-5 mt-3 text-[#17345F] font-bold"
           onClick={() => {
             navigate("/admin/all-transactions");
           }}
