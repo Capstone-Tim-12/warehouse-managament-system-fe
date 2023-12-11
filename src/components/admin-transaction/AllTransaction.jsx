@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { Skeleton } from "antd";
 import ArrowBack from "../../assets/arrow-back-left-Icons.svg";
 import searchIcon from "../../assets/search-icon.svg";
 import ArrowNext from "../../assets/arrow-next-right-Icons.svg";
@@ -126,7 +127,7 @@ const TransactionList = () => {
 
       <div className="px-4 md:px-8">
         {loading ? (
-          <p className="text-xl py-5 text-center">Memuat data...</p>
+         <Skeleton active />
         ) : !transactionList || transactionList.length === 0 ? (
           <p className="text-xl py-5 text-center">Tidak ada data transaksi</p>
         ) : (
