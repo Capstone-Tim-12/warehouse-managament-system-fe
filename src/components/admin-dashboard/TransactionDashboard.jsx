@@ -57,7 +57,7 @@ const TransactionDashboard = () => {
 
   return (
     <>
-      <div className="mx-3 bg-white p-3 w-max md:w-auto">
+      <div className="mx-3 bg-[#E8EBEF] p-3 w-max md:w-auto">
         <h4 className="text-2xl font-bold mb-4">Transaction</h4>
 
         {loading ? (
@@ -101,7 +101,7 @@ const TransactionDashboard = () => {
 
         <button
           id="see-more-transaction"
-          className="flex items-center gap-5 mt-3"
+          className="flex items-center gap-5 mt-3 text-[#17345F] font-bold"
           onClick={() => {
             navigate("/admin/all-transactions");
           }}

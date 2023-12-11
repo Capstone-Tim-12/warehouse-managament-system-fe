@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { Modal } from "antd";
 
 import logo from "../../assets/logo.svg";
 import dashboardIcon from "../../assets/dashboard-sidebar-icon.svg";
@@ -26,8 +27,17 @@ const SidebarAdmin = () => {
   };
 
   const handleLogOut = () => {
-    Cookies.remove("token");
-    navigate("/admin/login-admin");
+    Modal.confirm({
+      title: "Konfirmasi",
+      content: "Apakah Anda yakin ingin Logout",
+      okText: "Ya",
+      okType: "danger",
+      cancelText: "Batal",
+      onOk() {
+        Cookies.remove("token");
+        navigate("/admin/login-admin");
+      },
+    });
   };
 
   return (
@@ -49,6 +59,7 @@ const SidebarAdmin = () => {
             <ul className="flex flex-col items-center justify-center gap-y-[20px] text-center">
               <li>
                 <Link
+                  id="dashboard"
                   to="/admin/dashboard"
                   className={` h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/dashboard"
@@ -60,6 +71,7 @@ const SidebarAdmin = () => {
               </li>
               <li>
                 <Link
+                  id="manage-gudang"
                   to="/admin/manage-gudang"
                   className={` h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/manage-gudang"
@@ -73,6 +85,7 @@ const SidebarAdmin = () => {
                 <div className="relative inline-block text-left">
                   <div>
                     <button
+                      id="transaksi"
                       onClick={toggleDropdown}
                       className={`${
                         isDropdownOpen
@@ -97,6 +110,7 @@ const SidebarAdmin = () => {
                     >
                       <div className="py-1">
                         <Link
+                          id="daftar-transaksi"
                           to="/admin/transaksi"
                           className="block px-4 py-2 text-sm text-white "
                           role="menuitem"
@@ -106,6 +120,7 @@ const SidebarAdmin = () => {
                       </div>
                       <div className="py-1">
                         <Link
+                          id="laporan-transaksi"
                           to="/admin/all-transactions"
                           className="block px-4 py-2 text-sm text-white "
                           role="menuitem"
@@ -119,6 +134,7 @@ const SidebarAdmin = () => {
               </li>
               <li>
                 <Link
+                  id="manage-user"
                   to="/admin/manage-user"
                   className={`py-1 px-5  h-12 rounded-lg w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/manage-user"
@@ -130,6 +146,7 @@ const SidebarAdmin = () => {
               </li>
               <li>
                 <Link
+                  id="pengaturan"
                   to="/admin/pengaturan"
                   className={`py-1 px-5 h-12 rounded-lg w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
                     "/admin/pengaturan"
@@ -146,7 +163,7 @@ const SidebarAdmin = () => {
             <ul>
               <li>
                 <Link
-                  to="/admin/login-admin"
+                  id="logout"
                   onClick={handleLogOut}
                   className={`py-1 hover:bg-[#102543] h-12 rounded-lg px-5 w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/logout"
