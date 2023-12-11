@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import Cookies from "js-cookie";
+import { Modal } from "antd";
 
 import logo from "../../assets/logo.svg";
 import dashboardIcon from "../../assets/dashboard-sidebar-icon.svg";
@@ -26,8 +27,17 @@ const SidebarAdmin = () => {
   };
 
   const handleLogOut = () => {
-    Cookies.remove("token");
-    navigate("/admin/login-admin");
+    Modal.confirm({
+      title: "Konfirmasi",
+      content: "Apakah Anda yakin ingin Logout",
+      okText: "Ya",
+      okType: "danger",
+      cancelText: "Batal",
+      onOk() {
+        Cookies.remove("token");
+        navigate("/admin/login-admin");
+      },
+    });
   };
 
   return (
@@ -146,7 +156,6 @@ const SidebarAdmin = () => {
             <ul>
               <li>
                 <Link
-                  to="/admin/login-admin"
                   onClick={handleLogOut}
                   className={`py-1 hover:bg-[#102543] h-12 rounded-lg px-5 w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/logout"
