@@ -7,9 +7,13 @@ import ArrowNext from "../../assets/arrow-next-right-Icons.svg";
 const TransactionList = () => {
   const [transactionList, setTransactionList] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedPaymentScheme, setSelectedPaymentScheme] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedFilter, setSelectedFilter] = useState("");
+  const [isInputCleared, setIsInputCleared] = useState(false);
 
   const handleAllTransaction = () => {
+    setLoading(true);
+
     const token = Cookies.get("token");
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -17,31 +21,47 @@ const TransactionList = () => {
     const params = {
       page: 1,
       limit: 10,
-      paymentSchemeId: selectedPaymentScheme,
     };
 
     axios
-      .get(
-        "https://digiwarehouse-app.onrender.com/dasboard/home/trx-history",
-        {
-          headers,
-          params,
-        }
-      )
+      .get("https://digiwarehouse-app.onrender.com/dasboard/home/trx-history", {
+        headers,
+        params,
+      })
       .then((response) => {
-        setLoading(false);
-        setTransactionList(response?.data?.data || []); 
-        console.log(response?.data?.data);
+        const allTransactions = response?.data?.data || [];
+
+        const filteredTransactions = allTransactions.filter((item) =>
+          item.nominal.toString().includes(searchTerm)
+        );
+
+        const finalFilteredTransactions = filteredTransactions.filter((item) =>
+          selectedFilter === "seluruh-transaksi" || !selectedFilter
+            ? true
+            : item.paymentSchemeName.toLowerCase() ===
+              selectedFilter.toLowerCase()
+        );
+
+        setTransactionList(finalFilteredTransactions);
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
         setLoading(false);
+        setIsInputCleared(false);
       });
   };
 
   useEffect(() => {
     handleAllTransaction();
-  }, [selectedPaymentScheme]);
+  }, [searchTerm, selectedFilter]);
+
+  useEffect(() => {
+    if (isInputCleared) {
+      handleAllTransaction();
+    }
+  }, [isInputCleared]);
 
   return (
     <div>
@@ -52,16 +72,17 @@ const TransactionList = () => {
           </h2>
           <div>
             <select
+              value={selectedFilter}
+              onChange={(e) => setSelectedFilter(e.target.value)}
               className="w-[200px] lg:w-[300px] h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none"
-              value={selectedPaymentScheme}
-              onChange={(e) => setSelectedPaymentScheme(e.target.value)}
             >
-              <option value="" disabled hidden>
+              <option value="" disabled>
                 Filter Jenis Transaksi
               </option>
-              <option value="1">Mingguan</option>
-              <option value="2">Bulanan</option>
-              <option value="3">Tahunan</option>
+              <option value="seluruh-transaksi">Seluruh Transaksi</option>
+              <option value="mingguan">Mingguan</option>
+              <option value="bulanan">Bulanan</option>
+              <option value="tahunan">Tahunan</option>
             </select>
           </div>
         </div>
@@ -96,7 +117,10 @@ const TransactionList = () => {
             </thead>
             <tbody className="w-full text-xs md:text-lg">
               {transactionList.map((item) => (
-                <tr className="h-16 text-cloud-burst-500 border-b" key={item?.userId}>
+                <tr
+                  className="h-16 text-cloud-burst-500 border-b"
+                  key={item?.userId}
+                >
                   <td className="pb-2">{item?.userId}</td>
                   <td className="pb-2">{item?.transactionDate}</td>
                   <td className="pb-2">{item?.paymentSchemeName}</td>
