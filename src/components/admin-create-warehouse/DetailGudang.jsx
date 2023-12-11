@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { notification } from "antd";
-import { Upload, message, } from "antd";
+import { Upload, message } from "antd";
 import { InboxOutlined, CloseCircleOutlined } from "@ant-design/icons";
 
 const Dragger = Upload.Dragger;
@@ -267,6 +267,7 @@ const DetailGudang = () => {
           id="disctridId"
           name="districId"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
+          value={dataWarehouse.districId}
           onChange={handleChange}
         >
           <option value="" disabled hidden>
@@ -401,10 +402,6 @@ const DetailGudang = () => {
               });
           }}
           onRemove={(file) => handleRemove(file)}
-          style={{
-            padding: "20px", 
-            marginBottom: "20px", 
-          }}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
