@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { notification } from "antd";
+
 import Logo from "../../../assets/logo.svg";
 import Icon1 from "../../../assets/icon1-login-admin.svg";
 import Icon2 from "../../../assets/icon2-login-admin.svg";
@@ -83,9 +85,15 @@ function LoginForm() {
           Cookies.set("name", name, { path: "/" });
           navigate("/admin/dashboard");
         } else {
-          setErrorInvalid(
-            "Anda tidak memiliki izin untuk masuk sebagai admin."
-          );
+          notification.warning({
+            message: <div className="font-bold">Informasi</div>,
+            description: (
+              <div className="font-semibold">
+                Anda tidak memiliki izin untuk masuk sebagai admin
+              </div>
+            ),
+            placement: "top",
+          });
         }
       })
       .catch((error) => {
@@ -204,6 +212,7 @@ function LoginForm() {
 
         <div className="flex justify-between">
           <button
+            id="reset"
             type="button"
             className="w-1/2 bg-crusta-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-crusta-600 transition duration-300 mr-2 flex justify-center"
             onClick={() => {
@@ -215,6 +224,7 @@ function LoginForm() {
           </button>
 
           <button
+            id="login"
             type="submit"
             className="w-1/2 bg-crusta-500 text-white font-semibold py-2 px-4 rounded-md hover:bg-crusta-600 ml-2 flex justify-center"
           >

@@ -196,7 +196,7 @@ const WarehouseList = () => {
             className="relative rounded-[28px] flex items-center"
             onSubmit={(e) => e.preventDefault()}
           >
-            <button className="absolute pl-3">
+            <button id="searchInput" className="absolute pl-3">
               <img
                 onClick={() => handleDataWarehouse(currentPage)}
                 src={searchIcon}
@@ -328,7 +328,7 @@ const WarehouseList = () => {
                             openDropDown ? "w-[182px]" : "pr-5"
                           }`}
                         >
-                          <button className="px-0 md:px-5 pb-2">
+                          <button id="moreIcon" className="px-0 md:px-5 pb-2">
                             <img
                               onClick={() => handleDropDown(index)}
                               src={moreIcon}
@@ -341,12 +341,14 @@ const WarehouseList = () => {
                           >
                             <div>
                               <p
+                                id="deleteGudangForId"
                                 onClick={() => handleDeleteWarehouse(item.id)}
                                 className="cursor-pointer mb-4"
                               >
                                 Hapus Gudang
                               </p>
                               <p
+                                id="editGudang"
                                 onClick={() =>
                                   navigate("/admin/edit-warehouse")
                                 }
