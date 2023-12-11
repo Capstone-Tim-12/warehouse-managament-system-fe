@@ -224,6 +224,8 @@ const DetailGudang = () => {
       </div>
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
         <select
+          id="province"
+          name="province"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none relative"
           value={selectedProvinsi}
           onChange={handleProvinsiChange}
@@ -242,6 +244,8 @@ const DetailGudang = () => {
           )}
         </select>
         <select
+          id="regency"
+          name="regency"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
           value={selectedKota}
           onChange={handleKotaChange}
@@ -380,10 +384,11 @@ const DetailGudang = () => {
       </div>
       <Peta dataWarehouse={dataWarehouse} setDataWarehouse={setDataWarehouse} />
       <div>
-      <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
+        <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
           Picture
         </h2>
         <Dragger
+          id="upload-image"
           multiple
           listType="picture-card"
           fileList={fileList}
@@ -406,7 +411,10 @@ const DetailGudang = () => {
         </Dragger>
       </div>
       <div>
-        <button className="bg-orange-500 hover:bg-orange-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8">
+        <button
+          id="submit"
+          className="bg-orange-500 hover:bg-orange-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8"
+        >
           Submit
         </button>
       </div>
