@@ -1,6 +1,9 @@
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { notification } from "antd";
+import { Modal } from "antd";
 
 import searchIcon from "../../assets/search-icon.svg";
 import plusIcon from "../../assets/plus-Icons.svg";
@@ -10,7 +13,6 @@ import arrowNext from "../../assets/arrow-next-right-Icons.svg";
 import arrowTopDown from "../../assets/arrow-top-down-icons.svg";
 import dropDownIcon from "../../assets/icon-dropdown.svg";
 import moreIcon from "../../assets/icon-more.svg";
-import { useEffect, useState } from "react";
 
 const WarehouseList = () => {
   const navigate = useNavigate();
@@ -22,14 +24,16 @@ const WarehouseList = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedWarehouses, setSelectedWarehouses] = useState([]);
+
+  const token = Cookies.get("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
   const handleDataWarehouse = (page) => {
     setLoading(true);
 
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     axios
       .get(
         `https://digiwarehouse-app.onrender.com/warehouse/user/list?page=${page}&limit=10&search=${searchQuery}`,
@@ -39,12 +43,86 @@ const WarehouseList = () => {
         setDataWarehouse(response?.data?.data);
         setTotalPages(response?.data?.pagination?.totalPage || 1);
         setLoading(false);
-        // console.log(response?.data);
       })
       .catch((error) => {
         console.log(error);
         setLoading(false);
       });
+  };
+
+  const handleDeleteWarehouse = (id) => {
+    Modal.confirm({
+      title: "Konfirmasi",
+      content: "Apakah Anda yakin ingin menghapus gudang yang dipilih?",
+      okText: "Ya",
+      okType: "danger",
+      cancelText: "Batal",
+      onOk() {
+        axios
+          .delete(
+            `https://digiwarehouse-app.onrender.com/warehouse/detail/${id}`,
+            {
+              headers,
+            }
+          )
+          .then((response) => {
+            notification.success({
+              message: "Success",
+              description: "Gudang Berhasil dihapus",
+              placement: "top",
+            });
+            // Refresh data setelah delete
+            handleDataWarehouse(currentPage);
+          })
+          .catch((error) => {
+            console.error("Error deleting warehouse:", error);
+          });
+      },
+    });
+  };
+
+  const handleDeleteSelectedWarehouses = () => {
+    let notificationMessage = "";
+    Modal.confirm({
+      title: "Konfirmasi",
+      content: "Apakah Anda yakin ingin menghapus gudang yang dipilih?",
+      okText: "Ya",
+      okType: "danger",
+      cancelText: "Batal",
+      onOk() {
+        for (const warehouseId of selectId) {
+          try {
+            axios.delete(
+              `https://digiwarehouse-app.onrender.com/warehouse/detail/${warehouseId}`,
+              { headers }
+            );
+            notificationMessage += `Gudang dengan ID ${warehouseId} berhasil dihapus,\n`;
+          } catch (error) {
+            console.error(
+              `Gagal menghapus gudang dengan ID ${warehouseId}:`,
+              error
+            );
+          }
+        }
+
+        // Reset state setelah penghapusan selesai
+        setSelectAll(false);
+        setSelectId([]);
+        setSelectedWarehouses([]);
+
+        // Menampilkan notifikasi tunggal jika ada gudang yang berhasil dihapus
+        if (notificationMessage) {
+          notification.success({
+            message: "Sukses",
+            description: notificationMessage,
+            placement: "top",
+          });
+
+          // Refresh data setelah penghapusan berhasil (sesuaikan dengan kebutuhan)
+          handleDataWarehouse(currentPage);
+        }
+      },
+    });
   };
 
   const handlePageChange = (newPage) => {
@@ -77,11 +155,12 @@ const WarehouseList = () => {
 
   const handleSelectIdCheckBox = (id) => {
     setSelectId((prevId) => {
-      if (prevId.includes(id)) {
-        return prevId.filter((prevId) => prevId !== id);
-      } else {
-        return [...prevId, id];
-      }
+      const updatedIds = prevId.includes(id)
+        ? prevId.filter((prevId) => prevId !== id)
+        : [...prevId, id];
+
+      setSelectedWarehouses(updatedIds);
+      return updatedIds;
     });
   };
 
@@ -104,7 +183,11 @@ const WarehouseList = () => {
           </button>
           <button
             id="deleteWarehouse"
-            className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
+            className={`bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ${
+              selectId.length === 0 ? "bg-crusta-400" : ""
+            }`}
+            onClick={handleDeleteSelectedWarehouses}
+            disabled={selectId.length === 0}
           >
             <img src={deleteWhiteIcon} />
             <p className="hidden md:block">Hapus Gudang</p>
@@ -257,7 +340,10 @@ const WarehouseList = () => {
                             }`}
                           >
                             <div>
-                              <p className="cursor-pointer mb-4">
+                              <p
+                                onClick={() => handleDeleteWarehouse(item.id)}
+                                className="cursor-pointer mb-4"
+                              >
                                 Hapus Gudang
                               </p>
                               <p
@@ -278,9 +364,7 @@ const WarehouseList = () => {
             ) : (
               <tbody className="h-14 relative">
                 <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
-                  {searchQuery
-                    ? "Data tidak ditemukan"
-                    : "Tidak Ada Warehouse Terdaftar"}
+                  Tidak Ada Warehouse Terdaftar
                 </tr>
               </tbody>
             )}
@@ -289,7 +373,7 @@ const WarehouseList = () => {
       </div>
       <div
         className={`flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6 ${
-          searchQuery || loading ? "hidden" : ""
+          searchQuery || loading || dataWarehouse.length === 0 ? "hidden" : ""
         }`}
       >
         <img
