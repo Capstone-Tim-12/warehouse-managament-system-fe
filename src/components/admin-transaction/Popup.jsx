@@ -1,12 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Overlay from "./Overlay";
-import foto1 from "../../assets/gudang-1.png";
+import Cookies from "js-cookie";
+import axios from "axios";
 
-const Popup = ({ onClose }) => {
+const Popup = ({ onClose, transaction }) => {
   const [showSelect, setShowSelect] = useState(false);
+  const [transactionPopup, setTransactionPopup] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
 
+  const handlePopup = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/transaction/detail/${transaction.transactionId}`, { headers })
+      .then((response) => {
+        setTransactionPopup(response?.data?.data);
+        console.log(response?.data?.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (transaction) {
+      handlePopup(transaction?.transactionId);
+    }
+  }, [transaction]);
+
+  //Handle transaksi diterima
+  const handleTransactionApprove = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/approval/${transaction.transactionId}`, transactionPopup, { headers })
+      .then((response) => {
+        console.log(response?.data?.data);
+        onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  //Handle transaksi ditolak
   const handleTolakClick = () => {
     setShowSelect(true);
+  };
+
+  const handleSelectChange = (e) => {
+    setSelectedOption(e.target.value);
+  };
+
+  const handleTransactionRejected = () => {
+    const token = Cookies.get("token");
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+    axios
+      .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/rejected/${transaction.transactionId}`, transactionPopup, { headers })
+      .then((response) => {
+        console.log(response?.data?.data);
+        onClose();
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <Overlay>
@@ -17,25 +80,27 @@ const Popup = ({ onClose }) => {
             X
           </p>
         </div>
-        <img src={foto1} alt="" className="rounded-xl" />
+        <img src={transactionPopup.warehouseImage} alt="" className="rounded-xl" />
         <div className="flex flex-col gap-y-2">
           <div className="flex justify-between text-xl font-bold">
-            <h2>Mega Store Center</h2>
-            <p>Rp. 2.000.000.00</p>
+            <h2>{transactionPopup.warehouseName}</h2>
+            <p>{transactionPopup.warehousePrice}</p>
           </div>
           <div className="flex justify-between font-bold text-[16px]">
-            <p>Darsono</p>
-            <p>Tanpa KTP</p>
+            <p>{transactionPopup.username}</p>
+            <p>{transactionPopup.isVerifyIdentity ? "Ada KTP" : "Tanpa KTP"}</p>
           </div>
           <div className="flex justify-between font-bold text-[16px]">
             <p>Durasi</p>
-            <p>3 Minggu</p>
+            <p>
+              {transactionPopup.rentalDuration} {transactionPopup.paymentScheme}
+            </p>
           </div>
-          <p>Jl. Panjang No. 17 Kec. Kebon Jeruk Jakarta Barat</p>
+          <p>{transactionPopup.warehouseAdreess}</p>
         </div>
         {showSelect ? (
           <div className="flex flex-col gap-y-4">
-            <select className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="" onChange={(e) => {}}>
+            <select className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value={selectedOption} onChange={handleSelectChange}>
               <option value="" disabled hidden>
                 Alasan Menolak
               </option>
@@ -45,11 +110,13 @@ const Popup = ({ onClose }) => {
               <option value="Opsi 4">Opsi 4</option>
               <option value="Opsi 5">Opsi 5</option>
             </select>
-            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg">Kirim</button>
+            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionRejected}>
+              Kirim
+            </button>
           </div>
         ) : (
           <div className="flex justify-evenly">
-            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={() => {}}>
+            <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionApprove}>
               Terima
             </button>
             <button className="text-crusta-500 w-[177px] h-[40px] rounded-lg border border-crusta-500" onClick={handleTolakClick}>

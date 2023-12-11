@@ -7,7 +7,7 @@ import SidebarAdmin from "../../../components/global-component/SidebarAdmin";
 
 const Dashboard = () => {
   return (
-    <div className="bg-[#DDE5E9]">
+    <div className="">
       <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
         <SidebarAdmin />
         <div>
