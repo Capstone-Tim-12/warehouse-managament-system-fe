@@ -16,6 +16,7 @@ const DetailGudang = () => {
     districId: "",
     address: "",
     provinceId: "",
+    regencyId: "",
     surfaceArea: 0,
     buildingArea: 0,
     price: 0,
@@ -27,13 +28,12 @@ const DetailGudang = () => {
     image: [],
   });
 
-  
-
   const [provinsi, setProvinsi] = useState([]);
   const [kota, setKota] = useState([]);
   const [kecamatan, setKecamatan] = useState([]);
   const [selectedProvinsi, setSelectedProvinsi] = useState("");
   const [selectedKota, setSelectedKota] = useState("");
+  const [selectedKecamatan, setSelectedKecamatan] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
   const [item, setItem] = useState(null);
@@ -49,13 +49,14 @@ const DetailGudang = () => {
         headers,
       })
       .then((response) => {
-        const warehouseData = (response?.data?.data);
+        const warehouseData = response?.data?.data;
         setDataWarehouse({
           name: warehouseData.name || "",
           description: warehouseData.description || "",
           districId: warehouseData.districtId || "",
           address: warehouseData.address || "",
           provinceId: warehouseData.provinceId || "",
+          regencyId: warehouseData.regencyId || "",
           surfaceArea: warehouseData.surfaceArea || 0,
           buildingArea: warehouseData.buildingArea || 0,
           price: warehouseData.annualPrice || 0, // Assuming annualPrice is the price
@@ -80,7 +81,39 @@ const DetailGudang = () => {
   useEffect(() => {
     handleDataWarehouseId();
   }, [id]);
-  
+
+  useEffect(() => {
+    if (provinsi.length > 0) {
+      const selectedProvince = provinsi.find(
+        (prov) => prov.id === dataWarehouse.provinceId
+      );
+      if (selectedProvince) {
+        setSelectedProvinsi(selectedProvince.id);
+      }
+    }
+  }, [provinsi, dataWarehouse.provinceId]);
+
+  useEffect(() => {
+    if (kota.length > 0) {
+      const selectedKota = kota.find(
+        (city) => city.id === dataWarehouse.regencyId
+      );
+      if (selectedKota) {
+        setSelectedKota(selectedKota.id);
+      }
+    }
+  }, [kota, dataWarehouse.regencyId]);
+
+  useEffect(() => {
+    if (kecamatan.length > 0) {
+      const selectedDistrict = kecamatan.find(
+        (district) => district.id === dataWarehouse.districId
+      );
+      if (selectedDistrict) {
+        setSelectedKecamatan(selectedDistrict.id);
+      }
+    }
+  }, [kecamatan, dataWarehouse.districId]);
 
   const handleProvinsiChange = (event) => {
     setSelectedProvinsi(event.target.value);
@@ -272,7 +305,7 @@ const DetailGudang = () => {
           id="province"
           name="province"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none relative"
-          value={dataWarehouse.provinceName}
+          value={selectedProvinsi}
           onChange={handleProvinsiChange}
         >
           <option value="" disabled hidden>
@@ -312,7 +345,7 @@ const DetailGudang = () => {
           id="disctridId"
           name="districId"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
-          value=""
+          value={selectedKecamatan}
           onChange={handleChange}
         >
           <option value="" disabled hidden>
