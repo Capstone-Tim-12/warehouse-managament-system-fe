@@ -6,14 +6,18 @@ import emailIcon from '../../assets/icon-email-setting.svg'
 import passIcon from '../../assets/icon-pass-setting.svg'
 
 import { getToken } from '../../utils/Token'
+import Popup from '../global-component/Popup'
 
 const endpointGet = 'https://digiwarehouse-app.onrender.com/user/profile'
+const endpointUpdate = 'https://digiwarehouse-app.onrender.com/dasboard/user/setting'
+
 const headers = {
   Authorization: `Bearer ${getToken()}`
 }
 
 const Profile = () => {
   const [isLoading, setLoading] = useState(false)
+  const [isUpdating, setUpdating] = useState(false)
 
   const [profile, setProfile] = useState({
     username: '',
@@ -47,10 +51,20 @@ const Profile = () => {
     fetchData()
   }, [])
 
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    setUpdating(true)
+    axios.put(endpointUpdate, profile, { headers })
+      .then(() => alert('SUCCESS UPDATE USER'))
+      .catch(() => alert('FAILED UPDATE USER'))
+      .finally(() => setUpdating(false))
+  }
+
   if (isLoading) return <p>Memuat data...</p>
 
   return (
     <div className='flex flex-col gap-11'>
+      <Popup open={isUpdating} />
       <div className={`flex flex-row items-center m-auto px-4 gap-2 h-16 rounded-lg w-full focus-within:border-cloud-burst-500 border ${profile.username !== '' && 'border-cloud-burst-500 border'}`}>
         <div>
           <img src={userIcon} alt='' />
@@ -113,7 +127,8 @@ const Profile = () => {
           id='save-profile-setting'
           data-modal-target="popup-loading"
           data-modal-toggle="popup-loading"
-          disabled={isEmptyValue}
+          disabled={isEmptyValue && isUpdating}
+          onClick={handleSubmit}
           className={`bg-crusta-500 text-white flex justify-center items-center h-10 w-72 rounded-lg hover:bg-crusta-600 ${isEmptyValue && 'bg-crusta-500 opacity-50 cursor-not-allowed'}`}
         >
           Simpan
