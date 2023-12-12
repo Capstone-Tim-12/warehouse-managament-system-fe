@@ -1,42 +1,227 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import Cookies from "js-cookie";
+import { notification } from "antd";
+import { Upload, message } from "antd";
+import { InboxOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { useLocation } from "react-router-dom";
+const Dragger = Upload.Dragger;
+
+import Peta from "../admin-create-warehouse/Peta";
 
 const DetailGudang = () => {
+  const [dataWarehouse, setDataWarehouse] = useState({
+    name: "",
+    description: "",
+    districId: "",
+    address: "",
+    provinceId: "",
+    surfaceArea: 0,
+    buildingArea: 0,
+    price: 0,
+    owner: "",
+    warehouseTypeId: 0,
+    phoneNumber: "",
+    longitude: 0,
+    latitude: 0,
+    image: [],
+  });
+
+  
+
   const [provinsi, setProvinsi] = useState([]);
   const [kota, setKota] = useState([]);
   const [kecamatan, setKecamatan] = useState([]);
   const [selectedProvinsi, setSelectedProvinsi] = useState("");
   const [selectedKota, setSelectedKota] = useState("");
-  const [selectedKecamatan, setSelectedKecamatan] = useState("");
+  const [typeOptions, setTypeOptions] = useState([]);
+  const [isSuccess, setIsSuccess] = useState(false);
+  const [item, setItem] = useState(null);
+
+  const token = Cookies.get("token");
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
+  const handleDataWarehouseId = () => {
+    axios
+      .get(`https://digiwarehouse-app.onrender.com/warehouse/detail/${id}`, {
+        headers,
+      })
+      .then((response) => {
+        const warehouseData = (response?.data?.data);
+        setDataWarehouse({
+          name: warehouseData.name || "",
+          description: warehouseData.description || "",
+          districId: warehouseData.districtId || "",
+          address: warehouseData.address || "",
+          provinceId: warehouseData.provinceId || "",
+          surfaceArea: warehouseData.surfaceArea || 0,
+          buildingArea: warehouseData.buildingArea || 0,
+          price: warehouseData.annualPrice || 0, // Assuming annualPrice is the price
+          owner: warehouseData.owner || "",
+          warehouseTypeId: warehouseData.warehouseType || "", // Assuming warehouseType is the type ID
+          phoneNumber: warehouseData.phoneNumber || "",
+          longitude: warehouseData.longitude || 0,
+          latitude: warehouseData.latitude || 0,
+          image: warehouseData.image || [],
+          // Add other properties if needed, based on the API structure
+        });
+
+        console.log(warehouseData);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const location = useLocation();
+  const { id } = location.state;
 
   useEffect(() => {
-    // Panggil API untuk mendapatkan data Provinsi saat komponen dimuat
+    handleDataWarehouseId();
+  }, [id]);
+  
+
+  const handleProvinsiChange = (event) => {
+    setSelectedProvinsi(event.target.value);
+  };
+
+  const handleKotaChange = (event) => {
+    setSelectedKota(event.target.value);
+  };
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setDataWarehouse((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleTypeWarehouse = () => {
     axios
-      .get(
-        "http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/province"
-      )
+      .get("https://digiwarehouse-app.onrender.com/dasboard/warehouse/type", {
+        headers,
+      })
       .then((response) => {
-        console.log("Data:", response.data.data);
-        setProvinsi(response.data.data); // Set Provinsi data into state
+        const data = response.data.data;
+
+        const formattedData = data.map((item) => ({
+          value: item.id,
+          label: item.name,
+        }));
+
+        setTypeOptions(formattedData);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+      });
+  };
+
+  const [fileList, setFileList] = useState([]);
+
+  const handleSubmitAddPicture = async (file) => {
+    return new Promise(async (resolve, reject) => {
+      let formData = new FormData();
+      formData.append("photos", file);
+
+      try {
+        const response = await fetch(
+          "https://digiwarehouse-app.onrender.com/warehouse/photo/upload",
+          {
+            method: "POST",
+            body: formData,
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          setDataWarehouse((prev) => ({
+            ...prev,
+            image: [...prev.image, ...data.data.images],
+          }));
+
+          setFileList((prev) => [
+            ...prev,
+            {
+              uid: `${file.uid}-${fileList.length}`,
+              name: file.name,
+              status: "done",
+              url: data.data.images[0],
+            },
+          ]);
+
+          resolve();
+        } else {
+          console.log("Oops! something err");
+          reject("Upload failed");
+        }
+      } catch (error) {
+        console.error("Error occurred:", error);
+        reject(error);
+      }
+    });
+  };
+
+  const handleRemove = (file) => {
+    setFileList((prev) => prev.filter((item) => item.uid !== file.uid));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    axios
+      .post(
+        "https://digiwarehouse-app.onrender.com/warehouse/detail",
+        dataWarehouse,
+        {
+          headers,
+        }
+      )
+      .then((res) => {
+        console.log(res);
+        setIsSuccess(true);
+
+        notification.success({
+          message: "Success",
+          description: "Data warehouse berhasil ditambahkan.",
+          placement: "top",
+        });
+      })
+      .catch((err) => {
+        console.log(err);
+
+        notification.error({
+          message: "Error",
+          description: "Terjadi kesalahan saat menambahkan data warehouse.",
+          placement: "top",
+        });
+      });
+  };
+
+  useEffect(() => {
+    handleTypeWarehouse();
+  }, []);
+
+  useEffect(() => {
+    axios
+      .get("https://digiwarehouse-app.onrender.com/user/province")
+      .then((response) => {
+        setProvinsi(response.data.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
       });
   }, []);
 
-  const handleProvinsiChange = (event) => {
-    setSelectedProvinsi(event.target.value); // Menyimpan nilai provinsi yang dipilih
-  };
-
   useEffect(() => {
     if (selectedProvinsi !== "") {
       axios
         .get(
-          `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/regency/${selectedProvinsi}`
+          `https://digiwarehouse-app.onrender.com/user/regency/${selectedProvinsi}`
         )
         .then((response) => {
-          console.log("Data Kota:", response.data.data);
-          setKota(response.data.data); // Set data kota ke state
+          setKota(response.data.data);
         })
         .catch((error) => {
           console.error("Error fetching city data:", error);
@@ -44,19 +229,14 @@ const DetailGudang = () => {
     }
   }, [selectedProvinsi]);
 
-  const handleKotaChange = (event) => {
-    setSelectedKota(event.target.value); // Menyimpan nilai kota yang dipilih
-  };
-
   useEffect(() => {
     if (selectedKota !== "") {
       axios
         .get(
-          `http://ec2-18-139-162-85.ap-southeast-1.compute.amazonaws.com:8086/user/district/${selectedKota}`
+          `https://digiwarehouse-app.onrender.com/user/district/${selectedKota}`
         )
         .then((response) => {
-          console.log("Data Kecamatan:", response.data.data);
-          setKecamatan(response.data.data); // Set data kecamatan ke state
+          setKecamatan(response.data.data);
         })
         .catch((error) => {
           console.error("Error fetching district data:", error);
@@ -64,31 +244,35 @@ const DetailGudang = () => {
     }
   }, [selectedKota]);
 
-  const handleKecamatanChange = (event) => {
-    setSelectedKecamatan(event.target.value); // Menyimpan nilai kota yang dipilih
-  };
-
   return (
-    <form className="">
+    <form className="" onSubmit={handleSubmit}>
       <div className="mt-8 mb-8">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="name"
+          name="name"
           type="text"
           placeholder="Nama Warehouse"
+          value={dataWarehouse.name}
+          onChange={handleChange}
         />
       </div>
       <div className="mt-8 mb-8">
         <textarea
           className="shadow appearance-none border rounded-xl w-full h-[120px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
           id="description"
+          name="description"
           placeholder="Deskripsi Gudang"
+          value={dataWarehouse.description}
+          onChange={handleChange}
         ></textarea>
       </div>
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
         <select
+          id="province"
+          name="province"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none relative"
-          value={selectedProvinsi}
+          value={dataWarehouse.provinceName}
           onChange={handleProvinsiChange}
         >
           <option value="" disabled hidden>
@@ -105,6 +289,8 @@ const DetailGudang = () => {
           )}
         </select>
         <select
+          id="regency"
+          name="regency"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
           value={selectedKota}
           onChange={handleKotaChange}
@@ -123,9 +309,11 @@ const DetailGudang = () => {
           )}
         </select>
         <select
+          id="disctridId"
+          name="districId"
           className="w-full h-[56px] p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none "
-          value={selectedKecamatan}
-          onChange={handleKecamatanChange}
+          value=""
+          onChange={handleChange}
         >
           <option value="" disabled hidden>
             Kecamatan
@@ -144,65 +332,144 @@ const DetailGudang = () => {
       <div className="mt-4 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="address"
+          name="address"
           type="text"
           placeholder="Alamat"
+          value={dataWarehouse.address}
+          onChange={handleChange}
         />
       </div>
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
         <div className="mb-4">
           <input
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
+            id="surfaceArea"
+            name="surfaceArea"
             type="text"
             placeholder="Luas Tanah"
+            value={dataWarehouse.surfaceArea}
+            onChange={(e) =>
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                surfaceArea: parseInt(e.target.value),
+              }))
+            }
           />
         </div>
         <div className="mb-4">
           <input
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
+            id="buildingArea"
+            name="buildingArea"
             type="text"
             placeholder="Luas Bangunan"
+            value={dataWarehouse.buildingArea}
+            onChange={(e) =>
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                buildingArea: parseInt(e.target.value),
+              }))
+            }
           />
         </div>
         <div className="mb-4">
-          <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-            id="username"
-            type="text"
-            placeholder="Harga"
-          />
+          <select
+            id="warehouseTypeId"
+            name="warehouseTypeId"
+            className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
+            value={dataWarehouse.warehouseTypeId}
+            onChange={(e) =>
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                warehouseTypeId: parseInt(e.target.value),
+              }))
+            }
+          >
+            <option value="" disabled selected>
+              Ukuran
+            </option>
+            {typeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
+      </div>
+      <div className="mb-4">
+        <input
+          className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+          id="price"
+          name="price"
+          type="text"
+          placeholder="Harga"
+          value={dataWarehouse.price}
+          onChange={(e) =>
+            setDataWarehouse((prevFormData) => ({
+              ...prevFormData,
+              price: parseInt(e.target.value),
+            }))
+          }
+        />
       </div>
       <div className="mt-8 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="owner"
+          name="owner"
           type="text"
           placeholder="Nama Pemilik"
+          value={dataWarehouse.owner}
+          onChange={handleChange}
         />
       </div>
       <div className="mt-4 mb-4">
         <input
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
-          id="username"
+          id="phoneNumber"
+          name="phoneNumber"
           type="text"
           placeholder="No. Telp"
+          value={dataWarehouse.phoneNumber}
+          onChange={handleChange}
         />
       </div>
-      <div className="mt-4">
-        <select
-          className=" w-[185px] h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none "
-          value=""
+      <Peta dataWarehouse={dataWarehouse} setDataWarehouse={setDataWarehouse} />
+      <div>
+        <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
+          Picture
+        </h2>
+        <Dragger
+          id="upload-image"
+          multiple
+          listType="picture-card"
+          fileList={fileList}
+          customRequest={({ file, onSuccess, onError }) => {
+            handleSubmitAddPicture(file)
+              .then(() => onSuccess())
+              .catch((error) => {
+                console.error("Error uploading picture:", error);
+                onError(error);
+              });
+          }}
+          onRemove={(file) => handleRemove(file)}
         >
-          <option value="" disabled hidden>
-            Skema Pembayaran
-          </option>
-          <option>Mingguan</option>
-          <option>Bulanan</option>
-          <option>Tahunan</option>
-        </select>
+          <p className="ant-upload-drag-icon">
+            <InboxOutlined />
+          </p>
+          <p className="ant-upload-text">
+            Click or drag file to this area to upload
+          </p>
+        </Dragger>
+      </div>
+      <div>
+        <button
+          id="submit"
+          className="bg-orange-500 hover:bg-orange-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8"
+        >
+          Submit
+        </button>
       </div>
     </form>
   );
