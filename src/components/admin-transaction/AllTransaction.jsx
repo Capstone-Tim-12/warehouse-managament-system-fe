@@ -127,7 +127,7 @@ const TransactionList = () => {
 
       <div className="px-4 md:px-8">
         {loading ? (
-         <Skeleton active />
+          <Skeleton active />
         ) : !transactionList || transactionList.length === 0 ? (
           <p className="text-xl py-5 text-center">Tidak ada data transaksi</p>
         ) : (
