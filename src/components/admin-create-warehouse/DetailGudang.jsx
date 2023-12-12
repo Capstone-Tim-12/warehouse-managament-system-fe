@@ -14,7 +14,7 @@ const DetailGudang = () => {
     name: "",
     description: "",
     districId: "",
-    address: "jl kebangsaan timur no 754",
+    address: "",
     surfaceArea: 0,
     buildingArea: 0,
     price: 0,
@@ -209,7 +209,7 @@ const DetailGudang = () => {
           id="name"
           name="name"
           type="text"
-          placeholder="Nama Warehouse"
+          placeholder="Nama Gudang"
           onChange={handleChange}
         />
       </div>
@@ -393,6 +393,18 @@ const DetailGudang = () => {
           multiple
           listType="picture-card"
           fileList={fileList}
+          beforeUpload={(file) => {
+            if (fileList.length < 5) {
+              return true;
+            } else {
+              console.log("Maximal 5 files allowed");
+              message.error({
+                content: "Maximal 5 files allowed",
+                duration: 2,
+              });
+              return false;
+            }
+          }}
           customRequest={({ file, onSuccess, onError }) => {
             handleSubmitAddPicture(file)
               .then(() => onSuccess())
@@ -402,12 +414,13 @@ const DetailGudang = () => {
               });
           }}
           onRemove={(file) => handleRemove(file)}
+          style={{ padding: "40px", marginBottom: "20px" }}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
           <p className="ant-upload-text">
-            Click or drag file to this area to upload
+            Click or drag file to this area to upload (Max 5 files)
           </p>
         </Dragger>
       </div>
