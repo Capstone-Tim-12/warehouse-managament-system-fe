@@ -130,7 +130,7 @@ const DetailUser = () => {
         </tr>
       </thead>
       <tbody>
-        {transactionHistory.map((transaction, index) => (
+        {transactionHistory && transactionHistory.map((transaction, index) => (
           <tr key={index} className="cursor-pointer border-b" onClick={() => handleViewDetail(transaction.transactionId)}>
             <th scope="row" className="px-6 py-4 font-medium text-cloud-burst-500 whitespace-nowrap dark:text-white">
               {index + 1}
@@ -170,7 +170,7 @@ const DetailUser = () => {
           {loading && (
         <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
           {/* Anda dapat menyesuaikan tampilan loader sesuai kebutuhan */}
-          <div className="loader">Loading...</div>
+          <div className="loader text-white font-bold text-2xl">Loading...</div>
         </div>
       )}
           {showModal && selectedTransaction &&(
