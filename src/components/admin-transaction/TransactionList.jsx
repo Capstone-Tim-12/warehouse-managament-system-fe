@@ -16,6 +16,7 @@ const TransactionList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedStatus, setSelectedStatus] = useState("");
+  const [selectedLocation, setSelectedLocation] = useState("");
 
   const handleTransactionList = (page, searchText) => {
     setLoading(true);
@@ -26,9 +27,10 @@ const TransactionList = () => {
 
     const filterSearch = searchText ? `&search=${searchText}` : "";
     const filterStatus = selectedStatus !== "" ? `&status=${selectedStatus}` : "";
+    const filterLocation = selectedLocation !== "" ? `&provinceId=${selectedLocation}` : "";
 
     axios
-      .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterSearch}${filterStatus}`, { headers })
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterSearch}${filterStatus}${filterLocation}`, { headers })
       .then((response) => {
         const data = response?.data;
         setTransactionList(data?.data || []);
@@ -47,7 +49,7 @@ const TransactionList = () => {
 
   useEffect(() => {
     handleTransactionList(currentPage);
-  }, [currentPage, selectedStatus]);
+  }, [currentPage, selectedStatus, selectedLocation]);
 
   const selectLocation = () => {
     const token = Cookies.get("token");
@@ -93,12 +95,19 @@ const TransactionList = () => {
           <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
         </div>
         <div>
-          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="">
+          <select
+            className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none"
+            onChange={(e) => setSelectedLocation(e.target.value)}
+            value={selectedLocation}
+          >
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
+            <option value="semua lokasi">Seluruh Lokasi</option>
             {provinceId.map((item, index) => (
-              <option key={index}>{item?.name}</option>
+              <option key={index} value={item?.id}>
+                {item?.name}
+              </option>
             ))}
           </select>
         </div>
