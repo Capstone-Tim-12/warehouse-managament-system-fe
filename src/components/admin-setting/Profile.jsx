@@ -73,14 +73,14 @@ const Profile = () => {
           <label className='relative cursor-pointer mt-1'>
             <input
               id='inpt-setting-username'
-              name='user'
+              name='username'
               value={profile.username || ''}
               onChange={handleChange}
               type='text'
-              placeholder='Name'
+              placeholder='Nama'
               className='focus:outline-none border focus:ring-0 border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300'
             />
-            <span className='absolute left-0 transition duration-200 label-input'>Name</span>
+            <span className='absolute left-0 transition duration-200 label-input'>Nama</span>
           </label>
         </div>
       </div>
