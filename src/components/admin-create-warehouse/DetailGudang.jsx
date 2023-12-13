@@ -5,7 +5,7 @@ import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { notification } from "antd";
 import { Upload, message } from "antd";
-import { InboxOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import IconDelete from "../../assets/icon-delete.svg";
@@ -139,6 +139,125 @@ const DetailGudang = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!dataWarehouse.name) {
+      message.error({
+        content: "Nama Gudang Tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.description) {
+      message.error({
+        content: "Deskripsi Tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!selectedProvinsi) {
+      message.error({
+        content: "Provinsi belum dipilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!selectedKota) {
+      message.error({
+        content: "Kota/Kabupaten belum dipilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.districId) {
+      message.error({
+        content: "Kecamatan belum dipilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.address) {
+      message.error({
+        content: "Alamat Tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.surfaceArea || isNaN(dataWarehouse.surfaceArea)) {
+      message.error({
+        content: "Luas Tanah Tidak Boleh Kosong Dan Harus Berisi Angka",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.buildingArea || isNaN(dataWarehouse.buildingArea)) {
+      message.error({
+        content: "Luas Bangunan Tidak Boleh Kosong Dan Harus Berisi Angka",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.warehouseTypeId) {
+      message.error({
+        content: "Ukuran Gudang Belum Di Pilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.price || isNaN(dataWarehouse.price)) {
+      message.error({
+        content: "Harga Tidak Boleh Kosong Dan Harus Berisi Angka",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.owner) {
+      message.error({
+        content: "Nama Pemilik Tidak Boleh Kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.phoneNumber) {
+      message.error({
+        content: "Nomor Telp Tidak Boleh Kosong",
+        duration: 2,
+      });
+    }
+
+    if (dataWarehouse.longitude == null || dataWarehouse.longitude === 0) {
+      message.error({
+        content: "Longitude tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (dataWarehouse.latitude == null || dataWarehouse.latitude === 0) {
+      message.error({
+        content: "Latitude tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!fileList || fileList.length === 0) {
+      message.error({
+        content: "File gambar masih kosong",
+        duration: 2,
+      });
+      return;
+    }
+
     axios
       .post(
         "https://digiwarehouse-app.onrender.com/warehouse/detail",
@@ -159,7 +278,6 @@ const DetailGudang = () => {
       })
       .catch((err) => {
         console.log(err);
-
         notification.error({
           message: "Error",
           description: "Terjadi kesalahan saat menambahkan data warehouse.",
@@ -226,17 +344,22 @@ const DetailGudang = () => {
   };
 
   const handleLongitudeChange = (e) => {
+    const newLongitude = parseFloat(e.target.value);
+
     setDataWarehouse((prev) => ({
       ...prev,
-      longitude: parseFloat(e.target.value),
+      longitude: isNaN(newLongitude) ? null : newLongitude,
     }));
+  
     setLongitude(e.target.value);
   };
 
   const handleLatitudeChange = (e) => {
+    const newLatitude = parseFloat(e.target.value);
+
     setDataWarehouse((prev) => ({
       ...prev,
-      latitude: parseFloat(e.target.value),
+      latitude: isNaN(newLatitude) ? null : newLatitude,
     }));
     setLatitude(e.target.value);
   };
@@ -362,17 +485,21 @@ const DetailGudang = () => {
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
         <div className="mb-4">
           <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3 font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="surfaceArea"
             name="surfaceArea"
-            type="text"
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]"
             placeholder="Luas Tanah"
-            onChange={(e) =>
-              setDataWarehouse((prevFormData) => ({
-                ...prevFormData,
-                surfaceArea: parseInt(e.target.value),
-              }))
-            }
+            onChange={(e) => {
+              if (!isNaN(parseInt(e.target.value))) {
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  surfaceArea: parseInt(e.target.value),
+                }));
+              }
+            }}
           />
         </div>
         <div className="mb-4">
@@ -380,14 +507,18 @@ const DetailGudang = () => {
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="buildingArea"
             name="buildingArea"
-            type="text"
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]"
             placeholder="Luas Bangunan"
-            onChange={(e) =>
-              setDataWarehouse((prevFormData) => ({
-                ...prevFormData,
-                buildingArea: parseInt(e.target.value),
-              }))
-            }
+            onChange={(e) => {
+              if (!isNaN(parseInt(e.target.value))) {
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  buildingArea: parseInt(e.target.value),
+                }));
+              }
+            }}
           />
         </div>
         <div className="mb-4">
@@ -418,14 +549,18 @@ const DetailGudang = () => {
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
           id="price"
           name="price"
-          type="text"
+          type="number"
+          inputMode="numeric"
+          pattern="[0-9]"
           placeholder="Harga"
-          onChange={(e) =>
-            setDataWarehouse((prevFormData) => ({
-              ...prevFormData,
-              price: parseInt(e.target.value),
-            }))
-          }
+          onChange={(e) => {
+            if (!isNaN(parseInt(e.target.value))) {
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                price: parseInt(e.target.value),
+              }));
+            }
+          }}
         />
       </div>
       <div className="mt-8 mb-4">
