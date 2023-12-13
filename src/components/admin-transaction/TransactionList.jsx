@@ -15,6 +15,7 @@ const TransactionList = () => {
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [selectedStatus, setSelectedStatus] = useState("");
 
   const handleTransactionList = (page, searchText) => {
     setLoading(true);
@@ -24,9 +25,10 @@ const TransactionList = () => {
     };
 
     const filterSearch = searchText ? `&search=${searchText}` : "";
+    const filterStatus = selectedStatus !== "" ? `&status=${selectedStatus}` : "";
 
     axios
-      .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterSearch}`, { headers })
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterSearch}${filterStatus}`, { headers })
       .then((response) => {
         const data = response?.data;
         setTransactionList(data?.data || []);
@@ -45,7 +47,7 @@ const TransactionList = () => {
 
   useEffect(() => {
     handleTransactionList(currentPage);
-  }, [currentPage]);
+  }, [currentPage, selectedStatus]);
 
   const selectLocation = () => {
     const token = Cookies.get("token");
@@ -101,7 +103,11 @@ const TransactionList = () => {
           </select>
         </div>
         <div>
-          <select className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value="">
+          <select
+            className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none"
+            value={selectedStatus}
+            onChange={(e) => setSelectedStatus(e.target.value)}
+          >
             <option value="" disabled hidden>
               Cari berdasarkan Status
             </option>
