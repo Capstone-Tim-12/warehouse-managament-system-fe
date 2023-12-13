@@ -43,6 +43,8 @@ const DetailGudang = () => {
     handleDataWarehouseId();
   }, [id]);
 
+  
+
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
       <SidebarAdmin />
@@ -73,9 +75,9 @@ const DetailGudang = () => {
                 </h2>
                 <hr className="border-solid" />
                 <div className="flex lg:flex gap-2 sm:ml-5 md:grid md:grid-rows-2 md:grid-flow-col ">
-                  <Foto FotoDetail={item.image[0]} />
-                  <Foto FotoDetail={item.image[1]} />
-                  <Foto FotoDetail={item.image[2]} />
+                <Foto FotoDetail={item.image && item.image[0]} />
+                <Foto FotoDetail={item.image && item.image[1]} />
+                <Foto FotoDetail={item.image && item.image[2]} />
                 </div>
               </div>
               {/* end component foto */}
