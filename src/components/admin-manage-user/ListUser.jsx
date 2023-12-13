@@ -5,6 +5,8 @@ import IconLihatUser from '../../assets/icon-lihat-user.svg';
 import arrowBack from '../../assets/arrow-back-left-Icons.svg';
 import arrowNext from '../../assets/arrow-next-right-Icons.svg';
 import IconSearchUser from '../../assets/icon-search-user.svg';
+import IconStatusUser from '../../assets/icon-status-user.svg'
+import IconX from '../../assets/icon-x-modal-user.svg';
 import { useNavigate } from 'react-router';
 import Cookies from 'js-cookie';
 import axios from 'axios';
@@ -63,6 +65,44 @@ const ListUser = () => {
   const imgDefault =
     'https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg';
 
+
+    
+    // delete user by id
+    const handleDeleteUser = (userId) => {
+      
+        const token = Cookies.get("token");
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+    
+        axios
+          .delete(`https://digiwarehouse-app.onrender.com/dasboard/user/${userId}`, { headers })
+          .then(() => {
+            console.log("User deleted successfully.");
+            alert('data berhasil dihapus')
+            handleDataUser(currentPage); // Refresh data after deletion
+          })
+          .catch((error) => {
+            console.error("Error deleting user:", error);
+          });
+      
+    };
+
+    //modal delete user
+    const [modalDeleteUser, setModalDeleteUser] = useState(false)
+
+    const [selectedUser, setSelectedUser] = useState(null);
+
+    const handleOpenModalDeleteUser = (user)=> {
+      setSelectedUser(user);
+      setModalDeleteUser(true)
+    }
+
+    //end modal delete user
+      
+
+    //end delete user
+
   return (
     <>
       <div className='grid grid-cols-2'>
@@ -101,8 +141,8 @@ const ListUser = () => {
                 <p className="text-[24px]  text-slate-500 font-semibold mt-2">Memuat data...</p>
         ) : (
           <table className='w-full text-center rtl:text-right'>
-            <thead className='text-cloud-burst-500 border-b'>
-              <tr>
+            <thead className='text-cloud-burst-500 '>
+              <tr className='border-b'>
                 <th scope='col' className='px-6 py-3 '>
                   No.
                 </th>
@@ -124,7 +164,7 @@ const ListUser = () => {
               </tr>
             </thead>
             <tbody>
-              {dataUser &&
+              {dataUser && 
                 dataUser.map((item, index) => {
                   const userNumber = (currentPage - 1) * 10 + index + 1;
                   return (
@@ -144,20 +184,19 @@ const ListUser = () => {
                       </td>
                       <td className='px-6 py-4'>{item.username}</td>
                       <td className='px-6 py-4'>{item.email}</td>
-                      <td className='px-6 py-4'>
-                        <input
-                          type='checkbox'
-                          name='status-user'
-                          id='status-user'
-                          className='text-crusta-500 border-crusta-500'
-                        />
+                      <td className='px-6 py-4 '>
+                        <div className='flex items-center justify-center'>
+                        <img src={IconStatusUser} alt="status"  />
+                        </div>
                       </td>
                       <td className='px-6 py-4 flex gap-4 items-center justify-center'>
-                        <button className='w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center'>
+                        <button className='w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center' onClick={() => handleOpenModalDeleteUser(item)}>
                           <img
                             src={IconDeleteUser}
-                            alt=''
+                            alt='delete'
                             className='w-6 h-6'
+                            
+                            
                           />
                           Hapus
                         </button>
@@ -178,10 +217,26 @@ const ListUser = () => {
                           Lihat
                         </button>
                       </td>
+                      
                     </tr>
+                    
+                    //modal delete user
+                    
+                          
+
+                    //end modal delete user
+                    
                   );
                 })}
             </tbody>
+            <tfoot className='border-b'>
+              <tr>
+                <th>
+                  <td></td>
+                </th>
+              </tr>
+
+            </tfoot>
           </table>
         )}
       </div>
@@ -209,6 +264,45 @@ const ListUser = () => {
         />
       </div>
       {/* end component pagination */}
+
+
+      {/* modal hapus user */}
+      {modalDeleteUser && selectedUser && (
+
+      <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+          <div className="bg-white p-5 rounded-md w-96 relative">
+            <h2 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">
+              Informasi
+              <img
+                src={IconX}
+                alt="iconx"
+                className="absolute top-2 right-2 cursor-pointer"
+                onClick={()=> {
+                  setSelectedUser(null)
+                  setModalDeleteUser(false)}}
+                
+              />
+            </h2>
+            <hr className='border-1'/>
+            <p className='text-cloud-burst-500'>Hapus akun {selectedUser.username} dari sistem</p>
+            <div className="mt-5 flex justify-end">
+              
+              <button
+                
+                className="bg-crusta-500 px-4 py-2 text-white rounded-md"
+                onClick={() => {
+                  
+                  handleDeleteUser(selectedUser.userId);
+                  setModalDeleteUser(false);
+                }}
+              >
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+            )}
+      {/* modal hapus user */}
     </>
   );
 };
