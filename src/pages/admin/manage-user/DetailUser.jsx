@@ -92,6 +92,31 @@ const DetailUser = () => {
       });
   };
 
+
+  // delete user by id
+  const handleDeleteUser = (userId) => {
+    const isConfirmed = window.confirm("Apakah Anda yakin ingin menghapus pengguna ini?");
+    
+    if (isConfirmed) {
+      const token = Cookies.get("token");
+      const headers = {
+        Authorization: `Bearer ${token}`,
+      };
+  
+      axios
+        .delete(`https://digiwarehouse-app.onrender.com/dasboard/user/${userId}`, { headers })
+        .then(() => {
+          console.log("User deleted successfully.");
+          alert('data berhasil dihapus')
+          handleDataUser(currentPage); // Refresh data after deletion
+        })
+        .catch((error) => {
+          console.error("Error deleting user:", error);
+        });
+    }
+  };
+  //end delete user
+
   
   
   return (
@@ -104,7 +129,8 @@ const DetailUser = () => {
             <>
           <TopDetailUser
           username={item.username}
-          photo={item.photo} />
+          photo={item.photo}
+          handleDeleteUser={handleDeleteUser} />
 
          {/* Riwayat Penyewaan Gudang */}
 <div className='mt-6'>
@@ -131,7 +157,7 @@ const DetailUser = () => {
       </thead>
       <tbody>
         {transactionHistory && transactionHistory.map((transaction, index) => (
-          <tr key={index} className="cursor-pointer border-b" onClick={() => handleViewDetail(transaction.transactionId)}>
+          <tr key={index} className="cursor-pointer" onClick={() => handleViewDetail(transaction.transactionId)}>
             <th scope="row" className="px-6 py-4 font-medium text-cloud-burst-500 whitespace-nowrap dark:text-white">
               {index + 1}
             </th>
