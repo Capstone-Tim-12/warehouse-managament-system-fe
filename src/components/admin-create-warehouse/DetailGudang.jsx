@@ -1,20 +1,32 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
+import L from "leaflet";
+import "leaflet/dist/leaflet.css";
 import { notification } from "antd";
 import { Upload, message } from "antd";
-import { InboxOutlined, CloseCircleOutlined } from "@ant-design/icons";
+import { InboxOutlined } from "@ant-design/icons";
+import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
+
+import IconDelete from "../../assets/icon-delete.svg";
+import customMarkerIcon from "../../assets/marker.svg";
 
 const Dragger = Upload.Dragger;
+const JakartaCoordinates = [-6.2088, 106.8456];
 
-import Peta from "../admin-create-warehouse/Peta";
+const customIcon = new L.Icon({
+  iconUrl: customMarkerIcon,
+  iconSize: [25, 40],
+  iconAnchor: [16, 32],
+  popupAnchor: [0, -32],
+});
 
 const DetailGudang = () => {
   const [dataWarehouse, setDataWarehouse] = useState({
     name: "",
     description: "",
     districId: "",
-    address: "jl kebangsaan timur no 754",
+    address: "",
     surfaceArea: 0,
     buildingArea: 0,
     price: 0,
@@ -127,6 +139,125 @@ const DetailGudang = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    if (!dataWarehouse.name) {
+      message.error({
+        content: "Nama Gudang Tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.description) {
+      message.error({
+        content: "Deskripsi Tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!selectedProvinsi) {
+      message.error({
+        content: "Provinsi belum dipilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!selectedKota) {
+      message.error({
+        content: "Kota/Kabupaten belum dipilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.districId) {
+      message.error({
+        content: "Kecamatan belum dipilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.address) {
+      message.error({
+        content: "Alamat Tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.surfaceArea || isNaN(dataWarehouse.surfaceArea)) {
+      message.error({
+        content: "Luas Tanah Tidak Boleh Kosong Dan Harus Berisi Angka",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.buildingArea || isNaN(dataWarehouse.buildingArea)) {
+      message.error({
+        content: "Luas Bangunan Tidak Boleh Kosong Dan Harus Berisi Angka",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.warehouseTypeId) {
+      message.error({
+        content: "Ukuran Gudang Belum Di Pilih",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.price || isNaN(dataWarehouse.price)) {
+      message.error({
+        content: "Harga Tidak Boleh Kosong Dan Harus Berisi Angka",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.owner) {
+      message.error({
+        content: "Nama Pemilik Tidak Boleh Kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!dataWarehouse.phoneNumber) {
+      message.error({
+        content: "Nomor Telp Tidak Boleh Kosong",
+        duration: 2,
+      });
+    }
+
+    if (dataWarehouse.longitude == null || dataWarehouse.longitude === 0) {
+      message.error({
+        content: "Longitude tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (dataWarehouse.latitude == null || dataWarehouse.latitude === 0) {
+      message.error({
+        content: "Latitude tidak boleh kosong",
+        duration: 2,
+      });
+      return;
+    }
+
+    if (!fileList || fileList.length === 0) {
+      message.error({
+        content: "File gambar masih kosong",
+        duration: 2,
+      });
+      return;
+    }
+
     axios
       .post(
         "https://digiwarehouse-app.onrender.com/warehouse/detail",
@@ -147,7 +278,6 @@ const DetailGudang = () => {
       })
       .catch((err) => {
         console.log(err);
-
         notification.error({
           message: "Error",
           description: "Terjadi kesalahan saat menambahkan data warehouse.",
@@ -201,6 +331,64 @@ const DetailGudang = () => {
     }
   }, [selectedKota]);
 
+  const [position, setPosition] = useState(JakartaCoordinates);
+  const [longitude, setLongitude] = useState(JakartaCoordinates[1].toString());
+  const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
+  const mapRef = useRef(null);
+
+  const handleMapClick = (e) => {
+    const { lat, lng } = e.latlng;
+    setPosition([lat, lng]);
+    setLongitude(lng.toString());
+    setLatitude(lat.toString());
+  };
+
+  const handleLongitudeChange = (e) => {
+    const newLongitude = parseFloat(e.target.value);
+
+    setDataWarehouse((prev) => ({
+      ...prev,
+      longitude: isNaN(newLongitude) ? null : newLongitude,
+    }));
+  
+    setLongitude(e.target.value);
+  };
+
+  const handleLatitudeChange = (e) => {
+    const newLatitude = parseFloat(e.target.value);
+
+    setDataWarehouse((prev) => ({
+      ...prev,
+      latitude: isNaN(newLatitude) ? null : newLatitude,
+    }));
+    setLatitude(e.target.value);
+  };
+
+  useEffect(() => {
+    const newLongitude = parseFloat(longitude.replace(",", ""));
+    const newLatitude = parseFloat(latitude.replace(",", ""));
+
+    if (!isNaN(newLongitude) && !isNaN(newLatitude)) {
+      setPosition([newLatitude, newLongitude]);
+    }
+  }, [longitude, latitude]);
+
+  useEffect(() => {
+    if (mapRef.current) {
+      mapRef.current.setView(position, 13);
+    }
+  }, [position]);
+
+  const handleResetMap = () => {
+    setPosition(JakartaCoordinates);
+    setLongitude(JakartaCoordinates[1].toString());
+    setLatitude(JakartaCoordinates[0].toString());
+
+    if (mapRef.current) {
+      mapRef.current.setView(JakartaCoordinates, 13);
+    }
+  };
+
   return (
     <form className="" onSubmit={handleSubmit}>
       <div className="mt-8 mb-8">
@@ -209,7 +397,7 @@ const DetailGudang = () => {
           id="name"
           name="name"
           type="text"
-          placeholder="Nama Warehouse"
+          placeholder="Nama Gudang"
           onChange={handleChange}
         />
       </div>
@@ -297,17 +485,21 @@ const DetailGudang = () => {
       <div className="grid grid-cols-3 grid-rows-1 gap-[8px] items-center justify-center w-full">
         <div className="mb-4">
           <input
-            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
+            className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3 font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="surfaceArea"
             name="surfaceArea"
-            type="text"
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]"
             placeholder="Luas Tanah"
-            onChange={(e) =>
-              setDataWarehouse((prevFormData) => ({
-                ...prevFormData,
-                surfaceArea: parseInt(e.target.value),
-              }))
-            }
+            onChange={(e) => {
+              if (!isNaN(parseInt(e.target.value))) {
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  surfaceArea: parseInt(e.target.value),
+                }));
+              }
+            }}
           />
         </div>
         <div className="mb-4">
@@ -315,14 +507,18 @@ const DetailGudang = () => {
             className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
             id="buildingArea"
             name="buildingArea"
-            type="text"
+            type="number"
+            inputMode="numeric"
+            pattern="[0-9]"
             placeholder="Luas Bangunan"
-            onChange={(e) =>
-              setDataWarehouse((prevFormData) => ({
-                ...prevFormData,
-                buildingArea: parseInt(e.target.value),
-              }))
-            }
+            onChange={(e) => {
+              if (!isNaN(parseInt(e.target.value))) {
+                setDataWarehouse((prevFormData) => ({
+                  ...prevFormData,
+                  buildingArea: parseInt(e.target.value),
+                }));
+              }
+            }}
           />
         </div>
         <div className="mb-4">
@@ -353,14 +549,18 @@ const DetailGudang = () => {
           className="shadow appearance-none border rounded-xl w-full h-[56px] py-2 px-3  font text-[#2C2C2E] leading-tight focus:outline-none focus:shadow-outline placeholder:text-[#2C2C2E]"
           id="price"
           name="price"
-          type="text"
+          type="number"
+          inputMode="numeric"
+          pattern="[0-9]"
           placeholder="Harga"
-          onChange={(e) =>
-            setDataWarehouse((prevFormData) => ({
-              ...prevFormData,
-              price: parseInt(e.target.value),
-            }))
-          }
+          onChange={(e) => {
+            if (!isNaN(parseInt(e.target.value))) {
+              setDataWarehouse((prevFormData) => ({
+                ...prevFormData,
+                price: parseInt(e.target.value),
+              }));
+            }
+          }}
         />
       </div>
       <div className="mt-8 mb-4">
@@ -383,7 +583,61 @@ const DetailGudang = () => {
           onChange={handleChange}
         />
       </div>
-      <Peta dataWarehouse={dataWarehouse} setDataWarehouse={setDataWarehouse} />
+
+      <div>
+        <MapContainer
+          ref={mapRef}
+          center={position}
+          zoom={13}
+          style={{ height: "360px", width: "100%" }}
+          onClick={handleMapClick}
+        >
+          <TileLayer
+            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+          />
+          <Marker position={position} icon={customIcon}>
+            <Popup>
+              <div>
+                <h2>Selected Location</h2>
+                <p>Longitude: {position[1]}</p>
+                <p>Latitude: {position[0]}</p>
+              </div>
+            </Popup>
+          </Marker>
+        </MapContainer>
+        <button
+          id="reset-map"
+          type="button"
+          className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
+          onClick={handleResetMap}
+        >
+          <img src={IconDelete} alt="IconDelete" className="w-6 h-6" />
+          <span className="text-white ml-2 ">Reset Map</span>
+        </button>
+        <div className="grid grid-cols-2 grid-rows-1 gap-[12px] items-center justify-center">
+          <div>
+            <input
+              id="longitude"
+              name="longitude"
+              className="w-full h-[56px] mt-8 p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none placeholder:text-[#2C2C2E]"
+              type="text"
+              placeholder="Longitude"
+              onChange={handleLongitudeChange}
+            />
+          </div>
+          <div>
+            <input
+              id="latitude"
+              name="latitude"
+              className="w-full h-[56px] mt-8 p-2.5 font text-[#2C2C2E] bg-white border rounded-xl shadow-sm outline-none appearance-none placeholder:text-[#2C2C2E]"
+              type="text"
+              placeholder="Latitude"
+              onChange={handleLatitudeChange}
+            />
+          </div>
+        </div>
+      </div>
       <div>
         <h2 className="mt-8 text-[20px] text-cloud-burst-500 font-semibold">
           Picture
@@ -393,6 +647,18 @@ const DetailGudang = () => {
           multiple
           listType="picture-card"
           fileList={fileList}
+          beforeUpload={(file) => {
+            if (fileList.length < 5) {
+              return true;
+            } else {
+              console.log("Maximal 5 files allowed");
+              message.error({
+                content: "Maximal 5 files allowed",
+                duration: 2,
+              });
+              return false;
+            }
+          }}
           customRequest={({ file, onSuccess, onError }) => {
             handleSubmitAddPicture(file)
               .then(() => onSuccess())
@@ -402,12 +668,13 @@ const DetailGudang = () => {
               });
           }}
           onRemove={(file) => handleRemove(file)}
+          style={{ padding: "40px", marginBottom: "20px" }}
         >
           <p className="ant-upload-drag-icon">
             <InboxOutlined />
           </p>
           <p className="ant-upload-text">
-            Click or drag file to this area to upload
+            Click or drag file to this area to upload (Max 5 files)
           </p>
         </Dragger>
       </div>
