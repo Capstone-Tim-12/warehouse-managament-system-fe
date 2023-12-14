@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { notification } from "antd";
 import { Modal } from "antd";
 
@@ -28,7 +28,7 @@ const WarehouseList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedWarehouses, setSelectedWarehouses] = useState([]);
 
-  const token = Cookies.get("token");
+  const token = useSelector((state) => state.auth.token);
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -222,9 +222,13 @@ const WarehouseList = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div
+        className={`overflow-x-auto ${
+          dataWarehouse.length < 8 ? "h-screen" : ""
+        }`}
+      >
         {loading ? (
-          <p className="text-[24px]  text-slate-500 font-semibold mt-2 ml-7">
+          <p className="text-[24px]  text-slate-500 font-semibold mt-2 ml-7 mb-5">
             Memuat data...
           </p>
         ) : (
