@@ -145,6 +145,7 @@ const DetailGudang = () => {
                 </tbody>
               </table>
               </div>
+              
               {/* end Riwayat Penyewaan gudang manage gudang */}
             </div>
           </div>
@@ -152,10 +153,7 @@ const DetailGudang = () => {
           <p>Loading ....</p>
         )}
        
-        {/* <div className="container mx-auto px-2 lg:px-9 sm:px-9 md:px-3 ]">
-          <h1 className="text-[20px] font-semibold text-cloud-burst-500">Riwayat Penyewaan Gudang</h1>
-          <hr className="border-solid" />
-        </div> */}
+      
 
       </div>
     </div>

@@ -286,9 +286,18 @@ const ListUser = () => {
             <hr className='border-1'/>
             <p className='text-cloud-burst-500'>Hapus akun {selectedUser.username} dari sistem</p>
             <div className="mt-5 flex justify-end">
+            <button
+                className="bg-crusta-500 px-4 py-2 text-white rounded-md"
+                onClick={() => {
+                  
+                  handleDeleteUser(selectedUser.userId);
+                  setModalDeleteUser(false);
+                }}
+              >
+                Cancel
+              </button>
               
               <button
-                
                 className="bg-crusta-500 px-4 py-2 text-white rounded-md"
                 onClick={() => {
                   
