@@ -381,6 +381,7 @@ const WarehouseList = () => {
         }`}
       >
         <button
+          id="prevPage"
           onClick={() => handlePageChange(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -392,6 +393,7 @@ const WarehouseList = () => {
         </button>
         <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
         <button
+          id="nextPage"
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
