@@ -83,7 +83,9 @@ const TransactionList = () => {
     setCurrentPage(newPage);
     handleTransactionList(newPage);
   };
-  const handleSearch = (searchText) => {
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchText = e.target.value;
     setSearchInput(searchText);
     handleTransactionList(currentPage, searchText);
   };
@@ -126,19 +128,24 @@ const TransactionList = () => {
             <option value="ditolak">Ditolak</option>
           </select>
         </div>
-        <div className="relative rounded-[28px] flex items-center">
-          <button className="absolute pl-3">
-            <img src={searchIcon} alt="search" />
-          </button>
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]"
-            onChange={(e) => {
-              setSearchInput(transactionList);
-              handleSearch(e.target.value);
-            }}
-          />
+        <div className="flex items-center justify-center">
+          <form onSubmit={handleSearch} className="relative flex items-center">
+            <img src={searchIcon} alt="" className="absolute pl-3 left-0" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]"
+              onChange={(e) => {
+                setSearchInput(transactionList);
+                handleSearch(e.target.value);
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e);
+                }
+              }}
+            />
+          </form>
         </div>
       </div>
       <div className="overflow-x-auto">
