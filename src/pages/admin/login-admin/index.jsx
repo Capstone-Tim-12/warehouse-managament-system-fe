@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { useSelector, useDispatch } from "react-redux";
+import { setToken } from "../../../features/authSlice";
 import { notification } from "antd";
 
 import Logo from "../../../assets/logo.svg";
@@ -14,6 +16,8 @@ import Icon6 from "../../../assets/icon6-login-admin.svg";
 import Eye from "../../../assets/eye-icon.svg";
 
 function LoginForm() {
+  const dispatch = useDispatch();
+  const token = useSelector((state) => state.auth.token);
   const [usernameFocused, setUsernameFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
   const [email, setEmail] = useState("");
@@ -80,6 +84,7 @@ function LoginForm() {
 
         if (user && user.role === "admin") {
           const token = user.token;
+          dispatch(setToken(token));
           const name = user.name;
           Cookies.set("token", token, { path: "/" });
           Cookies.set("name", name, { path: "/" });
