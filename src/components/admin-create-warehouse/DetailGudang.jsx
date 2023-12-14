@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import L from "leaflet";
@@ -38,6 +39,7 @@ const DetailGudang = () => {
     image: [],
   });
 
+  const navigate = useNavigate();
   const [provinsi, setProvinsi] = useState([]);
   const [kota, setKota] = useState([]);
   const [kecamatan, setKecamatan] = useState([]);
@@ -275,6 +277,8 @@ const DetailGudang = () => {
           description: "Data warehouse berhasil ditambahkan.",
           placement: "top",
         });
+
+        navigate("/admin/manage-gudang");
       })
       .catch((err) => {
         console.log(err);
@@ -609,7 +613,7 @@ const DetailGudang = () => {
         <button
           id="reset-map"
           type="button"
-          className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
+          className="bg-crusta-500 hover:bg-crusta-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
           onClick={handleResetMap}
         >
           <img src={IconDelete} alt="IconDelete" className="w-6 h-6" />
@@ -681,7 +685,7 @@ const DetailGudang = () => {
       <div>
         <button
           id="submit"
-          className="bg-orange-500 hover:bg-orange-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8"
+          className="bg-crusta-500 hover:bg-crusta-600 w-[101px] h-[40px] px-2 sm:px-4 sm:py-3 rounded-lg  text-white font-bold text-center justify-center flex  items-center mt-8"
         >
           Submit
         </button>
