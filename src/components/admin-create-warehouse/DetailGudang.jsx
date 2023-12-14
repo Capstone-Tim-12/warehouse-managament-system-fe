@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
 import L from "leaflet";
@@ -38,6 +39,7 @@ const DetailGudang = () => {
     image: [],
   });
 
+  const navigate = useNavigate();
   const [provinsi, setProvinsi] = useState([]);
   const [kota, setKota] = useState([]);
   const [kecamatan, setKecamatan] = useState([]);
@@ -275,6 +277,8 @@ const DetailGudang = () => {
           description: "Data warehouse berhasil ditambahkan.",
           placement: "top",
         });
+
+        navigate("/admin/manage-gudang");
       })
       .catch((err) => {
         console.log(err);
