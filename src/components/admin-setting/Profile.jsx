@@ -73,7 +73,7 @@ const Profile = () => {
           <label className='relative cursor-pointer mt-1'>
             <input
               id='inpt-setting-username'
-              name='user'
+              name='username'
               value={profile.username || ''}
               onChange={handleChange}
               type='text'
