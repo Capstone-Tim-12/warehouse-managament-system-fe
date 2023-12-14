@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import searchIcon from "../../assets/search-icon.svg";
-import arrowBack from "../../assets/arrow-back-left-Icons.svg";
+import arrowBackDisable from "../../assets/arrow-back-left-Icons.svg";
+import arrowBack from "../../assets/arrow-back-left-Icons(orange-500).svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import arrowNextDisable from "../../assets/arrow-next-right-Icons(orange-200).svg";
 import Cookies from "js-cookie";
 import axios from "axios";
 import { Skeleton } from "antd";
@@ -32,6 +34,9 @@ const TransactionList = () => {
 
     axios
       .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterSearch}${filterStatus}${filterLocation}`, { headers })
+
+    
+ develop
       .then((response) => {
         const data = response?.data;
         setTransactionList(data?.data || []);
@@ -87,15 +92,16 @@ const TransactionList = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     const searchText = e.target.value;
-    setSearchInput(searchText);
-    handleTransactionList(currentPage, searchText);
-  };
+
+ 
 
   return (
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3 ">
         <div>
-          <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
+          <h2 className="text-[20px] font-bold text-cloud-burst-500">
+            Daftar Transaksi
+          </h2>
         </div>
         <div>
           <select
@@ -147,6 +153,8 @@ const TransactionList = () => {
               }}
             />
           </form>
+
+       
         </div>
       </div>
       <div className="overflow-x-auto px-4">
@@ -170,8 +178,13 @@ const TransactionList = () => {
               {transactionList.map((item, index) => {
                 const transactionNumber = (currentPage - 1) * 10 + index + 1;
                 return (
-                  <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
-                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{transactionNumber}</td>
+                  <tr
+                    key={index}
+                    className="h-16 text-cloud-burst-500 border-b align-bottom"
+                  >
+                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">
+                      {transactionNumber}
+                    </td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
@@ -180,7 +193,13 @@ const TransactionList = () => {
                     </td>
                     <td className="pb-2 pr-3 md:pr-24 text-center">
                       <button
-                        className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
+                        className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${
+                          item?.status === "disetujui"
+                            ? "bg-[#06C270]"
+                            : item?.status === "butuh persetujuan"
+                            ? "bg-[#EABC03]"
+                            : "bg-[#FF3B3B]"
+                        }`}
                         onClick={() => handleStatusClick(item)}
                       >
                         {item?.status}
@@ -194,15 +213,33 @@ const TransactionList = () => {
         )}
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
-        <button className="cursor-pointer" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1}>
-          <img src={arrowBack} alt="Prev Page" />
-        </button>{" "}
+        <button
+          id="prevPage"
+          onClick={() => handlePageChange(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          {currentPage === 1 ? (
+            <img src={arrowBackDisable} />
+          ) : (
+            <img src={arrowBack} />
+          )}
+        </button>
         <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
-        <button className="cursor-pointer" onClick={() => handlePageChange(currentPage + 1)}>
-          <img src={arrowNext} alt="Next Page" />
+        <button
+          id="nextPage"
+          onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          {currentPage === totalPages ? (
+            <img src={arrowNextDisable} />
+          ) : (
+            <img src={arrowNext} />
+          )}
         </button>
       </div>
-      {selectedTransaction && <Popup transaction={selectedTransaction} onClose={closePopup} />}
+      {selectedTransaction && (
+        <Popup transaction={selectedTransaction} onClose={closePopup} />
+      )}
     </div>
   );
 };

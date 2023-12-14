@@ -1,15 +1,17 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { notification } from "antd";
 import { Modal } from "antd";
 
 import searchIcon from "../../assets/search-icon.svg";
 import plusIcon from "../../assets/plus-Icons.svg";
 import deleteWhiteIcon from "../../assets/delete(white)-Icons.svg";
-import arrowBack from "../../assets/arrow-back-left-Icons.svg";
+import arrowBackDisable from "../../assets/arrow-back-left-Icons.svg";
+import arrowBack from "../../assets/arrow-back-left-Icons(orange-500).svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import arrowNextDisable from "../../assets/arrow-next-right-Icons(orange-200).svg";
 import arrowTopDown from "../../assets/arrow-top-down-icons.svg";
 import dropDownIcon from "../../assets/icon-dropdown.svg";
 import moreIcon from "../../assets/icon-more.svg";
@@ -26,7 +28,7 @@ const WarehouseList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedWarehouses, setSelectedWarehouses] = useState([]);
 
-  const token = Cookies.get("token");
+  const token = useSelector((state) => state.auth.token);
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -41,7 +43,7 @@ const WarehouseList = () => {
       )
       .then((response) => {
         setDataWarehouse(response?.data?.data);
-        setTotalPages(response?.data?.pagination?.totalPage || 1);
+        setTotalPages(response?.data?.pagination?.totalPage);
         setLoading(false);
       })
       .catch((error) => {
@@ -184,7 +186,7 @@ const WarehouseList = () => {
           <button
             id="deleteWarehouse"
             className={`bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ${
-              selectId.length === 0 ? "bg-crusta-400" : ""
+              selectId.length === 0 ? "opacity-70" : "opacity-100"
             }`}
             onClick={handleDeleteSelectedWarehouses}
             disabled={selectId.length === 0}
@@ -220,9 +222,13 @@ const WarehouseList = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div
+        className={`overflow-x-auto ${
+          dataWarehouse.length < 8 ? "h-screen" : ""
+        }`}
+      >
         {loading ? (
-          <p className="text-[24px]  text-slate-500 font-semibold mt-2 ml-7">
+          <p className="text-[24px]  text-slate-500 font-semibold mt-2 ml-7 mb-5">
             Memuat data...
           </p>
         ) : (
@@ -378,17 +384,29 @@ const WarehouseList = () => {
           searchQuery || loading || dataWarehouse.length === 0 ? "hidden" : ""
         }`}
       >
-        <img
-          src={arrowBack}
-          className="cursor-pointer"
+        <button
+          id="prevPage"
           onClick={() => handlePageChange(currentPage - 1)}
-        />
+          disabled={currentPage === 1}
+        >
+          {currentPage === 1 ? (
+            <img src={arrowBackDisable} />
+          ) : (
+            <img src={arrowBack} />
+          )}
+        </button>
         <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
-        <img
-          src={arrowNext}
-          className="cursor-pointer"
+        <button
+          id="nextPage"
           onClick={() => handlePageChange(currentPage + 1)}
-        />
+          disabled={currentPage === totalPages}
+        >
+          {currentPage === totalPages ? (
+            <img src={arrowNextDisable} />
+          ) : (
+            <img src={arrowNext} />
+          )}
+        </button>
       </div>
     </div>
   );
