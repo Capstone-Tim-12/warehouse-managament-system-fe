@@ -288,6 +288,13 @@ const ListUser = () => {
               Hapus akun {selectedUser.username} dari sistem
             </p>
             <div className="mt-5 flex justify-end">
+            <button
+                className="bg-crusta-500 px-4 py-2 text-white rounded-md"
+                
+              >
+                Cancel
+              </button>
+
               <button
                 className="bg-crusta-500 px-4 py-2 text-white rounded-md"
                 onClick={() => {
