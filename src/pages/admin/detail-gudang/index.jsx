@@ -107,11 +107,55 @@ const DetailGudang = () => {
               </div>
 
               {/* end component detail */}
+
+              {/* Riwayat Penyewaan gudang manage gudang */}
+              <div className="mt-[48px]">
+              <h1 className="text-[20px] font-semibold text-cloud-burst-500">Riwayat Penyewaan Gudang</h1>
+              <hr className="border-solid" />
+
+              <table className="w-auto text-sm text-left rtl:text-right mt-3">
+                <thead className="text-[16px] text-cloud-burst-500 border-b">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        No.
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Nama Penyewa
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Lokasi
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Nominal
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Status
+                      </th>
+                    </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td className="px-6 py-3">1.</td>
+                    <td className="px-6 py-3">jajdajksjdlkjakljdiwajksjdiowajisdj</td>
+                    <td className="px-6 py-3">nalkdsnlakdknslkdnlknaanldsnalnd</td>
+                    <td className="px-6 py-3">aksjdkajdkajsdkjklj</td>
+                    <td className="px-6 py-3">asdklamskldmkamkwndanwdjnmnadjksn</td>
+                  </tr>
+                </tbody>
+              </table>
+              </div>
+              {/* end Riwayat Penyewaan gudang manage gudang */}
             </div>
           </div>
         ) : (
           <p>Loading ....</p>
         )}
+       
+        {/* <div className="container mx-auto px-2 lg:px-9 sm:px-9 md:px-3 ]">
+          <h1 className="text-[20px] font-semibold text-cloud-burst-500">Riwayat Penyewaan Gudang</h1>
+          <hr className="border-solid" />
+        </div> */}
+
       </div>
     </div>
   );
