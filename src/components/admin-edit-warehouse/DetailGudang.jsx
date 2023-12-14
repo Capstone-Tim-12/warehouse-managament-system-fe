@@ -49,7 +49,7 @@ const DetailGudang = () => {
   const [selectedKecamatan, setSelectedKecamatan] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
-  const [item, setItem] = useState(null);
+ 
 
   const token = Cookies.get("token");
   const headers = {
@@ -347,8 +347,8 @@ const DetailGudang = () => {
     }
 
     axios
-      .post(
-        "https://digiwarehouse-app.onrender.com/warehouse/detail",
+      .put(
+        `https://digiwarehouse-app.onrender.com/warehouse/detail/${id}`,
         dataWarehouse,
         {
           headers,
