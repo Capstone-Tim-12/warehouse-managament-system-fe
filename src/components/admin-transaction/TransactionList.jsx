@@ -4,6 +4,7 @@ import arrowBack from "../../assets/arrow-back-left-Icons.svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
 import Cookies from "js-cookie";
 import axios from "axios";
+import { Skeleton } from "antd";
 
 import Popup from "./Popup";
 
@@ -148,25 +149,23 @@ const TransactionList = () => {
           </form>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="ml-4 md:table md:w-[93.2%]">
-          <thead>
-            <tr className="text-cloud-burst-500 border-b">
-              <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
-              <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
-            </tr>
-          </thead>
-          {loading ? (
-            <tbody className="h-14 relative">
-              <tr className="absolute top-2 text-slate-500 font-semibold text-[24px] mt-2">
-                <td>Memuat data...</td>
+      <div className="overflow-x-auto px-4">
+        {loading ? (
+          <Skeleton active />
+        ) : !transactionList || transactionList.length === 0 ? (
+          <p className="text-xl py-5 text-center text-slate-500 font-semibold">Tidak ada data transaksi</p>
+        ) : (
+          <table className="md:table md:w-[93.2%]">
+            <thead>
+              <tr className="text-cloud-burst-500 border-b">
+                <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
+                <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
               </tr>
-            </tbody>
-          ) : transactionList && transactionList.length > 0 ? (
+            </thead>
             <tbody>
               {transactionList.map((item, index) => {
                 const transactionNumber = (currentPage - 1) * 10 + index + 1;
@@ -191,14 +190,8 @@ const TransactionList = () => {
                 );
               })}
             </tbody>
-          ) : (
-            <tbody className="h-14 relative">
-              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
-                <td>Tidak Ada Transaksi</td>
-              </tr>
-            </tbody>
-          )}
-        </table>
+          </table>
+        )}
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
         <button className="cursor-pointer" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage <= 1}>
