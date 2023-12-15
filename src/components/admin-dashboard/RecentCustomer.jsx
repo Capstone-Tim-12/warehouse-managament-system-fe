@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
 import rightArrowIcon from "../../assets/right-arrow.svg";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const RecentCustomer = () => {
   const [recentCustomer, setRecentCustomer] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
-  const handleRecentCustomer = () => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
+  const handleRecentCustomer = () => {
     axios
       .get(
         "https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=1&limit=10",
