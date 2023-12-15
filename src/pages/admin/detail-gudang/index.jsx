@@ -39,11 +39,37 @@ const DetailGudang = () => {
   const location = useLocation();
   const { id } = location.state;
 
-  useEffect(() => {
-    handleDataWarehouseId();
-  }, [id]);
+  
 
   const navigate = useNavigate()
+
+  const [transactionHistoryWarehouse, setTransactionHistoryWarehouse] = useState([]);
+
+  const handleTransactionHistoryWarehouse = (id) => {
+    
+    const token = Cookies.get('token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+  
+    axios
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/transaction/warehouse/${id}?page=1&limit=10`, { headers })
+      .then((response) => {
+        setTransactionHistoryWarehouse(response?.data?.data );
+        console.log(response?.data?.data )
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      
+  };
+
+  useEffect(() => {
+    handleDataWarehouseId();
+    handleTransactionHistoryWarehouse(id)
+  }, [id]);
+
+  
   
   
 
@@ -117,7 +143,7 @@ const DetailGudang = () => {
               <h1 className="text-[20px] font-semibold text-cloud-burst-500">Riwayat Penyewaan Gudang</h1>
               <hr className="border-solid" />
 
-              <table className="w-auto text-sm text-left rtl:text-right mt-3">
+              <table className="w-full text-sm text-left rtl:text-right mt-3">
                 <thead className="text-[16px] text-cloud-burst-500 border-b">
                     <tr>
                       <th scope="col" className=" py-3">
@@ -138,13 +164,17 @@ const DetailGudang = () => {
                     </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td className=" py-3">1.</td>
-                    <td className="px-6 py-3">jajdajksjdlkjakljdiwajksjdiowajisdj</td>
-                    <td className="px-6 py-3">nalkdsnlakdknslkdnlknaanldsnalnd</td>
-                    <td className="px-6 py-3">aksjdkajdkajsdkjklj</td>
-                    <td className="px-6 py-3">asdklamskldmkamkwndanwdjnmnadjksn</td>
+                  {transactionHistoryWarehouse && transactionHistoryWarehouse.map((trx, index)=>(
+
+                  
+                  <tr key={index}>
+                    <td className=" py-3">{index + 1}</td>
+                    <td className="px-6 py-3">{trx.username}</td>
+                    <td className="px-6 py-3">{trx.lokasi || 'DKI Jakarta'}</td>
+                    <td className="px-6 py-3">{trx.nominal}</td>
+                    <td className="px-6 py-3">{trx.status}</td>
                   </tr>
+                  ))}
                 </tbody>
               </table>
               </div>
