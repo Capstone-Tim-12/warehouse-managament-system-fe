@@ -5,11 +5,14 @@ import TopDetailUser from '../../../components/admin-manage-user/TopDetailUser';
 import IconX from '../../../assets/icon-x-modal-user.svg';
 import Cookies from 'js-cookie';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+
 
 
 const DetailUser = () => {
   const [item, setItem] = useState(null)
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate()
 
   const handleDataUserId = () =>{
     const token = Cookies.get('token')
@@ -34,8 +37,10 @@ const DetailUser = () => {
   }, [id])
 
   const [transactionHistory, setTransactionHistory] = useState([]);
+  const [loadingTransactionHistory, setLoadingTransactionHistory] = useState(false);
 
   const handleTransactionHistory = (userId) => {
+    setLoadingTransactionHistory(true);
     const token = Cookies.get('token');
     const headers = {
       Authorization: `Bearer ${token}`,
@@ -48,7 +53,10 @@ const DetailUser = () => {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(()=>{
+        setLoadingTransactionHistory(false)
+      })
   };
 
   useEffect(() => {
@@ -65,7 +73,7 @@ const DetailUser = () => {
   };
 
   const [selectedTransaction, setSelectedTransaction] = useState(null);
-  const [loading, setLoading] = useState(false);
+  
 
   const handleViewDetail = (transactionId) => {
     //menampilkan loading sebelum data modal muncul
@@ -108,7 +116,8 @@ const DetailUser = () => {
         .then(() => {
           console.log("User deleted successfully.");
           alert('data berhasil dihapus')
-          handleDataUser(currentPage); // Refresh data after deletion
+          navigate('/admin/manage-user')
+          
         })
         .catch((error) => {
           console.error("Error deleting user:", error);
@@ -130,7 +139,7 @@ const DetailUser = () => {
           <TopDetailUser
           username={item.username}
           photo={item.photo}
-          handleDeleteUser={handleDeleteUser} />
+          handleDeleteUser={() => handleDeleteUser(id)} />
 
          {/* Riwayat Penyewaan Gudang */}
 <div className='mt-6'>
@@ -155,6 +164,17 @@ const DetailUser = () => {
           </th>
         </tr>
       </thead>
+      {loadingTransactionHistory ? (
+       <tbody >
+       <tr>
+         <th colSpan="4" className="text-slate-500 font-semibold text-center text-xl py-3">
+           Loading Histori Transaksi ...
+         </th>
+       </tr>
+     </tbody>
+      ) : (
+        <>
+      {transactionHistory && transactionHistory.length > 0 ?(
       <tbody>
         {transactionHistory && transactionHistory.map((transaction, index) => (
           <tr key={index} className="cursor-pointer" onClick={() => handleViewDetail(transaction.transactionId)}>
@@ -176,6 +196,17 @@ const DetailUser = () => {
           </tr>
         ))}
       </tbody>
+      ) : (
+        <tbody >
+                <tr>
+                  <th colSpan="4" className="text-slate-500 font-semibold text-center text-xl py-3">
+                    Tidak ada Transaksi
+                  </th>
+                </tr>
+              </tbody>
+      )}
+      </>
+      )}
     </table>
   </div>
 </div>

@@ -139,7 +139,6 @@ const ListUser = () => {
 
       <div className="relative overflow-x-auto mt-5">
         {loading ? (
-          //loading data
           <p className="text-[24px]  text-slate-500 font-semibold mt-2">
             Memuat data...
           </p>
@@ -234,7 +233,7 @@ const ListUser = () => {
             ) : (
               <tbody >
                 <tr>
-                  <th colSpan="6" className="text-slate-500 font-semibold text-center">
+                  <th colSpan="6" className="text-slate-500 font-semibold text-center text-xl py-3">
                     User tidak ditemukan.
                   </th>
                 </tr>
@@ -268,9 +267,9 @@ const ListUser = () => {
         <button
           id="nextPage"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || dataUser < 1}
         >
-          {currentPage === totalPages ? (
+          {currentPage === totalPages || dataUser < 1 ?  (
             <img src={arrowNextDisable} />
           ) : (
             <img src={arrowNext} />
