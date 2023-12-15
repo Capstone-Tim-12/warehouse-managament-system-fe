@@ -121,10 +121,12 @@ const ListUser = () => {
               }
             }}
             onChange={(e) => setSearchQuery(e.target.value)}
+            id="searchUser"
           />
           <button
             className="sm:-ml-10 -ml-6 "
             onClick={() => handleDataUser(currentPage)}
+            id="btnSearchUser"
           >
             <img
               src={IconSearchUser}
@@ -165,6 +167,7 @@ const ListUser = () => {
                 </th>
               </tr>
             </thead>
+            {dataUser && dataUser.length > 0 ? (
             <tbody>
               {dataUser &&
                 dataUser.map((item, index) => {
@@ -195,6 +198,7 @@ const ListUser = () => {
                         <button
                           className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
                           onClick={() => handleOpenModalDeleteUser(item)}
+                          id="showModalDeleteUserId"
                         >
                           <img
                             src={IconDeleteUser}
@@ -211,6 +215,7 @@ const ListUser = () => {
                               state: { id: item.userId },
                             })
                           }
+                          id="btnViewUserId"
                         >
                           <img
                             src={IconLihatUser}
@@ -222,16 +227,23 @@ const ListUser = () => {
                       </td>
                     </tr>
 
-                    //modal delete user
-
-                    //end modal delete user
+                    
                   );
                 })}
             </tbody>
+            ) : (
+              <tbody >
+                <tr>
+                  <th colSpan="6" className="text-slate-500 font-semibold text-center">
+                    User tidak ditemukan.
+                  </th>
+                </tr>
+              </tbody>
+            )}
             <tfoot className="border-b">
               <tr>
                 <th>
-                  <td></td>
+                  
                 </th>
               </tr>
             </tfoot>
@@ -281,18 +293,23 @@ const ListUser = () => {
                   setSelectedUser(null);
                   setModalDeleteUser(false);
                 }}
+                id="closeModalDeleteUser"
               />
             </h2>
             <hr className="border-1" />
-            <p className="text-cloud-burst-500">
+            <p className="text-cloud-burst-500 mt-3">
               Hapus akun {selectedUser.username} dari sistem
             </p>
-            <div className="mt-5 flex justify-end">
+            <div className="mt-5 flex justify-end gap-3">
             <button
-                className="bg-crusta-500 px-4 py-2 text-white rounded-md"
-                
+                className="bg-white border border-crusta-500 px-4 py-2 text-crusta-500 rounded-md"
+                onClick={() => {
+                  setSelectedUser(null);
+                  setModalDeleteUser(false);
+                }}
+                id="btnCancelModalDeleteUser"
               >
-                Cancel
+                Cancel  
               </button>
 
               <button
@@ -301,6 +318,7 @@ const ListUser = () => {
                   handleDeleteUser(selectedUser.userId);
                   setModalDeleteUser(false);
                 }}
+                id="btnDeleteUser"
               >
                 Hapus
               </button>
