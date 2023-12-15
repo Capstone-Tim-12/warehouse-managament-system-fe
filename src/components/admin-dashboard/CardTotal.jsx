@@ -1,19 +1,19 @@
 import manageGudangIcon from "../../assets/manage-gudang-icon.svg";
 import transaksiIcon from "../../assets/transaksi-icon.svg";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const CardTotal = () => {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const handleCartTotal = () => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
+  const handleCartTotal = () => {
     axios
       .get("https://digiwarehouse-app.onrender.com/dasboard/payment/total", {
         headers,

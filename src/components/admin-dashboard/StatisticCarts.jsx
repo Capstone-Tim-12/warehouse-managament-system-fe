@@ -1,7 +1,7 @@
 import BarChart from "./BarChart";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
+import { useSelector } from "react-redux";
 
 function StatisticCarts() {
   const [userData, setUserData] = useState({
@@ -17,12 +17,12 @@ function StatisticCarts() {
     ],
   });
 
-  const handleRecentCustomer = () => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
+  const handleRecentCustomer = () => {
     axios
       .get(
         "https://digiwarehouse-app.onrender.com/dasboard/payment/statistic",
