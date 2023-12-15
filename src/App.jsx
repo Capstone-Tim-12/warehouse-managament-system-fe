@@ -25,7 +25,7 @@ function App() {
         <Route element={<LoginAdmin />} path="/admin/login-admin" />
         <Route element={<AllTransactions />} path="/admin/all-transactions" />
         <Route element={<Transaction />} path="/admin/transaksi" />
-        <Route element={<EditWarehouse/>} path="/admin/edit-warehouse"/>
+        <Route element={<EditWarehouse/>} path="/admin/edit-warehouse/:id"/>
         <Route element={<ManageUser/>} path="/admin/manage-user"/>
         <Route element={<DetailUser/>} path="/admin/detail-user/:id"/> 
         <Route element={<CreateWarehouse/>} path="/admin/create-warehouse"/>
