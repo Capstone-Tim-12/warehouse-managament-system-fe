@@ -48,8 +48,8 @@ const DetailGudang = () => {
   const [selectedKota, setSelectedKota] = useState("");
   const [selectedKecamatan, setSelectedKecamatan] = useState("");
   const [typeOptions, setTypeOptions] = useState([]);
+  const [selectedOptions, setSelectedOptions] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
- 
 
   const token = Cookies.get("token");
   const headers = {
@@ -79,6 +79,7 @@ const DetailGudang = () => {
           longitude: warehouseData.longitude || 0,
           latitude: warehouseData.latitude || 0,
           image: warehouseData.image || [],
+          status: warehouseData.status || "",
           // Add other properties if needed, based on the API structure
         });
 
@@ -105,6 +106,17 @@ const DetailGudang = () => {
     setIsLoading(true);
     handleDataWarehouseId();
   }, [id]);
+
+  useEffect(() => {
+    if (typeOptions.length > 0) {
+      const selectedWarehouseType = typeOptions.find(
+        (type) => type.value === dataWarehouse.warehouseTypeId
+      );
+      if (selectedWarehouseType) {
+        setSelectedOptions(selectedWarehouseType.value);
+      }
+    }
+  }, [typeOptions, dataWarehouse.warehouseTypeId]);
 
   useEffect(() => {
     if (provinsi.length > 0) {
@@ -346,10 +358,36 @@ const DetailGudang = () => {
       return;
     }
 
+    const dataWarehouseUpdate = {
+      name: "",
+      description: "",
+      districId: "",
+      address: "",
+      provinceId: "",
+      regencyId: "",
+      surfaceArea: 0,
+      buildingArea: 0,
+      annualPrice: 0,
+      owner: "",
+      warehouseTypeId: 0,
+      phoneNumber: "",
+      longitude: 0,
+      latitude: 0,
+      image: [],
+    };
+
+    const allFields = Object.keys(dataWarehouse);
+
+    allFields.forEach((field) => {
+      if (dataWarehouse[field]) {
+        dataWarehouseUpdate[field] = dataWarehouse[field];
+      }
+    });
+
     axios
       .put(
         `https://digiwarehouse-app.onrender.com/warehouse/detail/${id}`,
-        dataWarehouse,
+        dataWarehouseUpdate,
         {
           headers,
         }
@@ -622,13 +660,21 @@ const DetailGudang = () => {
             }
           >
             <option value="" disabled selected>
-              Ukuran
+              Pilih Tipe Gudang
             </option>
-            {typeOptions.map((option) => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+            {typeOptions.map((option) => {
+              const isSelected = option.value === dataWarehouse.warehouseTypeId;
+
+              return (
+                <option
+                  key={option.value}
+                  value={option.value}
+                  selected={isSelected}
+                >
+                  {option.label}
+                </option>
+              );
+            })}
           </select>
         </div>
       </div>
