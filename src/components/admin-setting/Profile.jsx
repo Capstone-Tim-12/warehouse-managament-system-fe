@@ -4,6 +4,7 @@ import axios from 'axios'
 import userIcon from '../../assets/user-setting-icon.svg'
 import emailIcon from '../../assets/icon-email-setting.svg'
 import passIcon from '../../assets/icon-pass-setting.svg'
+import Eye from "../../assets/eye-icon.svg";
 
 import { getToken } from '../../utils/Token'
 import Popup from '../global-component/Popup'
@@ -18,6 +19,7 @@ const headers = {
 const Profile = () => {
   const [isLoading, setLoading] = useState(false)
   const [isUpdating, setUpdating] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
 
   const [profile, setProfile] = useState({
     username: '',
@@ -31,6 +33,10 @@ const Profile = () => {
     const { name, value } = e.target
     setProfile({ ...profile, [name]: value })
   }
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
 
   const fetchData = () => {
     setLoading(true)
@@ -115,9 +121,19 @@ const Profile = () => {
               value={profile.password || ''}
               onChange={handleChange}
               placeholder=''
-              type='password'
+              type={showPassword ? "text" : "password"}
               className='focus:outline-none focus:ring-0 border border-none transition duration-200 placeholder-opacity-0 placeholder-gray-300'
             />
+            <div
+              className="absolute top-1/2 right-4 transform -translate-y-1/2 cursor-pointer"
+              onClick={togglePasswordVisibility}
+            >
+              <img
+                src={Eye}
+                alt="Toggle Password Visibility"
+                className="w-5 h-5"
+              />
+            </div>            
             <span className='absolute left-0 transition duration-200 label-input'>Password</span>
           </label>
         </div>
