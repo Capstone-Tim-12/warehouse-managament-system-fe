@@ -1,15 +1,15 @@
 import React, { useState, useRef } from "react";
-import Cookies from "js-cookie";
 import { notification } from "antd";
 import IconPlus from "../../assets/plus-Icons.svg";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const TopEdit = () => {
   const [csvData, setCsvData] = useState([]);
   const navigate = useNavigate();
   const csvInputRef = useRef(null);
 
-  const token = Cookies.get("token");
+  const token = useSelector((state) => state.auth.token);
 
   const handleImportCSV = async (file) => {
     const formData = new FormData();

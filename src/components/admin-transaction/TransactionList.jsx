@@ -4,10 +4,11 @@ import arrowBackDisable from "../../assets/arrow-back-left-Icons.svg";
 import arrowBack from "../../assets/arrow-back-left-Icons(orange-500).svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
 import arrowNextDisable from "../../assets/arrow-next-right-Icons(orange-200).svg";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { Skeleton } from "antd";
 
 import Popup from "./Popup";
+import { useSelector } from "react-redux";
 
 const TransactionList = () => {
   const [transactionList, setTransactionList] = useState([]);
@@ -20,22 +21,21 @@ const TransactionList = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectedLocation, setSelectedLocation] = useState("");
 
-  const handleTransactionList = (page, searchText) => {
-    setLoading(true);
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+  const token = useSelector((state) => state.auth.token);
+  const headers = { Authorization: `Bearer ${token}` };
 
-    const filterSearch = searchText ? `&search=${searchText}` : "";
+  const handleData = (page, searchText) => {
+    setLoading(true);
+
     const filterStatus =
       selectedStatus !== "" ? `&status=${selectedStatus}` : "";
+    const filterSearch = searchText ? `&search=${searchText}` : "";
     const filterLocation =
       selectedLocation !== "" ? `&provinceId=${selectedLocation}` : "";
 
     axios
       .get(
-        `https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterSearch}${filterStatus}${filterLocation}`,
+        `https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterStatus}${filterSearch}${filterLocation}`,
         { headers }
       )
       .then((response) => {
@@ -55,44 +55,37 @@ const TransactionList = () => {
   };
 
   useEffect(() => {
-    handleTransactionList(currentPage);
+    handleData(currentPage);
   }, [currentPage, selectedStatus, selectedLocation]);
 
   const selectLocation = () => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     axios
       .get("https://digiwarehouse-app.onrender.com/user/province", { headers })
       .then((response) => {
-        setProvinceId(response?.data?.data);
-        console.log(response?.data?.data);
+        setProvinceId(response?.data?.data || []);
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
     selectLocation();
   }, []);
 
-  const handleStatusClick = (transaction) => {
+  const handleStatusClick = (transaction) =>
     setSelectedTransaction(transaction);
-  };
 
-  const closePopup = () => {
-    setSelectedTransaction(false);
-  };
+  const closePopup = () => setSelectedTransaction(false);
 
   const handlePageChange = (newPage) => {
     setCurrentPage(newPage);
-    handleTransactionList(newPage);
+    handleData(newPage);
   };
-  const handleSearch = (searchText) => {
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const searchText = e.target.value;
     setSearchInput(searchText);
-    handleTransactionList(currentPage, searchText);
+    handleData(currentPage, searchText);
   };
 
   return (
@@ -135,40 +128,45 @@ const TransactionList = () => {
             <option value="ditolak">Ditolak</option>
           </select>
         </div>
-        <div className="relative rounded-[28px] flex items-center">
-          <button className="absolute pl-3">
-            <img src={searchIcon} alt="search" />
-          </button>
-          <input
-            type="text"
-            placeholder="Search"
-            className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]"
-            onChange={(e) => {
-              setSearchInput(transactionList);
-              handleSearch(e.target.value);
-            }}
-          />
+        <div className="flex items-center justify-center">
+          <form onSubmit={handleSearch} className="relative flex items-center">
+            <img src={searchIcon} alt="" className="absolute pl-3 left-0" />
+            <input
+              type="text"
+              placeholder="Search"
+              className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]"
+              onChange={(e) => {
+                setSearchInput(transactionList);
+                handleSearch(e.target.value);
+              }}
+              onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  handleSearch(e);
+                }
+              }}
+            />
+          </form>
         </div>
       </div>
-      <div className="overflow-x-auto">
-        <table className="ml-4 md:table md:w-[93.2%]">
-          <thead>
-            <tr className="text-cloud-burst-500 border-b">
-              <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
-              <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
-              <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
-            </tr>
-          </thead>
-          {loading ? (
-            <tbody className="h-14 relative">
-              <tr className="absolute top-2 text-slate-500 font-semibold text-[24px] mt-2">
-                <td>Memuat data...</td>
+      <div className="overflow-x-auto px-4">
+        {loading ? (
+          <Skeleton active />
+        ) : !transactionList || transactionList.length === 0 ? (
+          <p className="text-xl py-5 text-center text-slate-500 font-semibold">
+            Tidak ada data transaksi
+          </p>
+        ) : (
+          <table className="md:table md:w-[93.2%]">
+            <thead>
+              <tr className="text-cloud-burst-500 border-b">
+                <th className="pb-2 pr-3 md:pr-6 pl-3 text-center">No.</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Nama User</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Lokasi</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Nama Warehouse</th>
+                <th className="pb-2 pr-3 md:pr-6 text-left">Durasi Sewa</th>
+                <th className="pb-2 pr-3 md:pr-24 text-center">Status</th>
               </tr>
-            </tbody>
-          ) : transactionList && transactionList.length > 0 ? (
+            </thead>
             <tbody>
               {transactionList.map((item, index) => {
                 const transactionNumber = (currentPage - 1) * 10 + index + 1;
@@ -204,14 +202,8 @@ const TransactionList = () => {
                 );
               })}
             </tbody>
-          ) : (
-            <tbody className="h-14 relative">
-              <tr className="absolute top-8 inset-0 flex justify-center text-slate-500 font-semibold">
-                <td>Tidak Ada Transaksi</td>
-              </tr>
-            </tbody>
-          )}
-        </table>
+          </table>
+        )}
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
         <button

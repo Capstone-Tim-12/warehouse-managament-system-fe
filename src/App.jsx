@@ -12,6 +12,7 @@ import AllTransactions from "./pages/admin/transaction/AllTransactions";
 import ManageUser from "./pages/admin/manage-user";
 import DetailUser from "./pages/admin/manage-user/DetailUser";
 import CreateWarehouse from "./pages/admin/create-warehouse/CreateWarehouse";
+import PrivateRoute from "./features/PrivateRouter";
 
 function App() {
   return (
@@ -19,8 +20,15 @@ function App() {
       <Routes>
         <Route element={<LandingPage />} path="/" />
         <Route element={<Dashboard />} path="/admin/dashboard" />
-        <Route element={<ManageGudang />} path="/admin/manage-gudang" />
-        <Route element={<DetailGudang />} path="/admin/detail-gudang/:id" /> 
+        <Route
+          element={
+            <PrivateRoute>
+              <ManageGudang />
+            </PrivateRoute>
+          }
+          path="/admin/manage-gudang"
+        />
+        <Route element={<DetailGudang />} path="/admin/detail-gudang/:id" />
         <Route element={<AdminSetting />} path="/admin/pengaturan" />
         <Route element={<LoginAdmin />} path="/admin/login-admin" />
         <Route element={<AllTransactions />} path="/admin/all-transactions" />
