@@ -12,6 +12,7 @@ import IconX from "../../assets/icon-x-modal-user.svg";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Skeleton } from "antd";
 
 const ListUser = () => {
   const navigate = useNavigate();
@@ -135,7 +136,7 @@ const ListUser = () => {
       <div className="relative overflow-x-auto mt-5">
         {loading ? (
           <p className="text-[24px]  text-slate-500 font-semibold mt-2">
-            Memuat data...
+            <Skeleton active />
           </p>
         ) : (
           <table className="w-full text-center rtl:text-right">
