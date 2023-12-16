@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import searchIcon from "../../assets/search-icon.svg";
-import arrowBack from "../../assets/arrow-back-left-Icons.svg";
+import arrowBackDisable from "../../assets/arrow-back-left-Icons.svg";
+import arrowBack from "../../assets/arrow-back-left-Icons(orange-500).svg";
 import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import arrowNextDisable from "../../assets/arrow-next-right-Icons(orange-200).svg";
 import axios from "axios";
 import { Skeleton } from "antd";
 
@@ -205,18 +207,27 @@ const TransactionList = () => {
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
         <button
-          className="cursor-pointer"
+          id="prevPage"
           onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage <= 1}
+          disabled={currentPage === 1}
         >
-          <img src={arrowBack} alt="Prev Page" />
-        </button>{" "}
+          {currentPage === 1 ? (
+            <img src={arrowBackDisable} />
+          ) : (
+            <img src={arrowBack} />
+          )}
+        </button>
         <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
         <button
-          className="cursor-pointer"
+          id="nextPage"
           onClick={() => handlePageChange(currentPage + 1)}
+          disabled={currentPage === totalPages}
         >
-          <img src={arrowNext} alt="Next Page" />
+          {currentPage === totalPages ? (
+            <img src={arrowNextDisable} />
+          ) : (
+            <img src={arrowNext} />
+          )}
         </button>
       </div>
       {selectedTransaction && (
