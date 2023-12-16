@@ -135,9 +135,9 @@ const ListUser = () => {
 
       <div className="relative overflow-x-auto mt-5">
         {loading ? (
-          <p className="text-[24px]  text-slate-500 font-semibold mt-2">
+          <>
             <Skeleton active />
-          </p>
+          </>
         ) : (
           <table className="w-full text-center rtl:text-right">
             <thead className="text-cloud-burst-500 ">
