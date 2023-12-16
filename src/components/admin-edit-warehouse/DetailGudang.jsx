@@ -184,6 +184,30 @@ const DetailGudang = () => {
       });
   };
 
+  useEffect(() => {
+    handleTypeWarehouse();
+  }, []);
+
+  // const handleTypeWarehouse = () => {
+  //   axios
+  //     .get("https://digiwarehouse-app.onrender.com/dasboard/warehouse/type", {
+  //       headers,
+  //     })
+  //     .then((response) => {
+  //       const data = response.data.data;
+
+  //       const formattedData = data.map((item) => ({
+  //         value: item.id,
+  //         label: item.name,
+  //       }));
+
+  //       setTypeOptions(formattedData);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching data:", error);
+  //     });
+  // };
+
   const [fileList, setFileList] = useState([]);
 
   const handleSubmitAddPicture = async (file) => {
@@ -413,9 +437,9 @@ const DetailGudang = () => {
       });
   };
 
-  useEffect(() => {
-    handleTypeWarehouse();
-  }, []);
+  // useEffect(() => {
+  //   handleTypeWarehouse();
+  // }, []);
 
   useEffect(() => {
     axios
@@ -651,7 +675,7 @@ const DetailGudang = () => {
             id="warehouseTypeId"
             name="warehouseTypeId"
             className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
-            value={dataWarehouse.warehouseTypeId}
+            value={selectedOptions}
             onChange={(e) =>
               setDataWarehouse((prevFormData) => ({
                 ...prevFormData,
@@ -660,21 +684,13 @@ const DetailGudang = () => {
             }
           >
             <option value="" disabled selected>
-              Pilih Tipe Gudang
+              Ukuran
             </option>
-            {typeOptions.map((option) => {
-              const isSelected = option.value === dataWarehouse.warehouseTypeId;
-
-              return (
-                <option
-                  key={option.value}
-                  value={option.value}
-                  selected={isSelected}
-                >
-                  {option.label}
-                </option>
-              );
-            })}
+            {typeOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
           </select>
         </div>
       </div>
