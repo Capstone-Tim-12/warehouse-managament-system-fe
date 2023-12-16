@@ -103,6 +103,13 @@ const DetailGudang = () => {
   useEffect(() => {
     handleReason()
   }, []);
+
+  const [showModalUpdateTempo, setShowModalUpdateTempo] = useState(false)
+
+  const handleModalUpdateTempo = ()=> {
+    setShowModalTrxGudang(false)
+    setShowModalUpdateTempo(true)
+  }
   
 
   return (
@@ -198,7 +205,7 @@ const DetailGudang = () => {
                   <tbody>
                     {transactionHistoryWarehouse &&
                       transactionHistoryWarehouse.map((trx, index) => (
-                        <tr key={index}>
+                        <tr key={index} onClick={handleModalTrxGudang}>
                           <th className=" py-3 font-medium text-cloud-burst-500 whitespace-nowrap">{index + 1 }</th>
                           <td className="px-6 py-3">{trx.username}</td>
                           <td className="px-6 py-3">
@@ -279,7 +286,7 @@ const DetailGudang = () => {
 
           <div className="flex gap-2 justify-end">
             <button className="rounded-md bg-cloud-burst-200 py-2 px-5 text-white" onClick={handelModalStopKontrak }>Berhenti Kontrak</button>
-            <button className="rounded-md bg-cloud-burst-500 py-2 px-5 text-white">Perpanjang Tempo</button>
+            <button className="rounded-md bg-cloud-burst-500 py-2 px-5 text-white" onClick={handleModalUpdateTempo}>Perpanjang Tempo</button>
           </div>
         
           {/* end instalment */}
@@ -308,7 +315,7 @@ const DetailGudang = () => {
                   {reason && reason.map((reason, index)=>(
                   <div key={index} className="mt-4">
                   <label className="">
-                  <input type="radio" name="" id="" className=""/>
+                  <input type="radio" name="" id="" className="" value={reason.name}/>
                   <span className="ml-4 text-cloud-burst-500">{reason.name}</span>
                   </label>
                   </div>
@@ -324,6 +331,33 @@ const DetailGudang = () => {
               )}
 
               {/* end modal pemberhentian Kontrak */}
+
+              {/* modal perpanjang tempo */}
+                {showModalUpdateTempo && (
+                <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                    <div className="bg-white p-5 rounded-md w-[525px] relative overflow-auto max-h-screen">
+                    <h1 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">Perpanjang Tempo Tagihan
+                    <img
+                    src={IconX}
+                    alt="iconx"
+                    className="absolute top-1 right-1 cursor-pointer"
+                    onClick={()=>setShowModalUpdateTempo(false)}
+                    />
+                    </h1>
+
+                    <div className="flex flex-col justify-center">
+                      <h2 className="text-center text-xl text-cloud-burst-500">Tempo tagihan diperpanjang hingga:</h2>
+                      <input type="datetime-local" name="" id="" className="mt-3"/>
+                    </div>
+                    <div className="flex justify-end gap-3 mt-3">
+                    <button className="border-2 border-cloud-burst-500 bg-white rounded-lg py-3 px-6  font-semibold text-cloud-burst-500" onClick={()=>setShowModalUpdateTempo(false)}>Batalkan</button>
+                    <button className="border-2 border-cloud-burst-500 bg-cloud-burst-500 rounded-lg py-3 px-6 text-white font-semibold">Submit</button>
+                    </div>
+                    </div>
+                </div>
+                )}
+
+              {/* end modal perpanjang tempo */}
               
               {/* end Riwayat Penyewaan gudang manage gudang */}
 

@@ -186,8 +186,12 @@ const ListUser = () => {
                         <td className="px-6 py-4">{item.email}</td>
                         <td className="px-6 py-4 ">
                           <div className="flex items-center justify-center">
-                            <img src={IconStatusUser} alt="status" />
-                          </div>
+                          {item.isVerifyIdentity ? (
+                          <img src={IconStatusUser} alt="status" />
+                        ) : (
+                          <span></span>
+                        )}
+                        </div>
                         </td>
                         <td className="px-6 py-4 flex gap-4 items-center justify-center">
                           <button
