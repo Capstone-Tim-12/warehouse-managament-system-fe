@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { notification } from "antd";
@@ -11,6 +10,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 
 import IconDelete from "../../assets/icon-delete.svg";
 import customMarkerIcon from "../../assets/marker.svg";
+import { useSelector } from "react-redux";
 
 const Dragger = Upload.Dragger;
 const JakartaCoordinates = [-6.2088, 106.8456];
@@ -48,7 +48,7 @@ const DetailGudang = () => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const token = Cookies.get("token");
+  const token = useSelector((state) => state.auth.token);
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -354,7 +354,7 @@ const DetailGudang = () => {
       ...prev,
       longitude: isNaN(newLongitude) ? null : newLongitude,
     }));
-  
+
     setLongitude(e.target.value);
   };
 
