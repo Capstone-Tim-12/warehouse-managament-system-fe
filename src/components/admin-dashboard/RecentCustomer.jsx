@@ -41,22 +41,23 @@ const RecentCustomer = () => {
         <p className="text-xl py-5">Memuat data...</p>
       ) : (
         <div className="  flex flex-col gap-5 my-2">
-          {recentCustomer.slice(0, 3).map((item) => {
-            return (
-              <div
-                className=" bg-[#94A2B5] w-full h-auto p-3 rounded-[12px] flex items-center gap-4 border border-black"
-                key={item.transactionId}
-              >
-                <div className="bg-cloud-burst-500 w-[30px] h-[30px] flex justify-center items-center text-white rounded-full">
-                  <h5>{item.username.charAt(0).toUpperCase()}</h5>
+          {recentCustomer &&
+            recentCustomer.slice(0, 3).map((item) => {
+              return (
+                <div
+                  className=" bg-[#94A2B5] w-full h-auto p-3 rounded-[12px] flex items-center gap-4 border border-black"
+                  key={item.transactionId}
+                >
+                  <div className="bg-cloud-burst-500 w-[30px] h-[30px] flex justify-center items-center text-white rounded-full">
+                    <h5>{item.username.charAt(0).toUpperCase()}</h5>
+                  </div>
+                  <div className="">
+                    <p>{item.username}</p>
+                    <p>{item.regencyName}</p>
+                  </div>
                 </div>
-                <div className="">
-                  <p>{item.username}</p>
-                  <p>{item.regencyName}</p>
-                </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       )}
 
