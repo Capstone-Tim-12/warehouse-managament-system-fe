@@ -7,6 +7,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Skeleton } from "antd";
+import Popup from "../../../components/global-component/Popup";
 
 const DetailUser = () => {
   const [item, setItem] = useState(null);
@@ -246,12 +247,10 @@ const DetailUser = () => {
               {/* Modal detail transaksi */}
 
               {loading && (
-                <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-                  {/* Anda dapat menyesuaikan tampilan loader sesuai kebutuhan */}
-                  <div className="loader text-white font-bold text-2xl">
-                    Loading...
+                <div className="text-cloud-burst-500 font-semibold">
+                    <Popup open={loading}/>
                   </div>
-                </div>
+                
               )}
               {showModal && selectedTransaction && (
                 <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
