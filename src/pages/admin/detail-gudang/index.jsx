@@ -5,6 +5,7 @@ import Foto1 from "../../../assets/foto-1.jpg";
 import Foto2 from "../../../assets/foto-2.jpg";
 import Foto3 from "../../../assets/foto-3.jpg";
 import Foto4 from "../../../assets/foto-4.jpg";
+import IconX from '../../../assets/icon-x-modal-user.svg';
 import TopDetail from "../../../components/admin-detail-gudang/TopDetail";
 import Foto from "../../../components/admin-detail-gudang/Foto";
 import NamaDeskripsi from "../../../components/admin-detail-gudang/NamaDeskripsi";
@@ -70,7 +71,42 @@ const DetailGudang = () => {
   }, [id]);
 
   
+  const [showModalTrxGudang, setShowModalTrxGudang] = useState(false)
+
+  const handleModalTrxGudang = () => {
+    setShowModalTrxGudang(true)
+  }
+
+  const [showModalStopKontrak, setShowModalStopKontrak] = useState(false)
+
+  const handelModalStopKontrak = () => {
+    setShowModalTrxGudang(false)
+    setShowModalStopKontrak(true)
+  }
+
+  const [reason, setReason] = useState()
+
+  const handleReason = ()=> {
+    const token = Cookies.get('token');
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    axios
+    .get("https://digiwarehouse-app.onrender.com/dasboard/payment/reasone", {headers})
+    .then((response)=> {
+      setReason(response?.data?.data)
+      console.log(response?.data?.data)
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+
+  }
   
+  useEffect(() => {
+    handleReason()
+  }, []);
   
 
   return (
@@ -143,7 +179,7 @@ const DetailGudang = () => {
               <h1 className="text-[20px] font-semibold text-cloud-burst-500">Riwayat Penyewaan Gudang</h1>
               <hr className="border-solid" />
 
-              <table className="w-full text-sm text-left rtl:text-right mt-3">
+              <table className="w-full text-sm text-left rtl:text-right mt-3 text-cloud-burst-500">
                 <thead className="text-[16px] text-cloud-burst-500 border-b">
                     <tr>
                       <th scope="col" className=" py-3">
@@ -168,19 +204,136 @@ const DetailGudang = () => {
 
                   
                   <tr key={index}>
-                    <td className=" py-3">{index + 1}</td>
+                    <th className=" py-3 font-medium text-cloud-burst-500 whitespace-nowrap">{index + 1 }</th>
                     <td className="px-6 py-3">{trx.username}</td>
-                    <td className="px-6 py-3">{trx.lokasi || 'DKI Jakarta'}</td>
-                    <td className="px-6 py-3">{trx.nominal}</td>
-                    <td className="px-6 py-3">{trx.status}</td>
+                    <td className="px-6 py-3">{trx.userRegencyName || 'Dki Jakarta'}</td>
+                    <td className="px-6 py-3">{trx.nominal.toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}</td>
+                    <td className="px-6 py-3"> <button className={`${
+                      trx.status === 'Aktif' ? 
+                      "bg-[#06C270]" : "bg-[#FF3B3B]"} rounded-md px-4 py-1 text-white `
+                      }>{trx.status}</button> </td>
                   </tr>
                   ))}
+                  <tr onClick={handleModalTrxGudang}>
+                    <td className=" py-3">Klik</td>
+                   
+                  </tr>
                 </tbody>
               </table>
               </div>
+
+              {/* Modal Detail Tagihan */}
+              {showModalTrxGudang && (
+              <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center" >
+        <div className="bg-white p-5 rounded-md w-auto relative overflow-auto max-h-screen">
+          <h2 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">
+            Detail Tagihan
+            <img
+              src={IconX}
+              alt="iconx"
+              className="absolute top-1 right-1 cursor-pointer"
+              onClick={()=>setShowModalTrxGudang(false)}
+            />
+          </h2>
+         
+          {/* component instalment */}
+          
+          <div  className='text-cloud-burst-500'>
+          <div className='grid grid-cols-2 '>
+          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>Maret</h1>
+          <p className='text-center ml-[150px] mt-1'>Rp10.000.000,00</p>
+          <div className="flex">
+          <p className="">Jatuh tempo: 23 Maret 2023</p>
+          <img src="" alt="" />
+          </div>
+          <button className='bg-green-500 py-2 px-2   rounded-md text-white ml-[150px] -mt-2'>Tagihan Sudah Dibayar</button>
+          </div>
+          </div>
+          <hr className='mb-[24px] mt-2'/>
+
+          <div  className='text-cloud-burst-500'>
+          <div className='grid grid-cols-2 '>
+          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>Februari</h1>
+          <p className='text-center ml-[150px] mt-1'>Rp10.000.000,00</p>
+          <div className="flex">
+          <p className="">Jatuh tempo: 23 Februari 2023</p>
+          <img src="" alt="" />
+          </div>
+          <button className='bg-green-500 py-2 px-2   rounded-md text-white ml-[150px] -mt-2'>Tagihan Sudah Dibayar</button>
+          </div>
+          </div>
+          <hr className='mb-[24px] mt-2'/>
+
+          <div  className='text-cloud-burst-500'>
+          <div className='grid grid-cols-2 '>
+          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>Januari</h1>
+          <p className='text-center ml-[150px] mt-1'>Rp10.000.000,00</p>
+          <div className="flex">
+          <p className="">Jatuh tempo: 23 Janurai 2023</p>
+          <img src="" alt="" />
+          </div>
+          <button className='bg-green-500 py-2 px-2   rounded-md text-white ml-[150px] -mt-2'>Tagihan Sudah Dibayar</button>
+          </div>
+          </div>
+          <hr className='mb-[24px] mt-2'/>
+
+          <div className="flex gap-2 justify-end">
+            <button className="rounded-md bg-cloud-burst-200 py-2 px-5 text-white" onClick={handelModalStopKontrak }>Berhenti Kontrak</button>
+            <button className="rounded-md bg-cloud-burst-500 py-2 px-5 text-white">Perpanjang Tempo</button>
+          </div>
+        
+          {/* end instalment */}
+         
+        </div>
+      </div>
+        )}      
+              
+              {/* end Modal Detail Tagihan */}
+
+
+              {/* modal pemberhentian Kontrak */}
+                {showModalStopKontrak && (
+              <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                <div className="bg-white p-5 rounded-md w-[880px] relative overflow-auto max-h-screen">
+                  <h1 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">Pemberhentian Kontrak
+                  <img
+                    src={IconX}
+                    alt="iconx"
+                    className="absolute top-1 right-1 cursor-pointer"
+                    onClick={()=>setShowModalStopKontrak(false)}
+                    />
+                  </h1>
+
+                  <p className="text-cloud-burst-500 text-xl mt-6">Kontrak Sewa diberhentikan dengan Alasan</p>
+                  {reason && reason.map((reason, index)=>(
+                  <div key={index} className="mt-4">
+                  <label className="">
+                  <input type="radio" name="" id="" className=""/>
+                  <span className="ml-4 text-cloud-burst-500">{reason.name}</span>
+                  </label>
+                  </div>
+                  ))}
+
+                  <div className="flex justify-end mt-8 gap-2 ">
+                    <button className="rounded-md bg-crusta-200 text-white px-6 py-3">Batal</button>
+                    <button className="rounded-md bg-crusta-500 text-white px-6 py-3">Hentikan Kontrak</button>
+                  </div>
+
+                </div>
+              </div>
+              )}
+
+              {/* end modal pemberhentian Kontrak */}
               
               {/* end Riwayat Penyewaan gudang manage gudang */}
+
+
             </div>
+              
+
           </div>
         ) : (
           <p>Loading ....</p>
