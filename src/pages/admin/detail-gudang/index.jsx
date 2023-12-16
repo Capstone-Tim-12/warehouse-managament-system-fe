@@ -12,17 +12,18 @@ import Detail from "../../../components/admin-detail-gudang/Detail";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { useEffect } from "react";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const DetailGudang = () => {
   const [item, setItem] = useState(null);
 
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const handleDataWarehouseId = () => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     axios
       .get(`https://digiwarehouse-app.onrender.com/warehouse/detail/${id}`, {
         headers,
@@ -39,39 +40,30 @@ const DetailGudang = () => {
   const location = useLocation();
   const { id } = location.state;
 
-  
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-
-  const [transactionHistoryWarehouse, setTransactionHistoryWarehouse] = useState([]);
+  const [transactionHistoryWarehouse, setTransactionHistoryWarehouse] =
+    useState([]);
 
   const handleTransactionHistoryWarehouse = (id) => {
-    
-    const token = Cookies.get('token');
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-  
     axios
-      .get(`https://digiwarehouse-app.onrender.com/dasboard/transaction/warehouse/${id}?page=1&limit=10`, { headers })
+      .get(
+        `https://digiwarehouse-app.onrender.com/dasboard/transaction/warehouse/${id}?page=1&limit=10`,
+        { headers }
+      )
       .then((response) => {
-        setTransactionHistoryWarehouse(response?.data?.data );
-        console.log(response?.data?.data )
+        setTransactionHistoryWarehouse(response?.data?.data);
+        console.log(response?.data?.data);
       })
       .catch((error) => {
         console.log(error);
-      })
-      
+      });
   };
 
   useEffect(() => {
     handleDataWarehouseId();
-    handleTransactionHistoryWarehouse(id)
+    handleTransactionHistoryWarehouse(id);
   }, [id]);
-
-  
-  
-  
 
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
@@ -83,9 +75,7 @@ const DetailGudang = () => {
           <div>
             <div className="container mx-auto px-2 lg:px-9 sm:px-9 md:px-3 py-12 ]  ">
               {/* componen top */}
-              <TopDetail
-              navigate = {navigate}
-              item={item} />
+              <TopDetail navigate={navigate} item={item} />
               {/* end component top */}
 
               {/* main content 1 nama & deskripsi */}
@@ -105,9 +95,9 @@ const DetailGudang = () => {
                 </h2>
                 <hr className="border-solid" />
                 <div className="flex lg:flex gap-2 sm:ml-5 md:grid md:grid-rows-2 md:grid-flow-col ">
-                <Foto FotoDetail={item.image && item.image[0]} />
-                <Foto FotoDetail={item.image && item.image[1]} />
-                <Foto FotoDetail={item.image && item.image[2]} />
+                  <Foto FotoDetail={item.image && item.image[0]} />
+                  <Foto FotoDetail={item.image && item.image[1]} />
+                  <Foto FotoDetail={item.image && item.image[2]} />
                 </div>
               </div>
               {/* end component foto */}
@@ -140,11 +130,13 @@ const DetailGudang = () => {
 
               {/* Riwayat Penyewaan gudang manage gudang */}
               <div className="mt-[48px]">
-              <h1 className="text-[20px] font-semibold text-cloud-burst-500">Riwayat Penyewaan Gudang</h1>
-              <hr className="border-solid" />
+                <h1 className="text-[20px] font-semibold text-cloud-burst-500">
+                  Riwayat Penyewaan Gudang
+                </h1>
+                <hr className="border-solid" />
 
-              <table className="w-full text-sm text-left rtl:text-right mt-3">
-                <thead className="text-[16px] text-cloud-burst-500 border-b">
+                <table className="w-full text-sm text-left rtl:text-right mt-3">
+                  <thead className="text-[16px] text-cloud-burst-500 border-b">
                     <tr>
                       <th scope="col" className=" py-3">
                         No.
@@ -162,32 +154,30 @@ const DetailGudang = () => {
                         Status
                       </th>
                     </tr>
-                </thead>
-                <tbody>
-                  {transactionHistoryWarehouse && transactionHistoryWarehouse.map((trx, index)=>(
-
-                  
-                  <tr key={index}>
-                    <td className=" py-3">{index + 1}</td>
-                    <td className="px-6 py-3">{trx.username}</td>
-                    <td className="px-6 py-3">{trx.lokasi || 'DKI Jakarta'}</td>
-                    <td className="px-6 py-3">{trx.nominal}</td>
-                    <td className="px-6 py-3">{trx.status}</td>
-                  </tr>
-                  ))}
-                </tbody>
-              </table>
+                  </thead>
+                  <tbody>
+                    {transactionHistoryWarehouse &&
+                      transactionHistoryWarehouse.map((trx, index) => (
+                        <tr key={index}>
+                          <td className=" py-3">{index + 1}</td>
+                          <td className="px-6 py-3">{trx.username}</td>
+                          <td className="px-6 py-3">
+                            {trx.lokasi || "DKI Jakarta"}
+                          </td>
+                          <td className="px-6 py-3">{trx.nominal}</td>
+                          <td className="px-6 py-3">{trx.status}</td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
               </div>
-              
+
               {/* end Riwayat Penyewaan gudang manage gudang */}
             </div>
           </div>
         ) : (
           <p>Loading ....</p>
         )}
-       
-      
-
       </div>
     </div>
   );

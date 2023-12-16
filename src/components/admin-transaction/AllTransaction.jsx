@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { Skeleton } from "antd";
 import ArrowBack from "../../assets/arrow-back-left-Icons.svg";
 import searchIcon from "../../assets/search-icon.svg";
 import ArrowNext from "../../assets/arrow-next-right-Icons.svg";
+import { useSelector } from "react-redux";
 
 const TransactionList = () => {
   const [transactionList, setTransactionList] = useState([]);
@@ -16,6 +16,11 @@ const TransactionList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchTerm(tempSearchTerm);
@@ -24,10 +29,6 @@ const TransactionList = () => {
 
   const fetchTransactionData = () => {
     setLoading(true);
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     const params = {
       page: currentPage,
       limit: 10,

@@ -10,8 +10,8 @@ import IconSearchUser from "../../assets/icon-search-user.svg";
 import IconStatusUser from "../../assets/icon-status-user.svg";
 import IconX from "../../assets/icon-x-modal-user.svg";
 import { useNavigate } from "react-router";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { useSelector } from "react-redux";
 
 const ListUser = () => {
   const navigate = useNavigate();
@@ -22,13 +22,13 @@ const ListUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false); // New state for loading
 
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const handleDataUser = (page) => {
     setLoading(true); // Set loading to true when data fetching starts
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
     axios
       .get(
         `https://digiwarehouse-app.onrender.com/dasboard/user/list?limit=10&page=${page}&search=${searchQuery}`,
@@ -69,11 +69,6 @@ const ListUser = () => {
 
   // delete user by id
   const handleDeleteUser = (userId) => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
     axios
       .delete(
         `https://digiwarehouse-app.onrender.com/dasboard/user/${userId}`,
@@ -167,73 +162,74 @@ const ListUser = () => {
               </tr>
             </thead>
             {dataUser && dataUser.length > 0 ? (
-            <tbody>
-              {dataUser &&
-                dataUser.map((item, index) => {
-                  const userNumber = (currentPage - 1) * 10 + index + 1;
-                  return (
-                    <tr className="" key={index}>
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                      >
-                        {userNumber}
-                      </th>
-                      <td className="px-6 py-4 flex items-center justify-center">
-                        <img
-                          src={item.photo || imgDefault}
-                          alt="avataruser"
-                          className="max-w-[41px] max-h-[40px] "
-                        />
-                      </td>
-                      <td className="px-6 py-4">{item.username}</td>
-                      <td className="px-6 py-4">{item.email}</td>
-                      <td className="px-6 py-4 ">
-                        <div className="flex items-center justify-center">
-                          <img src={IconStatusUser} alt="status" />
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 flex gap-4 items-center justify-center">
-                        <button
-                          className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
-                          onClick={() => handleOpenModalDeleteUser(item)}
-                          id="showModalDeleteUserId"
+              <tbody>
+                {dataUser &&
+                  dataUser.map((item, index) => {
+                    const userNumber = (currentPage - 1) * 10 + index + 1;
+                    return (
+                      <tr className="" key={index}>
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
                         >
+                          {userNumber}
+                        </th>
+                        <td className="px-6 py-4 flex items-center justify-center">
                           <img
-                            src={IconDeleteUser}
-                            alt="delete"
-                            className="w-6 h-6"
+                            src={item.photo || imgDefault}
+                            alt="avataruser"
+                            className="max-w-[41px] max-h-[40px] "
                           />
-                          Hapus
-                        </button>
+                        </td>
+                        <td className="px-6 py-4">{item.username}</td>
+                        <td className="px-6 py-4">{item.email}</td>
+                        <td className="px-6 py-4 ">
+                          <div className="flex items-center justify-center">
+                            <img src={IconStatusUser} alt="status" />
+                          </div>
+                        </td>
+                        <td className="px-6 py-4 flex gap-4 items-center justify-center">
+                          <button
+                            className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
+                            onClick={() => handleOpenModalDeleteUser(item)}
+                            id="showModalDeleteUserId"
+                          >
+                            <img
+                              src={IconDeleteUser}
+                              alt="delete"
+                              className="w-6 h-6"
+                            />
+                            Hapus
+                          </button>
 
-                        <button
-                          className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
-                          onClick={() =>
-                            navigate(`/admin/detail-user/${item.userId}`, {
-                              state: { id: item.userId },
-                            })
-                          }
-                          id="btnViewUserId"
-                        >
-                          <img
-                            src={IconLihatUser}
-                            alt=""
-                            className="w-6 h-6 "
-                          />
-                          Lihat
-                        </button>
-                      </td>
-                    </tr>
-
-                    
-                  );
-                })}
-            </tbody>
+                          <button
+                            className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
+                            onClick={() =>
+                              navigate(`/admin/detail-user/${item.userId}`, {
+                                state: { id: item.userId },
+                              })
+                            }
+                            id="btnViewUserId"
+                          >
+                            <img
+                              src={IconLihatUser}
+                              alt=""
+                              className="w-6 h-6 "
+                            />
+                            Lihat
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
             ) : (
-              <tbody >
+              <tbody>
                 <tr>
-                  <th colSpan="6" className="text-slate-500 font-semibold text-center text-xl py-3">
+                  <th
+                    colSpan="6"
+                    className="text-slate-500 font-semibold text-center text-xl py-3"
+                  >
                     User tidak ditemukan.
                   </th>
                 </tr>
@@ -241,9 +237,7 @@ const ListUser = () => {
             )}
             <tfoot className="border-b">
               <tr>
-                <th>
-                  
-                </th>
+                <th></th>
               </tr>
             </tfoot>
           </table>
@@ -269,7 +263,7 @@ const ListUser = () => {
           onClick={() => handlePageChange(currentPage + 1)}
           disabled={currentPage === totalPages || dataUser < 1}
         >
-          {currentPage === totalPages || dataUser < 1 ?  (
+          {currentPage === totalPages || dataUser < 1 ? (
             <img src={arrowNextDisable} />
           ) : (
             <img src={arrowNext} />
@@ -300,7 +294,7 @@ const ListUser = () => {
               Hapus akun {selectedUser.username} dari sistem
             </p>
             <div className="mt-5 flex justify-end gap-3">
-            <button
+              <button
                 className="bg-white border border-crusta-500 px-4 py-2 text-crusta-500 rounded-md"
                 onClick={() => {
                   setSelectedUser(null);
@@ -308,7 +302,7 @@ const ListUser = () => {
                 }}
                 id="btnCancelModalDeleteUser"
               >
-                Cancel  
+                Cancel
               </button>
 
               <button
