@@ -12,7 +12,7 @@ import IconX from "../../assets/icon-x-modal-user.svg";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Skeleton } from "antd";
+import { Skeleton, Spin, message  } from "antd";
 
 const ListUser = () => {
   const navigate = useNavigate();
@@ -69,7 +69,9 @@ const ListUser = () => {
     "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
 
   // delete user by id
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const handleDeleteUser = (userId) => {
+    setDeleteLoading(true);
     axios
       .delete(
         `https://digiwarehouse-app.onrender.com/dasboard/user/${userId}`,
@@ -77,7 +79,8 @@ const ListUser = () => {
       )
       .then(() => {
         console.log("User deleted successfully.");
-        alert("data berhasil dihapus");
+        setDeleteLoading(false);
+        message.success("Data berhasil dihapus!");
         handleDataUser(currentPage); // Refresh data after deletion
       })
       .catch((error) => {
@@ -325,6 +328,12 @@ const ListUser = () => {
         </div>
       )}
       {/* modal hapus user */}
+
+      {deleteLoading && (
+              <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
+                <Spin size="large" />
+              </div>
+            )}
     </>
   );
 };
