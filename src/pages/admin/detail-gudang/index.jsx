@@ -83,7 +83,7 @@ const DetailGudang = () => {
   const [reason, setReason] = useState()
 
   const handleReason = ()=> {
-    const token = Cookies.get('token');
+    
     const headers = {
       Authorization: `Bearer ${token}`,
     };
