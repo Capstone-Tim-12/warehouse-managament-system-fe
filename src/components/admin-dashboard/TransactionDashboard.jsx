@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const TransactionDashboard = () => {
   const [transactionData, setTransactionData] = useState([]);
@@ -11,12 +12,12 @@ const TransactionDashboard = () => {
 
   const navigate = useNavigate();
 
-  const fetchTransaction = () => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
 
+  const fetchTransaction = () => {
     axios
       .get(
         "https://digiwarehouse-app.onrender.com/dasboard/home/trx-history?page=1&limit=10",

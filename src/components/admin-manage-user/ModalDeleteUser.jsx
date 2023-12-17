@@ -1,10 +1,13 @@
-import React, { useState } from 'react';
-import IconX from '../../assets/icon-x-modal-user.svg';
-import FailedModalUser from './FailedModalUser';
+import React, { useState } from "react";
+import IconX from "../../assets/icon-x-modal-user.svg";
+import FailedModalUser from "./FailedModalUser";
 
-const ModalDeleteUser = ({ showModal, handleModalClose, handleDeleteConfirm }) => {
-
-    const [showFailedModal, setShowFailedModal] = useState(false);
+const ModalDeleteUser = ({
+  showModal,
+  handleModalClose,
+  handleDeleteConfirm,
+}) => {
+  const [showFailedModal, setShowFailedModal] = useState(false);
 
   const handleFailedDeleteClick = () => {
     setShowFailedModal(true);
@@ -14,7 +17,6 @@ const ModalDeleteUser = ({ showModal, handleModalClose, handleDeleteConfirm }) =
     setShowFailedModal(false);
   };
 
-  
   return (
     <>
       {showModal && (
@@ -29,16 +31,20 @@ const ModalDeleteUser = ({ showModal, handleModalClose, handleDeleteConfirm }) =
                 onClick={handleModalClose}
               />
             </h2>
-            <hr className='border-1'/>
-            <p className='text-cloud-burst-500'>Hapus akun shelalalalala1822 dari sistem</p>
+            <hr className="border-1" />
+            <p className="text-cloud-burst-500">
+              Hapus akun shelalalalala1822 dari sistem
+            </p>
             <div className="mt-5 flex justify-end">
               <button
+                id="button-modal-close"
                 onClick={handleFailedDeleteClick}
                 className="bg-gray-300 px-4 py-2 mr-2 rounded-md"
               >
                 ModGagal
               </button>
               <button
+                id="button-delete"
                 onClick={handleDeleteConfirm}
                 className="bg-crusta-500 px-4 py-2 text-white rounded-md"
               >
@@ -50,8 +56,8 @@ const ModalDeleteUser = ({ showModal, handleModalClose, handleDeleteConfirm }) =
       )}
 
       <FailedModalUser
-      showFailedModal={showFailedModal}
-      handleFailedModalClose={handleFailedModalClose}
+        showFailedModal={showFailedModal}
+        handleFailedModalClose={handleFailedModalClose}
       />
     </>
   );

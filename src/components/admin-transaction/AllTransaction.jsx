@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { Skeleton } from "antd";
-import ArrowBack from "../../assets/arrow-back-left-Icons.svg";
+import arrowBackDisable from "../../assets/arrow-back-left-Icons.svg";
+import arrowBack from "../../assets/arrow-back-left-Icons(orange-500).svg";
+import arrowNext from "../../assets/arrow-next-right-Icons.svg";
+import arrowNextDisable from "../../assets/arrow-next-right-Icons(orange-200).svg";
 import searchIcon from "../../assets/search-icon.svg";
-import ArrowNext from "../../assets/arrow-next-right-Icons.svg";
+import { useSelector } from "react-redux";
 
 const TransactionList = () => {
   const [transactionList, setTransactionList] = useState([]);
@@ -16,6 +18,11 @@ const TransactionList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     setSearchTerm(tempSearchTerm);
@@ -24,10 +31,6 @@ const TransactionList = () => {
 
   const fetchTransactionData = () => {
     setLoading(true);
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
     const params = {
       page: currentPage,
       limit: 10,
@@ -90,10 +93,10 @@ const TransactionList = () => {
               <option value="" disabled>
                 Filter Jenis Transaksi
               </option>
-              <option value="seluruh-transaksi">Seluruh Transaksi</option>
-              <option value="mingguan">Mingguan</option>
-              <option value="bulanan">Bulanan</option>
-              <option value="tahunan">Tahunan</option>
+              <option value="seluruh-transaksi" id="all-transactions">Seluruh Transaksi</option>
+              <option value="mingguan" id="weekly">Mingguan</option>
+              <option value="bulanan" id="monthly">Bulanan</option>
+              <option value="tahunan" id="annual">Tahunan</option>
             </select>
           </div>
         </div>
@@ -167,37 +170,31 @@ const TransactionList = () => {
               </tbody>
             </table>
             <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
-              <img
-                id="arrow-back"
-                src={ArrowBack}
-                alt=""
-                onClick={() =>
-                  setCurrentPage((prevPage) => Math.max(1, prevPage - 1))
-                }
-                className={
-                  currentPage === totalPages
-                    ? "hidden cursor-pointer"
-                    : "inline-block cursor-pointer"
-                }
-              />
+              <button
+                id="prevPage"
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+              >
+                {currentPage === 1 ? (
+                  <img src={arrowBackDisable} />
+                ) : (
+                  <img src={arrowBack} />
+                )}
+              </button>
               <p className="text-[#17345F] font-semibold">
                 Halaman {currentPage}
               </p>
-              <img
-                id="arrow-next"
-                src={ArrowNext}
-                alt=""
-                onClick={() =>
-                  setCurrentPage((prevPage) =>
-                    Math.min(totalPages, prevPage + 1)
-                  )
-                }
-                className={
-                  currentPage === totalPages
-                    ? "hidden cursor-pointer"
-                    : "inline-block cursor-pointer"
-                }
-              />
+              <button
+                id="nextPage"
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages}
+              >
+                {currentPage === totalPages ? (
+                  <img src={arrowNextDisable} />
+                ) : (
+                  <img src={arrowNext} />
+                )}
+              </button>
             </div>
           </div>
         )}

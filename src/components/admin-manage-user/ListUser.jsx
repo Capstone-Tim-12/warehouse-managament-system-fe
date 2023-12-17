@@ -10,8 +10,9 @@ import IconSearchUser from "../../assets/icon-search-user.svg";
 import IconStatusUser from "../../assets/icon-status-user.svg";
 import IconX from "../../assets/icon-x-modal-user.svg";
 import { useNavigate } from "react-router";
-import Cookies from "js-cookie";
 import axios from "axios";
+import { useSelector } from "react-redux";
+import { Skeleton, Spin, message  } from "antd";
 
 const ListUser = () => {
   const navigate = useNavigate();
@@ -22,13 +23,13 @@ const ListUser = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [loading, setLoading] = useState(false); // New state for loading
 
+  const token = useSelector((state) => state.auth.token);
+  const headers = {
+    Authorization: `Bearer ${token}`,
+  };
+
   const handleDataUser = (page) => {
     setLoading(true); // Set loading to true when data fetching starts
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
     axios
       .get(
         `https://digiwarehouse-app.onrender.com/dasboard/user/list?limit=10&page=${page}&search=${searchQuery}`,
@@ -68,12 +69,9 @@ const ListUser = () => {
     "https://t3.ftcdn.net/jpg/05/16/27/58/360_F_516275801_f3Fsp17x6HQK0xQgDQEELoTuERO4SsWV.jpg";
 
   // delete user by id
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const handleDeleteUser = (userId) => {
-    const token = Cookies.get("token");
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
-
+    setDeleteLoading(true);
     axios
       .delete(
         `https://digiwarehouse-app.onrender.com/dasboard/user/${userId}`,
@@ -81,7 +79,8 @@ const ListUser = () => {
       )
       .then(() => {
         console.log("User deleted successfully.");
-        alert("data berhasil dihapus");
+        setDeleteLoading(false);
+        message.success("Data berhasil dihapus!");
         handleDataUser(currentPage); // Refresh data after deletion
       })
       .catch((error) => {
@@ -121,10 +120,12 @@ const ListUser = () => {
               }
             }}
             onChange={(e) => setSearchQuery(e.target.value)}
+            id="searchUser"
           />
           <button
             className="sm:-ml-10 -ml-6 "
             onClick={() => handleDataUser(currentPage)}
+            id="btnSearchUser"
           >
             <img
               src={IconSearchUser}
@@ -137,10 +138,9 @@ const ListUser = () => {
 
       <div className="relative overflow-x-auto mt-5">
         {loading ? (
-          //loading data
-          <p className="text-[24px]  text-slate-500 font-semibold mt-2">
-            Memuat data...
-          </p>
+          <>
+            <Skeleton active />
+          </>
         ) : (
           <table className="w-full text-center rtl:text-right">
             <thead className="text-cloud-burst-500 ">
@@ -165,74 +165,87 @@ const ListUser = () => {
                 </th>
               </tr>
             </thead>
-            <tbody>
-              {dataUser &&
-                dataUser.map((item, index) => {
-                  const userNumber = (currentPage - 1) * 10 + index + 1;
-                  return (
-                    <tr className="" key={index}>
-                      <th
-                        scope="row"
-                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
-                      >
-                        {userNumber}
-                      </th>
-                      <td className="px-6 py-4 flex items-center justify-center">
-                        <img
-                          src={item.photo || imgDefault}
-                          alt="avataruser"
-                          className="max-w-[41px] max-h-[40px] "
-                        />
-                      </td>
-                      <td className="px-6 py-4">{item.username}</td>
-                      <td className="px-6 py-4">{item.email}</td>
-                      <td className="px-6 py-4 ">
-                        <div className="flex items-center justify-center">
+            {dataUser && dataUser.length > 0 ? (
+              <tbody>
+                {dataUser &&
+                  dataUser.map((item, index) => {
+                    const userNumber = (currentPage - 1) * 10 + index + 1;
+                    return (
+                      <tr className="" key={index}>
+                        <th
+                          scope="row"
+                          className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap"
+                        >
+                          {userNumber}
+                        </th>
+                        <td className="px-6 py-4 flex items-center justify-center">
+                          <img
+                            src={item.photo || imgDefault}
+                            alt="avataruser"
+                            className="max-w-[41px] max-h-[40px] "
+                          />
+                        </td>
+                        <td className="px-6 py-4">{item.username}</td>
+                        <td className="px-6 py-4">{item.email}</td>
+                        <td className="px-6 py-4 ">
+                          <div className="flex items-center justify-center">
+                          {item.isVerifyIdentity ? (
                           <img src={IconStatusUser} alt="status" />
+                        ) : (
+                          <span></span>
+                        )}
                         </div>
-                      </td>
-                      <td className="px-6 py-4 flex gap-4 items-center justify-center">
-                        <button
-                          className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
-                          onClick={() => handleOpenModalDeleteUser(item)}
-                        >
-                          <img
-                            src={IconDeleteUser}
-                            alt="delete"
-                            className="w-6 h-6"
-                          />
-                          Hapus
-                        </button>
+                        </td>
+                        <td className="px-6 py-4 flex gap-4 items-center justify-center">
+                          <button
+                            className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
+                            onClick={() => handleOpenModalDeleteUser(item)}
+                            id="showModalDeleteUserId"
+                          >
+                            <img
+                              src={IconDeleteUser}
+                              alt="delete"
+                              className="w-6 h-6"
+                            />
+                            Hapus
+                          </button>
 
-                        <button
-                          className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
-                          onClick={() =>
-                            navigate(`/admin/detail-user/${item.userId}`, {
-                              state: { id: item.userId },
-                            })
-                          }
-                        >
-                          <img
-                            src={IconLihatUser}
-                            alt=""
-                            className="w-6 h-6 "
-                          />
-                          Lihat
-                        </button>
-                      </td>
-                    </tr>
-
-                    //modal delete user
-
-                    //end modal delete user
-                  );
-                })}
-            </tbody>
+                          <button
+                            className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
+                            onClick={() =>
+                              navigate(`/admin/detail-user/${item.userId}`, {
+                                state: { id: item.userId },
+                              })
+                            }
+                            id="btnViewUserId"
+                          >
+                            <img
+                              src={IconLihatUser}
+                              alt=""
+                              className="w-6 h-6 "
+                            />
+                            Lihat
+                          </button>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            ) : (
+              <tbody>
+                <tr>
+                  <th
+                    colSpan="6"
+                    className="text-slate-500 font-semibold text-center text-xl py-3"
+                  >
+                    User tidak ditemukan.
+                  </th>
+                </tr>
+              </tbody>
+            )}
             <tfoot className="border-b">
               <tr>
-                <th>
-                  <td></td>
-                </th>
+                <th></th>
               </tr>
             </tfoot>
           </table>
@@ -256,9 +269,9 @@ const ListUser = () => {
         <button
           id="nextPage"
           onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
+          disabled={currentPage === totalPages || dataUser < 1}
         >
-          {currentPage === totalPages ? (
+          {currentPage === totalPages || dataUser < 1 ? (
             <img src={arrowNextDisable} />
           ) : (
             <img src={arrowNext} />
@@ -281,19 +294,32 @@ const ListUser = () => {
                   setSelectedUser(null);
                   setModalDeleteUser(false);
                 }}
+                id="closeModalDeleteUser"
               />
             </h2>
             <hr className="border-1" />
-            <p className="text-cloud-burst-500">
+            <p className="text-cloud-burst-500 mt-3">
               Hapus akun {selectedUser.username} dari sistem
             </p>
-            <div className="mt-5 flex justify-end">
+            <div className="mt-5 flex justify-end gap-3">
+              <button
+                className="bg-white border border-crusta-500 px-4 py-2 text-crusta-500 rounded-md"
+                onClick={() => {
+                  setSelectedUser(null);
+                  setModalDeleteUser(false);
+                }}
+                id="btnCancelModalDeleteUser"
+              >
+                Cancel
+              </button>
+
               <button
                 className="bg-crusta-500 px-4 py-2 text-white rounded-md"
                 onClick={() => {
                   handleDeleteUser(selectedUser.userId);
                   setModalDeleteUser(false);
                 }}
+                id="btnDeleteUser"
               >
                 Hapus
               </button>
@@ -302,6 +328,12 @@ const ListUser = () => {
         </div>
       )}
       {/* modal hapus user */}
+
+      {deleteLoading && (
+              <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
+                <Spin size="large" />
+              </div>
+            )}
     </>
   );
 };

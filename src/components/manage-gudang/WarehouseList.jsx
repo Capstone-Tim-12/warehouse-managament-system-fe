@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 import axios from "axios";
-import Cookies from "js-cookie";
-import { notification } from "antd";
+import { Skeleton, notification } from "antd";
 import { Modal } from "antd";
 
 import searchIcon from "../../assets/search-icon.svg";
@@ -28,7 +28,7 @@ const WarehouseList = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [selectedWarehouses, setSelectedWarehouses] = useState([]);
 
-  const token = Cookies.get("token");
+  const token = useSelector((state) => state.auth.token);
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -178,7 +178,7 @@ const WarehouseList = () => {
           <button
             id="addWarehouse"
             onClick={() => navigate("/admin/create-warehouse")}
-            className="bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
+            className="bg-crusta-500 hover:bg-crusta-600 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white "
           >
             <img src={plusIcon} />
             <p className="hidden md:block">Tambah Gudang</p>
@@ -186,7 +186,9 @@ const WarehouseList = () => {
           <button
             id="deleteWarehouse"
             className={`bg-crusta-500 flex gap-x-3 rounded-md p-3 md:p-2 md:py-3 text-white ${
-              selectId.length === 0 ? "opacity-70" : "opacity-100"
+              selectId.length === 0
+                ? "opacity-70"
+                : "opacity-100 hover:bg-crusta-600"
             }`}
             onClick={handleDeleteSelectedWarehouses}
             disabled={selectId.length === 0}
@@ -222,10 +224,14 @@ const WarehouseList = () => {
         </div>
       </div>
 
-      <div className="overflow-x-auto">
+      <div
+        className={`overflow-x-auto ${
+          dataWarehouse.length < 8 ? "h-screen" : ""
+        }`}
+      >
         {loading ? (
-          <p className="text-[24px]  text-slate-500 font-semibold mt-2 ml-7">
-            Memuat data...
+          <p className="mt-2 mx-7 mb-5">
+            <Skeleton active />
           </p>
         ) : (
           <table
@@ -243,6 +249,7 @@ const WarehouseList = () => {
                     checked={selectAll}
                     onChange={handleSelectAllCheckBox}
                     type="checkbox"
+                    id="checkbox-input"
                   />
                 </th>
                 <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
@@ -258,14 +265,14 @@ const WarehouseList = () => {
                 <th className="cursor-pointer relative pb-2 pl-4 pr-[12px] md:pr-24">
                   Harga
                   <img
-                    className="absolute right-[15px] md:left-[61px] bottom-[6px] md:bottom-1.5"
+                    className="absolute right-[40px] md:left-[61px] bottom-[6px] md:bottom-1.5"
                     src={arrowTopDown}
                   />
                 </th>
                 <th className="cursor-pointer relative pr-5">
                   Status
                   <img
-                    className="absolute left-16 md:left-[50px] bottom-[4px] md:bottom-1"
+                    className="absolute left-20 md:left-[50px] bottom-[4px] md:bottom-1"
                     src={dropDownIcon}
                   />
                 </th>
@@ -345,16 +352,18 @@ const WarehouseList = () => {
                               <p
                                 id="deleteGudangForId"
                                 onClick={() => handleDeleteWarehouse(item.id)}
-                                className="cursor-pointer mb-4"
+                                className="cursor-pointer mb-4 hover:text-cloud-burst-900"
                               >
                                 Hapus Gudang
                               </p>
                               <p
                                 id="editGudang"
                                 onClick={() =>
-                                  navigate("/admin/edit-warehouse")
+                                  navigate(`/admin/edit-warehouse/${item.id}`, {
+                                    state: { id: item.id },
+                                  })
                                 }
-                                className="cursor-pointer"
+                                className="cursor-pointer hover:text-cloud-burst-900"
                               >
                                 Edit Gudang
                               </p>

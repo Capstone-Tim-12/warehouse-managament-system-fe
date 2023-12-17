@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
 import { Modal } from "antd";
+import { useDispatch } from "react-redux";
+import { removeToken } from "../../features/authSlice";
 
 import logo from "../../assets/logo.svg";
 import dashboardIcon from "../../assets/dashboard-sidebar-icon.svg";
@@ -12,6 +13,7 @@ import pengaturanIcon from "../../assets/pengaturan-icon.svg";
 import sidebarDropdown from "../../assets/dropdown-sidebar-admin.svg";
 
 const SidebarAdmin = () => {
+  const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -34,9 +36,11 @@ const SidebarAdmin = () => {
       okType: "danger",
       cancelText: "Batal",
       onOk() {
-        Cookies.remove("token");
+        dispatch(removeToken());
         navigate("/admin/login-admin");
       },
+      okButtonProps: { id: "btn-ok" }, 
+      cancelButtonProps: { id: "cancel-btn" },
     });
   };
 
