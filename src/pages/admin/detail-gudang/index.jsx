@@ -15,6 +15,8 @@ import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
 import { useSelector } from "react-redux";
+import { Skeleton } from "antd";
+import Popup from "../../../components/global-component/Popup";
 
 const DetailGudang = () => {
   const [item, setItem] = useState(null);
@@ -43,10 +45,11 @@ const DetailGudang = () => {
 
   const navigate = useNavigate();
 
-  const [transactionHistoryWarehouse, setTransactionHistoryWarehouse] =
-    useState([]);
+  const [transactionHistoryWarehouse, setTransactionHistoryWarehouse] =useState([]);
+  const [loadingTrxHistoryWarehouse, setLoadingTrxHistoryWarehouse] = useState(false)
 
   const handleTransactionHistoryWarehouse = (id) => {
+    setLoadingTrxHistoryWarehouse(true)
     axios
       .get(
         `https://digiwarehouse-app.onrender.com/dasboard/transaction/warehouse/${id}?page=1&limit=10`,
@@ -58,7 +61,10 @@ const DetailGudang = () => {
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally(()=>{
+        setLoadingTrxHistoryWarehouse(false)
+      })
   };
 
   useEffect(() => {
@@ -84,9 +90,7 @@ const DetailGudang = () => {
 
   const handleReason = ()=> {
     
-    const headers = {
-      Authorization: `Bearer ${token}`,
-    };
+    
 
     axios
     .get("https://digiwarehouse-app.onrender.com/dasboard/payment/reasone", {headers})
@@ -110,6 +114,31 @@ const DetailGudang = () => {
     setShowModalTrxGudang(false)
     setShowModalUpdateTempo(true)
   }
+
+  const [installment, setInstallment] = useState()
+  const [loadingInstallment, setLoadingInstallment] = useState(false)
+
+  const handleInstallment = (id)=> {
+    setLoadingInstallment(true)
+    
+    axios.get(`https://digiwarehouse-app.onrender.com/payment/instalment/${id}?page=1&limit=10`, {headers})
+    .then((response)=> {
+      setInstallment(response?.data?.data)
+      setLoadingInstallment(false)
+      console.log(response?.data?.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+    .finally(()=>{
+      setLoadingInstallment(false)
+      setShowModalTrxGudang(true)
+    })
+
+
+  }
+
+ 
   
 
   return (
@@ -202,10 +231,25 @@ const DetailGudang = () => {
                       </th>
                     </tr>
                   </thead>
+                  {loadingTrxHistoryWarehouse ? (
+                    <tbody>
+                    <tr>
+                      <th
+                        colSpan="4"
+                        className="text-slate-500 font-semibold text-center text-xl py-3"
+                      >
+                        <Skeleton active/>
+                      </th>
+                    </tr>
+                  </tbody>
+                  ) : (
+                    <>
+                    {transactionHistoryWarehouse && transactionHistoryWarehouse.length > 0 ? (
                   <tbody>
                     {transactionHistoryWarehouse &&
                       transactionHistoryWarehouse.map((trx, index) => (
-                        <tr key={index} onClick={handleModalTrxGudang}>
+                        <tr key={index} onClick={()=>{handleInstallment(trx.transactionId)}}
+                          className="cursor cursor-pointer">
                           <th className=" py-3 font-medium text-cloud-burst-500 whitespace-nowrap">{index + 1 }</th>
                           <td className="px-6 py-3">{trx.username}</td>
                           <td className="px-6 py-3">
@@ -221,16 +265,32 @@ const DetailGudang = () => {
                       }>{trx.status}</button> </td>
                         </tr>
                       ))}
-                  <tr onClick={handleModalTrxGudang}>
-                    <td className=" py-3">Klik</td>
-                   
-                  </tr>
+                 
                   </tbody>
+                  ) : (<tbody>
+                    <tr>
+                      <th
+                        colSpan="5"
+                        className="text-slate-500 font-semibold text-center text-xl py-3"
+                      >
+                        Tidak ada Transaksi
+                      </th>
+                    </tr>
+                  </tbody>
+                  
+                  )}
+                  </>
+                  )}
                 </table>
               </div>
 
               {/* Modal Detail Tagihan */}
-              {showModalTrxGudang && (
+              {loadingInstallment && (
+                <div className="text-cloud-burst-500 font-semibold">
+                <Popup open={loadingInstallment}/>
+              </div>
+              )}
+              {showModalTrxGudang && installment && (
               <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center" >
         <div className="bg-white p-5 rounded-md w-auto relative overflow-auto max-h-screen">
           <h2 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">
@@ -240,53 +300,38 @@ const DetailGudang = () => {
               alt="iconx"
               className="absolute top-1 right-1 cursor-pointer"
               onClick={()=>setShowModalTrxGudang(false)}
+              id="closeModalTrxGudang"
             />
           </h2>
          
           {/* component instalment */}
-          
-          <div  className='text-cloud-burst-500'>
+          {installment.map((instalmentItem, index) => ( 
+          <div  className='text-cloud-burst-500' key={index}>
           <div className='grid grid-cols-2 '>
-          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>Maret</h1>
-          <p className='text-center ml-[150px] mt-1'>Rp10.000.000,00</p>
+          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>{new Intl.DateTimeFormat("id-ID", { month: "long" }).format(new Date(instalmentItem.dueDate))}</h1>
+          <p className='text-center ml-[150px] mt-1 text-cloud-burst-500 font-bold'>{instalmentItem.nominal.toLocaleString("id-ID", {
+              style: "currency",
+              currency: "IDR",
+            })}</p>
           <div className="flex">
-          <p className="">Jatuh tempo: 23 Maret 2023</p>
+          <p className="">Jatuh tempo: {new Intl.DateTimeFormat("id-ID", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }).format(new Date(instalmentItem.dueDate))}</p>
           <img src="" alt="" />
           </div>
-          <button className='bg-green-500 py-2 px-2   rounded-md text-white ml-[150px] -mt-2'>Tagihan Sudah Dibayar</button>
-          </div>
+          <button className={`${instalmentItem.status === 'belum dibayar' ? 'bg-red-500' : 'bg-green-500'} py-2 px-2   rounded-md text-white ml-[150px] -mt-2`}>{instalmentItem.status}</button>
           </div>
           <hr className='mb-[24px] mt-2'/>
+          </div>
+           ))}
+           {/* end component instalment */}
 
-          <div  className='text-cloud-burst-500'>
-          <div className='grid grid-cols-2 '>
-          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>Februari</h1>
-          <p className='text-center ml-[150px] mt-1'>Rp10.000.000,00</p>
-          <div className="flex">
-          <p className="">Jatuh tempo: 23 Februari 2023</p>
-          <img src="" alt="" />
-          </div>
-          <button className='bg-green-500 py-2 px-2   rounded-md text-white ml-[150px] -mt-2'>Tagihan Sudah Dibayar</button>
-          </div>
-          </div>
-          <hr className='mb-[24px] mt-2'/>
-
-          <div  className='text-cloud-burst-500'>
-          <div className='grid grid-cols-2 '>
-          <h1 className='mt-2 mb-2 text-[20px] text-cloud-burst-500 font-semibold'>Januari</h1>
-          <p className='text-center ml-[150px] mt-1'>Rp10.000.000,00</p>
-          <div className="flex">
-          <p className="">Jatuh tempo: 23 Janurai 2023</p>
-          <img src="" alt="" />
-          </div>
-          <button className='bg-green-500 py-2 px-2   rounded-md text-white ml-[150px] -mt-2'>Tagihan Sudah Dibayar</button>
-          </div>
-          </div>
-          <hr className='mb-[24px] mt-2'/>
 
           <div className="flex gap-2 justify-end">
-            <button className="rounded-md bg-cloud-burst-200 py-2 px-5 text-white" onClick={handelModalStopKontrak }>Berhenti Kontrak</button>
-            <button className="rounded-md bg-cloud-burst-500 py-2 px-5 text-white" onClick={handleModalUpdateTempo}>Perpanjang Tempo</button>
+            <button className="rounded-md bg-cloud-burst-200 py-2 px-5 text-white" onClick={handelModalStopKontrak } id="showModalStopKontrak">Berhenti Kontrak</button>
+            <button className="rounded-md bg-cloud-burst-500 py-2 px-5 text-white" onClick={handleModalUpdateTempo} id="showModalUpdateTempo">Perpanjang Tempo</button>
           </div>
         
           {/* end instalment */}
@@ -322,8 +367,8 @@ const DetailGudang = () => {
                   ))}
 
                   <div className="flex justify-end mt-8 gap-2 ">
-                    <button className="rounded-md bg-crusta-200 text-white px-6 py-3">Batal</button>
-                    <button className="rounded-md bg-crusta-500 text-white px-6 py-3">Hentikan Kontrak</button>
+                    <button className="rounded-md bg-crusta-200 text-white px-6 py-3" id="cancelStopKontrak">Batal</button>
+                    <button className="rounded-md bg-crusta-500 text-white px-6 py-3" id="stopKontrak">Hentikan Kontrak</button>
                   </div>
 
                 </div>
@@ -342,16 +387,17 @@ const DetailGudang = () => {
                     alt="iconx"
                     className="absolute top-1 right-1 cursor-pointer"
                     onClick={()=>setShowModalUpdateTempo(false)}
+                    id="closeModalUpdateTempo"
                     />
                     </h1>
 
                     <div className="flex flex-col justify-center">
                       <h2 className="text-center text-xl text-cloud-burst-500">Tempo tagihan diperpanjang hingga:</h2>
-                      <input type="datetime-local" name="" id="" className="mt-3"/>
+                      <input type="datetime-local" name="" id="updateTempoInput" className="mt-3"/>
                     </div>
                     <div className="flex justify-end gap-3 mt-3">
-                    <button className="border-2 border-cloud-burst-500 bg-white rounded-lg py-3 px-6  font-semibold text-cloud-burst-500" onClick={()=>setShowModalUpdateTempo(false)}>Batalkan</button>
-                    <button className="border-2 border-cloud-burst-500 bg-cloud-burst-500 rounded-lg py-3 px-6 text-white font-semibold">Submit</button>
+                    <button className="border-2 border-cloud-burst-500 bg-white rounded-lg py-3 px-6  font-semibold text-cloud-burst-500" onClick={()=>setShowModalUpdateTempo(false)} id="cancelUpdateTempo">Batalkan</button>
+                    <button className="border-2 border-cloud-burst-500 bg-cloud-burst-500 rounded-lg py-3 px-6 text-white font-semibold" id="submitUpdateTempo">Submit</button>
                     </div>
                     </div>
                 </div>

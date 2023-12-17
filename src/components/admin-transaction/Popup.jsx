@@ -90,6 +90,7 @@ const Popup = ({ onClose, transaction }) => {
                 Butuh Persetujuan Pengajuan Sewa
               </h1>
               <p
+                id="close-button"
                 className="text-cloud-burst-500 text-xl font-bold cursor-default"
                 onClick={onClose}
               >
@@ -124,6 +125,7 @@ const Popup = ({ onClose, transaction }) => {
             {showSelect ? (
               <div className="flex flex-col gap-y-4">
                 <select
+                  id="reason"
                   className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none"
                   value={selectedOption}
                   onChange={handleSelectChange}
@@ -147,12 +149,14 @@ const Popup = ({ onClose, transaction }) => {
             ) : (
               <div className="flex justify-evenly">
                 <button
+                  id="approve-button"
                   className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg"
                   onClick={handleTransactionApprove}
                 >
                   Terima
                 </button>
                 <button
+                  id="reject-button"
                   className="text-crusta-500 w-[177px] h-[40px] rounded-lg border border-crusta-500"
                   onClick={handleTolakClick}
                 >

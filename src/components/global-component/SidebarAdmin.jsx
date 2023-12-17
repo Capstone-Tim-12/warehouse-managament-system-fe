@@ -39,6 +39,8 @@ const SidebarAdmin = () => {
         dispatch(removeToken());
         navigate("/admin/login-admin");
       },
+      okButtonProps: { id: "btn-ok" }, 
+      cancelButtonProps: { id: "cancel-btn" },
     });
   };
 
