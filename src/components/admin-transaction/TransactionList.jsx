@@ -106,9 +106,9 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
-            <option value="semua lokasi">Seluruh Lokasi</option>
+            <option value="semua lokasi" id="all-locations">Seluruh Lokasi</option>
             {provinceId.map((item, index) => (
-              <option key={index} value={item?.id}>
+              <option key={index} value={item?.id} id="list-location">
                 {item?.name}
               </option>
             ))}
@@ -124,10 +124,10 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan Status
             </option>
-            <option value="">Seluruh Status</option>
-            <option value="butuh persetujuan">Butuh Persetujuan</option>
-            <option value="disetujui">Disetujui</option>
-            <option value="ditolak">Ditolak</option>
+            <option value="" id="all-status">Seluruh Status</option>
+            <option value="butuh persetujuan" id="need-approval">Butuh Persetujuan</option>
+            <option value="disetujui" id="approve">Disetujui</option>
+            <option value="ditolak" id="reject">Ditolak</option>
           </select>
         </div>
         <div className="flex items-center justify-center">
