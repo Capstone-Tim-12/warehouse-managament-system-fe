@@ -437,13 +437,13 @@ const DetailGudang = () => {
   };
 
   const handleChangeType = (value) => {
-    setSelectedOptions(value);
+    const warehouseTypeId = parseInt(value); // Mengubah nilai menjadi number
+    setSelectedOptions(warehouseTypeId); // Simpan sebagai number di state
     setDataWarehouse((prevFormData) => ({
       ...prevFormData,
-      warehouseTypeId: value,
+      warehouseTypeId, // Simpan sebagai number di state dataWarehouse
     }));
   };
-  
   useEffect(() => {
     axios
       .get("https://digiwarehouse-app.onrender.com/user/province")
