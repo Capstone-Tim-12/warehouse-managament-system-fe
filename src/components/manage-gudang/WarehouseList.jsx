@@ -249,6 +249,7 @@ const WarehouseList = () => {
                     checked={selectAll}
                     onChange={handleSelectAllCheckBox}
                     type="checkbox"
+                    id="checkbox"
                   />
                 </th>
                 <th className="pb-2 pr-[12px] pl-[12px] md:pr-6">No. </th>
