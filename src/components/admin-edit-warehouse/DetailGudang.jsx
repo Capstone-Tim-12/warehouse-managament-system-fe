@@ -11,6 +11,7 @@ import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import IconDelete from "../../assets/icon-delete.svg";
 import customMarkerIcon from "../../assets/marker.svg";
 import { useSelector } from "react-redux";
+import { data } from "jquery";
 
 const Dragger = Upload.Dragger;
 const JakartaCoordinates = [-6.2088, 106.8456];
@@ -82,7 +83,6 @@ const DetailGudang = () => {
           latitude: warehouseData.latitude || 0,
           image: warehouseData.image || [],
           status: warehouseData.status || "",
-          // Add other properties if needed, based on the API structure
         });
         console.log(warehouseData);
 
@@ -95,20 +95,6 @@ const DetailGudang = () => {
         }));
 
         setFileList(updatedFileList);
-
-        // Pilih tipe gudang yang sesuai dengan warehouseTypeId
-        const selectedTypeId = warehouseData?.warehouseTypeId;
-        const selectedWarehouseType = typeOptions.find(
-          (item) => item.value === selectedTypeId
-        );
-
-        // Pastikan opsi terpilih ditemukan
-        if (selectedWarehouseType) {
-          setSelectedOptions(selectedWarehouseType.value);
-        } else {
-          console.error("Selected warehouse type not found:", selectedTypeId);
-          // Handle error or set default option if needed
-        }
 
         
       })
@@ -123,6 +109,22 @@ const DetailGudang = () => {
     setIsLoading(true);
     handleDataWarehouseId();
   }, [id]);
+
+  useEffect(() => {
+    if (dataWarehouse) {
+      const selectedTypeId = dataWarehouse?.warehouseTypeId;
+      const selectedWarehouseType = typeOptions.find(
+        (item) => item.value === selectedTypeId
+      );
+
+      if (selectedWarehouseType) {
+        setSelectedOptions(selectedWarehouseType.value);
+      } else {
+        console.error("Selected warehouse type not found:", selectedTypeId);
+        // Handle error or set default option if needed
+      }
+    }
+  }, [dataWarehouse, typeOptions]);
 
   useEffect(() => {
     if (typeOptions.length > 0) {
