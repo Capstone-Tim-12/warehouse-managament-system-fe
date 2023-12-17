@@ -98,6 +98,7 @@ const TransactionList = () => {
         </div>
         <div>
           <select
+            id="filer-location"
             className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none"
             onChange={(e) => setSelectedLocation(e.target.value)}
             value={selectedLocation}
@@ -115,6 +116,7 @@ const TransactionList = () => {
         </div>
         <div>
           <select
+            id="filter-status"
             className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none"
             value={selectedStatus}
             onChange={(e) => setSelectedStatus(e.target.value)}
@@ -132,6 +134,7 @@ const TransactionList = () => {
           <form onSubmit={handleSearch} className="relative flex items-center">
             <img src={searchIcon} alt="" className="absolute pl-3 left-0" />
             <input
+              id="input-search"
               type="text"
               placeholder="Search"
               className="w-[120px] sm:w-[180px] md:w-[257px] border border-[#D1D1D6] focus:outline-none py-3 px-9 rounded-[10px]"
@@ -186,6 +189,7 @@ const TransactionList = () => {
                     </td>
                     <td className="pb-2 pr-3 md:pr-24 text-center">
                       <button
+                        id="button-status"
                         className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${
                           item?.status === "disetujui"
                             ? "bg-[#06C270]"
