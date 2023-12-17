@@ -6,7 +6,7 @@ import IconX from "../../../assets/icon-x-modal-user.svg";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { Skeleton } from "antd";
+import { Skeleton, Spin, message } from "antd";
 import Popup from "../../../components/global-component/Popup";
 
 const DetailUser = () => {
@@ -98,28 +98,40 @@ const DetailUser = () => {
   };
 
   // delete user by id
-  const handleDeleteUser = (userId) => {
-    const isConfirmed = window.confirm(
-      "Apakah Anda yakin ingin menghapus pengguna ini?"
-    );
-
-    if (isConfirmed) {
-      axios
-        .delete(
-          `https://digiwarehouse-app.onrender.com/dasboard/user/${userId}`,
-          { headers }
-        )
-        .then(() => {
-          console.log("User deleted successfully.");
-          alert("data berhasil dihapus");
-          navigate("/admin/manage-user");
-        })
-        .catch((error) => {
-          console.error("Error deleting user:", error);
-        });
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const handleDeleteUser = () => {
+    if (!item) {
+      console.error("User not found.");
+      return;
     }
+    setDeleteLoading(true);
+    axios
+      .delete(`https://digiwarehouse-app.onrender.com/dasboard/user/${item.userId}`, { headers })
+      .then(() => {
+        console.log("User deleted successfully.");
+        setDeleteLoading(false);
+        message.success("Data berhasil dihapus!");
+        navigate("/admin/manage-user"); // Refresh data after deletion
+      })
+      .catch((error) => {
+        console.error("Error deleting user:", error);
+      });
   };
+
+
+  
   //end delete user
+
+   //modal delete user
+   const [modalDeleteUser, setModalDeleteUser] = useState(false);
+
+   
+ 
+   const handleOpenModalDeleteUser = () => {
+     setModalDeleteUser(true);
+   };
+ 
+   //end modal delete user
 
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
@@ -129,10 +141,14 @@ const DetailUser = () => {
         <div className="container sm:p-5 py-5 px-1 ">
           {item ? (
             <>
+            {/* Loading Delete */}
+            
+
+            {/* end Loading Delete */}
               <TopDetailUser
                 username={item.username}
                 photo={item.photo}
-                handleDeleteUser={() => handleDeleteUser(id)}
+                handleOpenModalDeleteUser={handleOpenModalDeleteUser}
               />
 
               {/* Riwayat Penyewaan Gudang */}
@@ -364,6 +380,55 @@ const DetailUser = () => {
               )}
 
               {/* end modal detail transaksi */}
+
+              {modalDeleteUser && item && (
+        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+          <div className="bg-white p-5 rounded-md w-96 relative">
+            <h2 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">
+              Informasi
+              <img
+                src={IconX}
+                alt="iconx"
+                className="absolute top-2 right-2 cursor-pointer"
+                onClick={() => {
+                  setModalDeleteUser(false);
+                }}
+                id="closeModalDeleteUser"
+              />
+            </h2>
+            <hr className="border-1" />
+            <p className="text-cloud-burst-500 mt-3">
+              Hapus akun {item.username} dari sistem
+            </p>
+            <div className="mt-5 flex justify-end gap-3">
+              <button
+                className="bg-white border border-crusta-500 px-4 py-2 text-crusta-500 rounded-md"
+                onClick={() => {
+                  setModalDeleteUser(false);
+                }}
+                id="btnCancelModalDeleteUser"
+              >
+                Cancel
+              </button>
+
+              <button
+                className="bg-crusta-500 px-4 py-2 text-white rounded-md"
+                onClick={handleDeleteUser}
+                id="btnDeleteUser"
+              >
+                Hapus
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+              {deleteLoading && (
+              <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
+                <Spin size="large" />
+              </div>
+            )}
+      {/* modal hapus user */}
             </>
           ) : (
             <p>Loading...</p>
