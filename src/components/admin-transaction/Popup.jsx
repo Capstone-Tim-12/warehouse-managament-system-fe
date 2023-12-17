@@ -9,6 +9,7 @@ const Popup = ({ onClose, transaction }) => {
   const [transactionPopup, setTransactionPopup] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [loading, setLoading] = useState(true);
+  const [imageLoading, setImageLoading] = useState(true);
 
   const token = useSelector((state) => state.auth.token);
   const headers = {
@@ -67,6 +68,13 @@ const Popup = ({ onClose, transaction }) => {
         console.log(error);
       });
   };
+
+  const imgNotFound = "https://static.vecteezy.com/system/resources/previews/005/337/799/original/icon-image-not-found-free-vector.jpg";
+
+  const handleImagePopup = () => {
+    setImageLoading(false);
+  };
+
   return (
     <Overlay>
       <div className="bg-white w-[546px] p-4 rounded-xl flex flex-col gap-y-5 py-4 text-cloud-burst-500">
@@ -80,7 +88,8 @@ const Popup = ({ onClose, transaction }) => {
                 X
               </p>
             </div>
-            <img src={transactionPopup.warehouseImage} alt="" className="rounded-xl h-[257px]" />
+            {imageLoading && <p className="text-xl py-5 text-center text-slate-500 font-semibold">Memuat...</p>}
+            <img src={transactionPopup.warehouseImage || imgNotFound} alt="foto1" onLoad={handleImagePopup} className="rounded-xl h-[257px]" />
             <div className="flex flex-col gap-y-2">
               <div className="flex justify-between text-xl font-bold">
                 <h2>{transactionPopup.warehouseName}</h2>
