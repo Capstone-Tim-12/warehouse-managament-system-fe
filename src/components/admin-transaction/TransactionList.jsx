@@ -27,17 +27,12 @@ const TransactionList = () => {
   const handleData = (page, searchText) => {
     setLoading(true);
 
-    const filterStatus =
-      selectedStatus !== "" ? `&status=${selectedStatus}` : "";
+    const filterStatus = selectedStatus !== "" ? `&status=${selectedStatus}` : "";
     const filterSearch = searchText ? `&search=${searchText}` : "";
-    const filterLocation =
-      selectedLocation !== "" ? `&provinceId=${selectedLocation}` : "";
+    const filterLocation = selectedLocation !== "" ? `&provinceId=${selectedLocation}` : "";
 
     axios
-      .get(
-        `https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterStatus}${filterSearch}${filterLocation}`,
-        { headers }
-      )
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/list/trx-history?page=${page}&limit=10${filterStatus}${filterSearch}${filterLocation}`, { headers })
       .then((response) => {
         const data = response?.data;
         setTransactionList(data?.data || []);
@@ -71,8 +66,7 @@ const TransactionList = () => {
     selectLocation();
   }, []);
 
-  const handleStatusClick = (transaction) =>
-    setSelectedTransaction(transaction);
+  const handleStatusClick = (transaction) => setSelectedTransaction(transaction);
 
   const closePopup = () => setSelectedTransaction(false);
 
@@ -92,9 +86,7 @@ const TransactionList = () => {
     <div>
       <div className="flex flex-col items-start md:items-center sm:items-center sm:flex-row md:flex-row md:gap-x-5 sm:gap-x-5 my-4 ml-4 lg:p-3 ">
         <div>
-          <h2 className="text-[20px] font-bold text-cloud-burst-500">
-            Daftar Transaksi
-          </h2>
+          <h2 className="text-[20px] font-bold text-cloud-burst-500">Daftar Transaksi</h2>
         </div>
         <div>
           <select
@@ -106,7 +98,9 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan lokasi
             </option>
-            <option value="semua lokasi" id="all-locations">Seluruh Lokasi</option>
+            <option value="semua lokasi" id="all-locations">
+              Seluruh Lokasi
+            </option>
             {provinceId.map((item, index) => (
               <option key={index} value={item?.id} id="list-location">
                 {item?.name}
@@ -124,10 +118,18 @@ const TransactionList = () => {
             <option value="" disabled hidden>
               Cari berdasarkan Status
             </option>
-            <option value="" id="all-status">Seluruh Status</option>
-            <option value="butuh persetujuan" id="need-approval">Butuh Persetujuan</option>
-            <option value="disetujui" id="approve">Disetujui</option>
-            <option value="ditolak" id="reject">Ditolak</option>
+            <option value="" id="all-status">
+              Seluruh Status
+            </option>
+            <option value="butuh persetujuan" id="need-approval">
+              Butuh Persetujuan
+            </option>
+            <option value="disetujui" id="approve">
+              Disetujui
+            </option>
+            <option value="ditolak" id="reject">
+              Ditolak
+            </option>
           </select>
         </div>
         <div className="flex items-center justify-center">
@@ -155,9 +157,7 @@ const TransactionList = () => {
         {loading ? (
           <Skeleton active />
         ) : !transactionList || transactionList.length === 0 ? (
-          <p className="text-xl py-5 text-center text-slate-500 font-semibold">
-            Tidak ada data transaksi
-          </p>
+          <p className="text-xl py-5 text-center text-slate-500 font-semibold">Tidak ada data transaksi</p>
         ) : (
           <table className="md:table md:w-[93.2%]">
             <thead>
@@ -174,13 +174,8 @@ const TransactionList = () => {
               {transactionList.map((item, index) => {
                 const transactionNumber = (currentPage - 1) * 10 + index + 1;
                 return (
-                  <tr
-                    key={index}
-                    className="h-16 text-cloud-burst-500 border-b align-bottom"
-                  >
-                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">
-                      {transactionNumber}
-                    </td>
+                  <tr key={index} className="h-16 text-cloud-burst-500 border-b align-bottom">
+                    <td className="pb-2 pr-3 md:pr-6 pl-3 text-center">{transactionNumber}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.username}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.provinceName}</td>
                     <td className="pb-2 pr-3 md:pr-6">{item?.warehouseName}</td>
@@ -190,14 +185,9 @@ const TransactionList = () => {
                     <td className="pb-2 pr-3 md:pr-24 text-center">
                       <button
                         id="button-status"
-                        className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${
-                          item?.status === "disetujui"
-                            ? "bg-[#06C270]"
-                            : item?.status === "butuh persetujuan"
-                            ? "bg-[#EABC03]"
-                            : "bg-[#FF3B3B]"
-                        }`}
+                        className={`w-[141px] h-[30px] rounded-md p-1 px-2 text-sm border font-regular text-white ${item?.status === "disetujui" ? "bg-[#06C270]" : item?.status === "butuh persetujuan" ? "bg-[#EABC03]" : "bg-[#FF3B3B]"}`}
                         onClick={() => handleStatusClick(item)}
+                        disabled={item?.status === "disetujui" || item?.status === "ditolak"}
                       >
                         {item?.status}
                       </button>
@@ -210,33 +200,15 @@ const TransactionList = () => {
         )}
       </div>
       <div className="flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6">
-        <button
-          id="prevPage"
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-        >
-          {currentPage === 1 ? (
-            <img src={arrowBackDisable} />
-          ) : (
-            <img src={arrowBack} />
-          )}
+        <button id="prevPage" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+          {currentPage === 1 ? <img src={arrowBackDisable} /> : <img src={arrowBack} />}
         </button>
         <p className="text-[#17345F] font-semibold">Halaman {currentPage}</p>
-        <button
-          id="nextPage"
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-        >
-          {currentPage === totalPages ? (
-            <img src={arrowNextDisable} />
-          ) : (
-            <img src={arrowNext} />
-          )}
+        <button id="nextPage" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+          {currentPage === totalPages ? <img src={arrowNextDisable} /> : <img src={arrowNext} />}
         </button>
       </div>
-      {selectedTransaction && (
-        <Popup transaction={selectedTransaction} onClose={closePopup} />
-      )}
+      {selectedTransaction && <Popup transaction={selectedTransaction} onClose={closePopup} />}
     </div>
   );
 };
