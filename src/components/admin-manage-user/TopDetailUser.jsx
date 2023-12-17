@@ -16,7 +16,7 @@ const TopDetailUser = ({username, photo, handleOpenModalDeleteUser}) => {
         <h1 className='ml-14 justify-center sm:text-[24px] text-[18px] font-bold text-cloud-burst-500'>{username}</h1>
 
         <button
-          
+          id='button-delete-user'
           className='w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center ml-auto'
           onClick={handleOpenModalDeleteUser}
         >
