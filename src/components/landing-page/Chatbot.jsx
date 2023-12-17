@@ -152,6 +152,7 @@ function Chatbot() {
                   }}
                 />
                 <button
+                  id="button-send-message"
                   className="bg-[#17345F] rounded-full p-3 flex justify-center items-center"
                   onClick={() => {
                     const inputElement =
