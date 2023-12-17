@@ -422,7 +422,7 @@ const DetailGudang = () => {
 
         notification.success({
           message: "Success",
-          description: "Data warehouse berhasil ditambahkan.",
+          description: "Data warehouse berhasil diedit.",
           placement: "top",
         });
 
