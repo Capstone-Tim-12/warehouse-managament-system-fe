@@ -17,10 +17,7 @@ const Popup = ({ onClose, transaction }) => {
 
   const handlePopup = () => {
     axios
-      .get(
-        `https://digiwarehouse-app.onrender.com/dasboard/transaction/detail/${transaction.transactionId}`,
-        { headers }
-      )
+      .get(`https://digiwarehouse-app.onrender.com/dasboard/transaction/detail/${transaction.transactionId}`, { headers })
       .then((response) => {
         setTransactionPopup(response?.data?.data);
         setLoading(false);
@@ -40,11 +37,7 @@ const Popup = ({ onClose, transaction }) => {
   //Handle transaksi diterima
   const handleTransactionApprove = () => {
     axios
-      .put(
-        `https://digiwarehouse-app.onrender.com/dasboard/transaction/approval/${transaction.transactionId}`,
-        transactionPopup,
-        { headers }
-      )
+      .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/approval/${transaction.transactionId}`, transactionPopup, { headers })
       .then((response) => {
         console.log(response?.data?.data);
         onClose();
@@ -65,11 +58,7 @@ const Popup = ({ onClose, transaction }) => {
 
   const handleTransactionRejected = () => {
     axios
-      .put(
-        `https://digiwarehouse-app.onrender.com/dasboard/transaction/rejected/${transaction.transactionId}`,
-        transactionPopup,
-        { headers }
-      )
+      .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/rejected/${transaction.transactionId}`, transactionPopup, { headers })
       .then((response) => {
         console.log(response?.data?.data);
         onClose();
@@ -86,22 +75,12 @@ const Popup = ({ onClose, transaction }) => {
         ) : (
           <>
             <div className="flex items-center border-b justify-between">
-              <h1 className="font-bold text-xl py-1">
-                Butuh Persetujuan Pengajuan Sewa
-              </h1>
-              <p
-                id="close-button"
-                className="text-cloud-burst-500 text-xl font-bold cursor-default"
-                onClick={onClose}
-              >
+              <h1 className="font-bold text-xl py-1">Butuh Persetujuan Pengajuan Sewa</h1>
+              <p id="close-button" className="text-cloud-burst-500 text-xl font-bold cursor-default" onClick={onClose}>
                 X
               </p>
             </div>
-            <img
-              src={transactionPopup.warehouseImage}
-              alt=""
-              className="rounded-xl h-[257px]"
-            />
+            <img src={transactionPopup.warehouseImage} alt="" className="rounded-xl h-[257px]" />
             <div className="flex flex-col gap-y-2">
               <div className="flex justify-between text-xl font-bold">
                 <h2>{transactionPopup.warehouseName}</h2>
@@ -109,57 +88,48 @@ const Popup = ({ onClose, transaction }) => {
               </div>
               <div className="flex justify-between font-bold text-[16px]">
                 <p>{transactionPopup.username}</p>
-                <p>
-                  {transactionPopup.isVerifyIdentity ? "Ada KTP" : "Tanpa KTP"}
-                </p>
+                <p>{transactionPopup.isVerifyIdentity ? "Ada KTP" : "Tanpa KTP"}</p>
               </div>
               <div className="flex justify-between font-bold text-[16px]">
                 <p>Durasi</p>
                 <p>
-                  {transactionPopup.rentalDuration}{" "}
-                  {transactionPopup.paymentScheme}
+                  {transactionPopup.rentalDuration} {transactionPopup.paymentScheme}
                 </p>
               </div>
               <p>{transactionPopup.warehouseAdreess}</p>
             </div>
             {showSelect ? (
               <div className="flex flex-col gap-y-4">
-                <select
-                  id="reason"
-                  className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none"
-                  value={selectedOption}
-                  onChange={handleSelectChange}
-                >
+                <select id="reason" className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value={selectedOption} onChange={handleSelectChange}>
                   <option value="" id="reject-reason" disabled hidden>
                     Alasan Menolak
                   </option>
-                  <option value="Opsi 1" id="opsi-1">Opsi 1</option>
-                  <option value="Opsi 2" id="opsi-2">Opsi 2</option>
-                  <option value="Opsi 3" id="opsi-3">Opsi 3</option>
-                  <option value="Opsi 4" id="opsi-4">Opsi 4</option>
-                  <option value="Opsi 5" id="opsi-5">Opsi 5</option>
+                  <option value="Opsi 1" id="opsi-1">
+                    Opsi 1
+                  </option>
+                  <option value="Opsi 2" id="opsi-2">
+                    Opsi 2
+                  </option>
+                  <option value="Opsi 3" id="opsi-3">
+                    Opsi 3
+                  </option>
+                  <option value="Opsi 4" id="opsi-4">
+                    Opsi 4
+                  </option>
+                  <option value="Opsi 5" id="opsi-5">
+                    Opsi 5
+                  </option>
                 </select>
-                <button
-                  className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg"
-                  onClick={handleTransactionRejected}
-                >
+                <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionRejected} id="transaction-rejected">
                   Kirim
                 </button>
               </div>
             ) : (
               <div className="flex justify-evenly">
-                <button
-                  id="approve-button"
-                  className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg"
-                  onClick={handleTransactionApprove}
-                >
+                <button id="approve-button" className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionApprove}>
                   Terima
                 </button>
-                <button
-                  id="reject-button"
-                  className="text-crusta-500 w-[177px] h-[40px] rounded-lg border border-crusta-500"
-                  onClick={handleTolakClick}
-                >
+                <button id="reject-button" className="text-crusta-500 w-[177px] h-[40px] rounded-lg border border-crusta-500" onClick={handleTolakClick}>
                   Tolak
                 </button>
               </div>
