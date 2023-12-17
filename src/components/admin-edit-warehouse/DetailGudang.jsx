@@ -76,7 +76,7 @@ const DetailGudang = () => {
           price: warehouseData.annualPrice || 0, // Assuming annualPrice is the price
           owner: warehouseData.owner || "",
           warehouseType: warehouseData.warehouseType || "",
-          warehoseTypeId: warehouseData.warehouseTypeId || "",
+          warehouseTypeId: warehouseData.warehouseTypeId,
           phoneNumber: warehouseData.phoneNumber || "",
           longitude: warehouseData.longitude || 0,
           latitude: warehouseData.latitude || 0,
@@ -84,9 +84,20 @@ const DetailGudang = () => {
           status: warehouseData.status || "",
           // Add other properties if needed, based on the API structure
         });
+        console.log(warehouseData);
+
+        const images = warehouseData.image || [];
+        const updatedFileList = images.map((image, index) => ({
+          uid: `image-${index}`,
+          name: `Image-${index}`,
+          status: "done",
+          url: image, // Assuming image is a URL string
+        }));
+
+        setFileList(updatedFileList);
 
         // Pilih tipe gudang yang sesuai dengan warehouseTypeId
-        const selectedTypeId = warehouseData?.warehouseTypeId || 0;
+        const selectedTypeId = warehouseData?.warehouseTypeId;
         const selectedWarehouseType = typeOptions.find(
           (item) => item.value === selectedTypeId
         );
@@ -99,17 +110,7 @@ const DetailGudang = () => {
           // Handle error or set default option if needed
         }
 
-        const images = warehouseData.image || [];
-        const updatedFileList = images.map((image, index) => ({
-          uid: `image-${index}`,
-          name: `Image-${index}`,
-          status: "done",
-          url: image, // Assuming image is a URL string
-        }));
-
-        setFileList(updatedFileList);
-
-        console.log(warehouseData);
+        
       })
       .catch((error) => {
         console.log(error);
@@ -122,8 +123,6 @@ const DetailGudang = () => {
     setIsLoading(true);
     handleDataWarehouseId();
   }, [id]);
-
-  
 
   useEffect(() => {
     if (typeOptions.length > 0) {
@@ -389,7 +388,7 @@ const DetailGudang = () => {
       regencyId: "",
       surfaceArea: 0,
       buildingArea: 0,
-      annualPrice: 0,
+      price: 0,
       owner: "",
       warehouseTypeId: 0,
       phoneNumber: "",
