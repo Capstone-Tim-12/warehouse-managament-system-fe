@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
 
 import userIcon from '../../assets/user-setting-icon.svg'
 import emailIcon from '../../assets/icon-email-setting.svg'
@@ -16,8 +17,9 @@ const headers = {
 }
 
 const Profile = () => {
-  const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(true)
   const [isUpdating, setUpdating] = useState(false)
+  const navigate = useNavigate()
 
   const [profile, setProfile] = useState({
     username: '',
@@ -32,8 +34,7 @@ const Profile = () => {
     setProfile({ ...profile, [name]: value })
   }
 
-  const fetchData = () => {
-    setLoading(true)
+  useEffect(() => {
     axios.get(endpointGet, { headers })
       .then((res) => {
         const { data } = res
@@ -43,20 +44,22 @@ const Profile = () => {
           password: data.data.password,
         })
       })
-      .catch((err) => console.error('[ERR_FETCH_DETAIL_USER]: ' + err))
+      .catch((err) => {
+        if (err.response.status === 401) navigate("/admin/login-admin")
+        else console.err('[ERR_FETCH_DETAIL_USER]: ' + err)
+      })
       .finally(() => setLoading(false))
-  }
-
-  useEffect(() => {
-    fetchData()
-  }, [])
+  }, [navigate])
 
   const handleSubmit = (event) => {
     event.preventDefault()
     setUpdating(true)
     axios.put(endpointUpdate, profile, { headers })
       .then(() => alert('SUCCESS UPDATE USER'))
-      .catch(() => alert('FAILED UPDATE USER'))
+      .catch((err) => {
+        if (err.response.status === 401) navigate("/admin/login-admin")
+        else console.err('[ERR_SUBMIT_UPDATE_USER]: ' + err)
+      })
       .finally(() => setUpdating(false))
   }
 
