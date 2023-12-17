@@ -93,10 +93,10 @@ const TransactionList = () => {
               <option value="" disabled>
                 Filter Jenis Transaksi
               </option>
-              <option value="seluruh-transaksi">Seluruh Transaksi</option>
-              <option value="mingguan">Mingguan</option>
-              <option value="bulanan">Bulanan</option>
-              <option value="tahunan">Tahunan</option>
+              <option value="seluruh-transaksi" id="all-transactions">Seluruh Transaksi</option>
+              <option value="mingguan" id="weekly">Mingguan</option>
+              <option value="bulanan" id="monthly">Bulanan</option>
+              <option value="tahunan" id="annual">Tahunan</option>
             </select>
           </div>
         </div>
