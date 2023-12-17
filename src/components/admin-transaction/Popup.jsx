@@ -130,14 +130,14 @@ const Popup = ({ onClose, transaction }) => {
                   value={selectedOption}
                   onChange={handleSelectChange}
                 >
-                  <option value="" disabled hidden>
+                  <option value="" id="reject-reason" disabled hidden>
                     Alasan Menolak
                   </option>
-                  <option value="Opsi 1">Opsi 1</option>
-                  <option value="Opsi 2">Opsi 2</option>
-                  <option value="Opsi 3">Opsi 3</option>
-                  <option value="Opsi 4">Opsi 4</option>
-                  <option value="Opsi 5">Opsi 5</option>
+                  <option value="Opsi 1" id="opsi-1">Opsi 1</option>
+                  <option value="Opsi 2" id="opsi-2">Opsi 2</option>
+                  <option value="Opsi 3" id="opsi-3">Opsi 3</option>
+                  <option value="Opsi 4" id="opsi-4">Opsi 4</option>
+                  <option value="Opsi 5" id="opsi-5">Opsi 5</option>
                 </select>
                 <button
                   className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg"
