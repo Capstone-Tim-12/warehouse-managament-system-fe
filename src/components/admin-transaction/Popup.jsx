@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Overlay from "./Overlay";
 import axios from "axios";
 import { Skeleton } from "antd";
+import Cookies from "js-cookie";
 import { useSelector } from "react-redux";
 
 const Popup = ({ onClose, transaction }) => {
@@ -10,6 +11,7 @@ const Popup = ({ onClose, transaction }) => {
   const [selectedOption, setSelectedOption] = useState("");
   const [loading, setLoading] = useState(true);
   const [imageLoading, setImageLoading] = useState(true);
+  // const [reasoneOption, setReasoneOption] = useState([]);
 
   const token = useSelector((state) => state.auth.token);
   const headers = {
@@ -58,11 +60,21 @@ const Popup = ({ onClose, transaction }) => {
   };
 
   const handleTransactionRejected = () => {
+    const headers = {
+      Authorization: `Bearer ${token}`,
+    };
+
+    if (!selectedOption) {
+      console.log("Silakan pilih alasan penolakan.");
+
+      return;
+    }
+
     axios
       .put(`https://digiwarehouse-app.onrender.com/dasboard/transaction/rejected/${transaction.transactionId}`, transactionPopup, { headers })
       .then((response) => {
+        window.location.reload();
         console.log(response?.data?.data);
-        onClose();
       })
       .catch((error) => {
         console.log(error);
@@ -74,6 +86,22 @@ const Popup = ({ onClose, transaction }) => {
   const handleImagePopup = () => {
     setImageLoading(false);
   };
+
+  // const hanldeRadioButton = () => {
+  //   const headers = {
+  //     Authorization: `Bearer ${token}`,
+  //   };
+  //   axios
+  //     .get("https://digiwarehouse-app.onrender.com/dasboard/payment/reasone", { headers })
+  //     .then((response) => {
+  //       setReasoneOption(response?.data?.data || []);
+  //     })
+  //     .catch((error) => console.log(error));
+  // };
+
+  // useEffect(() => {
+  //   hanldeRadioButton();
+  // }, []);
 
   return (
     <Overlay>
@@ -110,25 +138,20 @@ const Popup = ({ onClose, transaction }) => {
             {showSelect ? (
               <div className="flex flex-col gap-y-4">
                 <select id="reason" className="w-full border border-[#D1D1D6] focus:outline-none py-3 items-center px-[17px] rounded-[10px] appearance-none" value={selectedOption} onChange={handleSelectChange}>
-                  <option value="" id="reject-reason" disabled hidden>
+                  <option value="" disabled hidden>
                     Alasan Menolak
                   </option>
-                  <option value="Opsi 1" id="opsi-1">
-                    Opsi 1
-                  </option>
-                  <option value="Opsi 2" id="opsi-2">
-                    Opsi 2
-                  </option>
-                  <option value="Opsi 3" id="opsi-3">
-                    Opsi 3
-                  </option>
-                  <option value="Opsi 4" id="opsi-4">
-                    Opsi 4
-                  </option>
-                  <option value="Opsi 5" id="opsi-5">
-                    Opsi 5
-                  </option>
+                  <option value="permintaan penyewa">Permintaan penyewa</option>
+                  <option value="permintaan penyewa">Pelanggaran kontrak oleh penyewa</option>
+                  <option value="permintaan penyewa">Penyewa tidak memenuhi tagihan</option>
+                  <option value="permintaan penyewa">Kesepakatan kedua belah pihak</option>
+                  {/* {reasoneOption.map((item, index) => (
+                    <option key={index} value={item?.id} id="list-reasone">
+                      {item?.name}
+                    </option>
+                  ))} */}
                 </select>
+                {selectedOption === "" && <p className="text-red-500 text-sm mt-1">Alasan penolakan wajib diisi.</p>}
                 <button className="bg-crusta-500 text-white w-[177px] h-[40px] rounded-lg" onClick={handleTransactionRejected} id="transaction-rejected">
                   Kirim
                 </button>
