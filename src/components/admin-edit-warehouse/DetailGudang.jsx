@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 import { notification } from "antd";
 import { Upload, message } from "antd";
 import { InboxOutlined, CloseCircleOutlined } from "@ant-design/icons";
-import { useLocation } from "react-router-dom";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
@@ -52,6 +52,7 @@ const DetailGudang = () => {
   const [typeOptions, setTypeOptions] = useState([]);
   const [selectedOptions, setSelectedOptions] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
+  const navigate = useNavigate()
 
   const token = useSelector((state) => state.auth.token);
   const headers = {
@@ -424,6 +425,8 @@ const DetailGudang = () => {
           description: "Data warehouse berhasil ditambahkan.",
           placement: "top",
         });
+
+        navigate("/admin/manage-gudang")
       })
       .catch((err) => {
         console.log(err);
