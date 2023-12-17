@@ -413,7 +413,9 @@ const DetailGudang = () => {
 
           </div>
         ) : (
-          <p>Loading ....</p>
+          <div className="mt-3">
+            <Skeleton active/>
+          </div>
         )}
       </div>
     </div>

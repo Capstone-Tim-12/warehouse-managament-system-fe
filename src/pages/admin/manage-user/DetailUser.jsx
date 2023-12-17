@@ -278,6 +278,7 @@ const DetailUser = () => {
                         alt="iconx"
                         className="absolute top-1 right-1 cursor-pointer"
                         onClick={handleModalClose}
+                        id="closeModalSelectedTransaction"
                       />
                     </h2>
                     <table className="mt-6 mb-6 text-cloud-burst-500 ">
@@ -295,7 +296,7 @@ const DetailUser = () => {
                         <tr>
                           <td className=" py-4">Status</td>
                           <td>:</td>
-                          <td>Tanpa Ktp</td>
+                          <td>{selectedTransaction.isVerifyIdentity === true ? "KTP" : "Tanpa KTP"}</td>
                         </tr>
                         <tr>
                           <td className=" py-4">Alamat</td>
@@ -367,8 +368,14 @@ const DetailUser = () => {
                               currency: "IDR",
                             })}
                           </p>
-                          <p>1 Januari 2023</p>
-                          <button className="bg-green-500 py-2 px-10 rounded-md text-white ml-[150px] -mt-2">
+                          <p>
+                          {new Intl.DateTimeFormat("id-ID", {
+                              year: "numeric",
+                              month: "long",
+                              day: "numeric",
+                            }).format(new Date(instalment.dueDate || "Belum Bayar"))}
+                          </p>
+                          <button className={`${instalment.status === 'belum dibayar' ?  'bg-red-500' : instalment.status === 'menunggu pembayaran' ? 'bg-yellow-500' : 'bg-green-500'} py-2 px-10 rounded-md text-white ml-[150px] -mt-2`}>
                             {instalment.status}
                           </button>
                         </div>
