@@ -433,7 +433,7 @@ const DetailGudang = () => {
 
         notification.error({
           message: "Error",
-          description: "Terjadi kesalahan saat menambahkan data warehouse.",
+          description: "Terjadi kesalahan saat edit data warehouse.",
           placement: "top",
         });
       });
