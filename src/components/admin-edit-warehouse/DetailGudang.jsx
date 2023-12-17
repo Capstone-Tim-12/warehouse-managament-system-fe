@@ -10,6 +10,7 @@ import "leaflet/dist/leaflet.css";
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import IconDelete from "../../assets/icon-delete.svg";
 import customMarkerIcon from "../../assets/marker.svg";
+import { useSelector } from "react-redux";
 
 const Dragger = Upload.Dragger;
 const JakartaCoordinates = [-6.2088, 106.8456];
@@ -51,7 +52,7 @@ const DetailGudang = () => {
   const [selectedOptions, setSelectedOptions] = useState("");
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const token = Cookies.get("token");
+  const token = useSelector((state) => state.auth.token);
   const headers = {
     Authorization: `Bearer ${token}`,
   };
@@ -74,7 +75,8 @@ const DetailGudang = () => {
           buildingArea: warehouseData.buildingArea || 0,
           price: warehouseData.annualPrice || 0, // Assuming annualPrice is the price
           owner: warehouseData.owner || "",
-          warehouseTypeId: warehouseData.warehouseType || "", // Assuming warehouseType is the type ID
+          warehouseType: warehouseData.warehouseType || "",
+          warehoseTypeId: warehouseData.warehouseTypeId || "",
           phoneNumber: warehouseData.phoneNumber || "",
           longitude: warehouseData.longitude || 0,
           latitude: warehouseData.latitude || 0,
@@ -82,6 +84,20 @@ const DetailGudang = () => {
           status: warehouseData.status || "",
           // Add other properties if needed, based on the API structure
         });
+
+        // Pilih tipe gudang yang sesuai dengan warehouseTypeId
+        const selectedTypeId = warehouseData?.warehouseTypeId || 0;
+        const selectedWarehouseType = typeOptions.find(
+          (item) => item.value === selectedTypeId
+        );
+
+        // Pastikan opsi terpilih ditemukan
+        if (selectedWarehouseType) {
+          setSelectedOptions(selectedWarehouseType.value);
+        } else {
+          console.error("Selected warehouse type not found:", selectedTypeId);
+          // Handle error or set default option if needed
+        }
 
         const images = warehouseData.image || [];
         const updatedFileList = images.map((image, index) => ({
@@ -107,13 +123,15 @@ const DetailGudang = () => {
     handleDataWarehouseId();
   }, [id]);
 
+  
+
   useEffect(() => {
     if (typeOptions.length > 0) {
       const selectedWarehouseType = typeOptions.find(
-        (type) => type.value === dataWarehouse.warehouseTypeId
+        (item) => item.id === dataWarehouse.warehouseTypeId
       );
       if (selectedWarehouseType) {
-        setSelectedOptions(selectedWarehouseType.value);
+        setSelectedOptions(selectedWarehouseType.id);
       }
     }
   }, [typeOptions, dataWarehouse.warehouseTypeId]);
@@ -187,26 +205,6 @@ const DetailGudang = () => {
   useEffect(() => {
     handleTypeWarehouse();
   }, []);
-
-  // const handleTypeWarehouse = () => {
-  //   axios
-  //     .get("https://digiwarehouse-app.onrender.com/dasboard/warehouse/type", {
-  //       headers,
-  //     })
-  //     .then((response) => {
-  //       const data = response.data.data;
-
-  //       const formattedData = data.map((item) => ({
-  //         value: item.id,
-  //         label: item.name,
-  //       }));
-
-  //       setTypeOptions(formattedData);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error fetching data:", error);
-  //     });
-  // };
 
   const [fileList, setFileList] = useState([]);
 
@@ -437,10 +435,14 @@ const DetailGudang = () => {
       });
   };
 
-  // useEffect(() => {
-  //   handleTypeWarehouse();
-  // }, []);
-
+  const handleChangeType = (value) => {
+    setSelectedOptions(value);
+    setDataWarehouse((prevFormData) => ({
+      ...prevFormData,
+      warehouseTypeId: value,
+    }));
+  };
+  
   useEffect(() => {
     axios
       .get("https://digiwarehouse-app.onrender.com/user/province")
@@ -482,6 +484,7 @@ const DetailGudang = () => {
     }
   }, [selectedKota]);
 
+  // Bagian Peta
   const [position, setPosition] = useState(JakartaCoordinates);
   const [longitude, setLongitude] = useState(JakartaCoordinates[1].toString());
   const [latitude, setLatitude] = useState(JakartaCoordinates[0].toString());
@@ -676,12 +679,7 @@ const DetailGudang = () => {
             name="warehouseTypeId"
             className="w-full h-[56px] p-2.5 bg-white border font text-[#2C2C2E] rounded-xl shadow-sm outline-none"
             value={selectedOptions}
-            onChange={(e) =>
-              setDataWarehouse((prevFormData) => ({
-                ...prevFormData,
-                warehouseTypeId: parseInt(e.target.value),
-              }))
-            }
+            onChange={(e) => handleChangeType(e.target.value)}
           >
             <option value="" disabled selected>
               Ukuran
