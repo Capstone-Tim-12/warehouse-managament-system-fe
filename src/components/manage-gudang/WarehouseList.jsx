@@ -359,7 +359,9 @@ const WarehouseList = () => {
                               <p
                                 id="editGudang"
                                 onClick={() =>
-                                  navigate("/admin/edit-warehouse")
+                                  navigate(`/admin/edit-warehouse/${item.id}`, {
+                                    state: { id: item.id },
+                                  })
                                 }
                                 className="cursor-pointer hover:text-cloud-burst-900"
                               >
