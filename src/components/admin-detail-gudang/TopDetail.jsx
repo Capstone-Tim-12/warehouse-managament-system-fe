@@ -1,7 +1,7 @@
 import React from "react";
 import IconEdit from "../../assets/icon-edit.svg";
 
-const TopDetail = ({navigate, item}) => {
+const TopDetail = ({navigate, id}) => {
   return (
     <>
       <div className="flex w-full h-full justify-between items-center ">
@@ -9,7 +9,7 @@ const TopDetail = ({navigate, item}) => {
           Detail Warehouse
         </h1>
         <button className="bg-orange-500 h-[54px] px-2 sm:px-4 sm:py-3 rounded-lg flex  items-center  cursor cursor-pointer"
-        onClick={()=> navigate(`/admin/edit-warehouse/${item.id}`, {state:{id:item.id}})}
+        onClick={()=> navigate(`/admin/edit-warehouse/${id}`, {state:{id:id}})}
         id="btnEditGudang"
         >
           <img src={IconEdit} alt="IconEdit" className="w-8 h-8" />
