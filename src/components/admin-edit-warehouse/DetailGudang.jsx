@@ -758,7 +758,7 @@ const DetailGudang = () => {
         </MapContainer>
         <button
           type="button"
-          className="bg-[#FF3B3B] hover:bg-red-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
+          className="bg-crusta-500 hover:bg-crusta-600 w-[150px] h-[40px] px-2 sm:px-4 sm:py-3 mt-8 rounded-xl flex items-center justify-items-center "
           onClick={handleResetMap}
         >
           <img src={IconDelete} alt="IconDelete" className="w-6 h-6" />

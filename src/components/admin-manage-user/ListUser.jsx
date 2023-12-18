@@ -12,7 +12,7 @@ import IconX from "../../assets/icon-x-modal-user.svg";
 import { useNavigate } from "react-router";
 import axios from "axios";
 import { useSelector } from "react-redux";
-import { Skeleton, Spin, message  } from "antd";
+import { Skeleton, Spin, message } from "antd";
 
 const ListUser = () => {
   const navigate = useNavigate();
@@ -189,16 +189,16 @@ const ListUser = () => {
                         <td className="px-6 py-4">{item.email}</td>
                         <td className="px-6 py-4 ">
                           <div className="flex items-center justify-center">
-                          {item.isVerifyIdentity ? (
-                          <img src={IconStatusUser} alt="status" />
-                        ) : (
-                          <span></span>
-                        )}
-                        </div>
+                            {item.isVerifyIdentity ? (
+                              <img src={IconStatusUser} alt="status" />
+                            ) : (
+                              <span></span>
+                            )}
+                          </div>
                         </td>
                         <td className="px-6 py-4 flex gap-4 items-center justify-center">
                           <button
-                            className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
+                            className="w-24 bg-crusta-500 hover:bg-crusta-600 rounded-lg p-2 gap-2 text-white flex items-center"
                             onClick={() => handleOpenModalDeleteUser(item)}
                             id="showModalDeleteUserId"
                           >
@@ -211,7 +211,7 @@ const ListUser = () => {
                           </button>
 
                           <button
-                            className="w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center"
+                            className="w-24 bg-crusta-500 hover:bg-crusta-600 rounded-lg p-2 gap-2 text-white flex items-center"
                             onClick={() =>
                               navigate(`/admin/detail-user/${item.userId}`, {
                                 state: { id: item.userId },
@@ -330,10 +330,10 @@ const ListUser = () => {
       {/* modal hapus user */}
 
       {deleteLoading && (
-              <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
-                <Spin size="large" />
-              </div>
-            )}
+        <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
+          <Spin size="large" />
+        </div>
+      )}
     </>
   );
 };

@@ -9,7 +9,7 @@ const authSlice = createSlice({
   reducers: {
     setToken: (state, action) => {
       state.token = action.payload;
-      Cookies.set("token", action.payload, { expires: 7 });
+      Cookies.set("token", action.payload, { expires: 1 });
     },
     removeToken: (state) => {
       state.token = null;

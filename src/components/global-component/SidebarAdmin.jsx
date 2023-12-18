@@ -25,7 +25,7 @@ const SidebarAdmin = () => {
   const isLinkActive = (pathname) => {
     return location.pathname === pathname
       ? "bg-[#102543] h-12 text-white font-bold rounded rounded-lg transition-all duration-300"
-      : "text-[#eee] transition-all duration-300";
+      : "text-[#eee] transition-all duration-100";
   };
 
   const handleLogOut = () => {
@@ -65,7 +65,7 @@ const SidebarAdmin = () => {
                 <Link
                   id="dashboard"
                   to="/admin/dashboard"
-                  className={` h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={` hover:bg-[#102543] h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/dashboard"
                   )}`}
                 >
@@ -77,7 +77,7 @@ const SidebarAdmin = () => {
                 <Link
                   id="manage-gudang"
                   to="/admin/manage-gudang"
-                  className={` h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
+                  className={`hover:bg-[#102543] h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2   ${isLinkActive(
                     "/admin/manage-gudang"
                   )}`}
                 >
@@ -94,7 +94,7 @@ const SidebarAdmin = () => {
                       className={`${
                         isDropdownOpen
                           ? "bg-[#102543] h-12 text-white font-bold  rounded-lg transition-all duration-300"
-                          : "text-[#eee] transition-all duration-300"
+                          : "text-[#eee] hover:bg-[#102543] transition-all duration-300"
                       }  h-12 rounded-lg py-1 px-5 w-[200px] flex items-center justify-start gap-2`}
                     >
                       <img src={transaksiIcon} alt="transaksi icon" />
@@ -116,7 +116,7 @@ const SidebarAdmin = () => {
                         <Link
                           id="daftar-transaksi"
                           to="/admin/transaksi"
-                          className="block px-4 py-2 text-sm text-white "
+                          className="block px-4 py-4 text-sm text-white hover:bg-cloud-burst-500"
                           role="menuitem"
                         >
                           Daftar Transaksi
@@ -126,7 +126,7 @@ const SidebarAdmin = () => {
                         <Link
                           id="laporan-transaksi"
                           to="/admin/all-transactions"
-                          className="block px-4 py-2 text-sm text-white "
+                          className="block px-4 py-4 text-sm text-white hover:bg-cloud-burst-500 "
                           role="menuitem"
                         >
                           Laporan Transaksi
@@ -140,7 +140,7 @@ const SidebarAdmin = () => {
                 <Link
                   id="manage-user"
                   to="/admin/manage-user"
-                  className={`py-1 px-5  h-12 rounded-lg w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
+                  className={`py-1 px-5 hover:bg-[#102543]  h-12 rounded-lg w-[200px] flex items-center justify-start gap-2  ${isLinkActive(
                     "/admin/manage-user"
                   )}`}
                 >
@@ -152,7 +152,7 @@ const SidebarAdmin = () => {
                 <Link
                   id="pengaturan"
                   to="/admin/pengaturan"
-                  className={`py-1 px-5 h-12 rounded-lg w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
+                  className={`py-1 px-5 hover:bg-[#102543] h-12 rounded-lg w-[200px] flex items-center justify-start text-left gap-2 ${isLinkActive(
                     "/admin/pengaturan"
                   )}`}
                 >
