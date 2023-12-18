@@ -808,7 +808,7 @@ const DetailGudang = () => {
             <InboxOutlined />
           </p>
           <p className="ant-upload-text">
-            Click or drag file to this area to upload
+          Click or drag photo to this area to upload (Max 6 photos)
           </p>
         </Dragger>
       </div>
