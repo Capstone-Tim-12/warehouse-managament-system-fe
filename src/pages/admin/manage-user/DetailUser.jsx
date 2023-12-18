@@ -11,6 +11,7 @@ import Popup from "../../../components/global-component/Popup";
 
 const DetailUser = () => {
   const [item, setItem] = useState(null);
+  const [loadingItem, setLoadingItem] = useState(false);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -20,12 +21,14 @@ const DetailUser = () => {
   };
 
   const handleDataUserId = () => {
+    setLoadingItem(true);
     axios
       .get(`https://digiwarehouse-app.onrender.com/dasboard/user/${id}`, {
         headers,
       })
       .then((response) => {
         setItem(response?.data?.data);
+        setLoadingItem(false);
         // console.log(response?.data?.data)
       })
       .catch((error) => {
@@ -106,7 +109,10 @@ const DetailUser = () => {
     }
     setDeleteLoading(true);
     axios
-      .delete(`https://digiwarehouse-app.onrender.com/dasboard/user/${item.userId}`, { headers })
+      .delete(
+        `https://digiwarehouse-app.onrender.com/dasboard/user/${item.userId}`,
+        { headers }
+      )
       .then(() => {
         console.log("User deleted successfully.");
         setDeleteLoading(false);
@@ -118,20 +124,16 @@ const DetailUser = () => {
       });
   };
 
-
-  
   //end delete user
 
-   //modal delete user
-   const [modalDeleteUser, setModalDeleteUser] = useState(false);
+  //modal delete user
+  const [modalDeleteUser, setModalDeleteUser] = useState(false);
 
-   
- 
-   const handleOpenModalDeleteUser = () => {
-     setModalDeleteUser(true);
-   };
- 
-   //end modal delete user
+  const handleOpenModalDeleteUser = () => {
+    setModalDeleteUser(true);
+  };
+
+  //end modal delete user
 
   return (
     <div className=" grid grid-cols-1 md:grid-cols-[1fr_5fr]">
@@ -139,12 +141,11 @@ const DetailUser = () => {
       <div>
         <TopBar title={"Pengaturan Pengguna"} />
         <div className="container sm:p-5 py-5 px-1 ">
-          {item ? (
+          {item && loadingItem !== true ? (
             <>
-            {/* Loading Delete */}
-            
+              {/* Loading Delete */}
 
-            {/* end Loading Delete */}
+              {/* end Loading Delete */}
               <TopDetailUser
                 username={item.username}
                 photo={item.photo}
@@ -264,9 +265,8 @@ const DetailUser = () => {
 
               {loading && (
                 <div className="text-cloud-burst-500 font-semibold">
-                    <Popup open={loading}/>
-                  </div>
-                
+                  <Popup open={loading} />
+                </div>
               )}
               {showModal && selectedTransaction && (
                 <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
@@ -296,7 +296,11 @@ const DetailUser = () => {
                         <tr>
                           <td className=" py-4">Status</td>
                           <td>:</td>
-                          <td>{selectedTransaction.isVerifyIdentity === true ? "KTP" : "Tanpa KTP"}</td>
+                          <td>
+                            {selectedTransaction.isVerifyIdentity === true
+                              ? "KTP"
+                              : "Tanpa KTP"}
+                          </td>
                         </tr>
                         <tr>
                           <td className=" py-4">Alamat</td>
@@ -369,13 +373,23 @@ const DetailUser = () => {
                             })}
                           </p>
                           <p>
-                          {new Intl.DateTimeFormat("id-ID", {
+                            {new Intl.DateTimeFormat("id-ID", {
                               year: "numeric",
                               month: "long",
                               day: "numeric",
-                            }).format(new Date(instalment.dueDate || "Belum Bayar"))}
+                            }).format(
+                              new Date(instalment.dueDate || "Belum Bayar")
+                            )}
                           </p>
-                          <button className={`${instalment.status === 'belum dibayar' ?  'bg-red-500' : instalment.status === 'menunggu pembayaran' ? 'bg-yellow-500' : 'bg-green-500'} py-2 px-10 rounded-md text-white ml-[150px] -mt-2`}>
+                          <button
+                            className={`${
+                              instalment.status === "belum dibayar"
+                                ? "bg-red-500"
+                                : instalment.status === "menunggu pembayaran"
+                                ? "bg-yellow-500"
+                                : "bg-green-500"
+                            } py-2 px-10 rounded-md text-white ml-[150px] -mt-2`}
+                          >
                             {instalment.status}
                           </button>
                         </div>
@@ -389,56 +403,58 @@ const DetailUser = () => {
               {/* end modal detail transaksi */}
 
               {modalDeleteUser && item && (
-        <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
-          <div className="bg-white p-5 rounded-md w-96 relative">
-            <h2 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">
-              Informasi
-              <img
-                src={IconX}
-                alt="iconx"
-                className="absolute top-2 right-2 cursor-pointer"
-                onClick={() => {
-                  setModalDeleteUser(false);
-                }}
-                id="closeModalDeleteUser"
-              />
-            </h2>
-            <hr className="border-1" />
-            <p className="text-cloud-burst-500 mt-3">
-              Hapus akun {item.username} dari sistem
-            </p>
-            <div className="mt-5 flex justify-end gap-3">
-              <button
-                className="bg-white border border-crusta-500 px-4 py-2 text-crusta-500 rounded-md"
-                onClick={() => {
-                  setModalDeleteUser(false);
-                }}
-                id="btnCancelModalDeleteUser"
-              >
-                Cancel
-              </button>
+                <div className="fixed inset-0 bg-black bg-opacity-30 flex items-center justify-center">
+                  <div className="bg-white p-5 rounded-md w-96 relative">
+                    <h2 className="text-xl text-cloud-burst-500 font-bold mb-1 relative">
+                      Informasi
+                      <img
+                        src={IconX}
+                        alt="iconx"
+                        className="absolute top-2 right-2 cursor-pointer"
+                        onClick={() => {
+                          setModalDeleteUser(false);
+                        }}
+                        id="closeModalDeleteUser"
+                      />
+                    </h2>
+                    <hr className="border-1" />
+                    <p className="text-cloud-burst-500 mt-3">
+                      Hapus akun {item.username} dari sistem
+                    </p>
+                    <div className="mt-5 flex justify-end gap-3">
+                      <button
+                        className="bg-white border border-crusta-500 px-4 py-2 text-crusta-500 rounded-md"
+                        onClick={() => {
+                          setModalDeleteUser(false);
+                        }}
+                        id="btnCancelModalDeleteUser"
+                      >
+                        Cancel
+                      </button>
 
-              <button
-                className="bg-crusta-500 px-4 py-2 text-white rounded-md"
-                onClick={handleDeleteUser}
-                id="btnDeleteUser"
-              >
-                Hapus
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+                      <button
+                        className="bg-crusta-500 px-4 py-2 text-white rounded-md"
+                        onClick={handleDeleteUser}
+                        id="btnDeleteUser"
+                      >
+                        Hapus
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {deleteLoading && (
-              <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
-                <Spin size="large" />
-              </div>
-            )}
-      {/* modal hapus user */}
+                <div className="fixed inset-0 flex items-center justify-center bg-opacity-30 bg-black">
+                  <Spin size="large" />
+                </div>
+              )}
+              {/* modal hapus user */}
             </>
           ) : (
-            <p>Loading...</p>
+            <p>
+              <Popup open={loadingItem} />
+            </p>
           )}
         </div>
       </div>
