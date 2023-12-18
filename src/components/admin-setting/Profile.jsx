@@ -57,8 +57,7 @@ const Profile = () => {
       .finally(() => setLoading(false))
   }, [navigate])
 
-  const handleSubmit = (event) => {
-    event.preventDefault()
+  const handleSubmit = () => {
     setUpdating(true)
     axios.put(endpointUpdate, profile, { headers })
       .then(() => alert('SUCCESS UPDATE USER'))
