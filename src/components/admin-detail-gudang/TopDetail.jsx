@@ -8,7 +8,7 @@ const TopDetail = ({navigate, id}) => {
         <h1 className="text-[20px] font-bold text-cloud-burst-500">
           Detail Warehouse
         </h1>
-        <button className="bg-orange-500 h-[54px] px-2 sm:px-4 sm:py-3 rounded-lg flex  items-center  cursor cursor-pointer"
+        <button className="bg-crusta-500 hover:bg-crusta-600 h-[54px] px-2 sm:px-4 sm:py-3 rounded-lg flex  items-center  cursor cursor-pointer"
         onClick={()=> navigate(`/admin/edit-warehouse/${id}`, {state:{id:id}})}
         id="btnEditGudang"
         >
