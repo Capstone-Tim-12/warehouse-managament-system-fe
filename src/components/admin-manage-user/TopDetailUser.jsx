@@ -17,7 +17,7 @@ const TopDetailUser = ({username, photo, handleOpenModalDeleteUser}) => {
 
         <button
           id='button-delete-user'
-          className='w-24 bg-crusta-500 rounded-lg p-2 gap-2 text-white flex items-center ml-auto'
+          className='w-24 bg-crusta-500 hover:bg-crusta-600 rounded-lg p-2 gap-2 text-white flex items-center ml-auto'
           onClick={handleOpenModalDeleteUser}
         >
           <img src={IconDeleteUser} alt="" className='w-6 h-6' />Hapus
