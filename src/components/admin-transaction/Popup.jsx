@@ -141,10 +141,10 @@ const Popup = ({ onClose, transaction }) => {
                   <option value="" disabled hidden>
                     Alasan Menolak
                   </option>
-                  <option value="permintaan penyewa">Permintaan penyewa</option>
-                  <option value="permintaan penyewa">Pelanggaran kontrak oleh penyewa</option>
-                  <option value="permintaan penyewa">Penyewa tidak memenuhi tagihan</option>
-                  <option value="permintaan penyewa">Kesepakatan kedua belah pihak</option>
+                  <option value="permintaan penyewa" id="reason-1">Permintaan penyewa</option>
+                  <option value="permintaan penyewa" id="reason-2">Pelanggaran kontrak oleh penyewa</option>
+                  <option value="permintaan penyewa" id="reason-3">Penyewa tidak memenuhi tagihan</option>
+                  <option value="permintaan penyewa" id="reason-4">Kesepakatan kedua belah pihak</option>
                   {/* {reasoneOption.map((item, index) => (
                     <option key={index} value={item?.id} id="list-reasone">
                       {item?.name}
