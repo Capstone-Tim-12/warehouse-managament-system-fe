@@ -226,7 +226,7 @@ const WarehouseList = () => {
 
       <div
         className={`overflow-x-auto ${
-          dataWarehouse.length < 8 ? "h-screen" : ""
+          dataWarehouse && dataWarehouse.length < 8 ? "h-screen" : ""
         }`}
       >
         {loading ? (
@@ -278,7 +278,7 @@ const WarehouseList = () => {
                 </th>
               </tr>
             </thead>
-            {dataWarehouse && dataWarehouse.length > 0 ? (
+            {dataWarehouse && dataWarehouse.length !== 0 ? (
               <tbody>
                 {dataWarehouse &&
                   dataWarehouse.map((item, index) => {
@@ -386,7 +386,11 @@ const WarehouseList = () => {
       </div>
       <div
         className={`flex justify-center sm:justify-end md:justify-end items-center gap-x-3 my-8 mr-6 ${
-          searchQuery || loading || dataWarehouse.length === 0 ? "hidden" : ""
+          searchQuery ||
+          loading ||
+          (dataWarehouse && dataWarehouse.length === 0)
+            ? "hidden"
+            : ""
         }`}
       >
         <button
